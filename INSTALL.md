@@ -92,20 +92,22 @@ awhile then re-launch the install script. It will continue from before.
 
 10. After LXDE is installed, the script creates or edits various files
 that configure the desktop and its pre-installed software.
+Although this step does not take much time, it is actually the most
+detailed and important step.
 
 11. The script logs out of alaterm, and creates a launch script for Termux.
 Termux displays information regarding how to launch alaterm.
-The default launch command is:  _alaterm_
+The default launch command is:  **alaterm**
 You do not need a password to launch alaterm.
 You do not need a password to install or update software.
-Actually, the password is _ password_ and is applied automatically.
+Actually, the password is **password** and is applied automatically.
 
 12. When alaterm is launched, it may be used by command-line, GUI, or both.
 Installing and removing software is performed via command line.
-Some optional programs, such as _ffmpeg_ and _imagemagick_, use the command line.
+Some optional programs, such as **ffmpeg** and **imagemagick**, use the command line.
 To see the LXDE graphical desktop, you must launch the VNC Viewer app.
 Keep Termux running. You will see alaterm at 127.0.0.1:5901 in VNC Viewer.
-Its password is _password_.
+Its password is **password**.
 The initial desktop has wallpaper, taskbar, Menu, File Manager.
 If you use a mouse, right-click is enabled for context menus.
 
@@ -114,7 +116,7 @@ If you use a mouse, right-click is enabled for context menus.
 ### UPDATES TO ALATERM
 
 Once alaterm is installed and running, that is all you need to do.
-Programs such as **gimp** and **libreoffice-still** are installed via command line.
+You may in stall programs such as **gimp** and **libreoffice-still** via command line.
 Caution: Installation of Java, or its runtime, may conflict with Android. 
 
 It is always possible that something needs to be corrected,
