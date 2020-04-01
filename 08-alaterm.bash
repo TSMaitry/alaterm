@@ -130,7 +130,7 @@ EOC
 ensure_noTVNC() { # In Termux home. Ensures no leftovers, if user runs vncserver outside alaterm.
 	grep alaterm_installer .bash_logout >/dev/null 2>&1
 	if [ "$?" -ne 0 ] ; then
-		echo "vncserver -autokill >/dev/null 2>&1 || true # By_alaterm_installer." >> .bash_logout
+		echo "[ -f \"\$PREFIX/bin/vncserver\" ] && vncserver -autokill >/dev/null 2>&1 || true # By_alaterm_installer." >> .bash_logout
 	fi
 }
 
