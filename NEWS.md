@@ -1,20 +1,30 @@
 ### NEWS for alaterm at GitHub.
 
-#### March 16, 2020:
-Minor enhancements and spelling fixes.
+#### REMINDER:
+
+To update Termux (not alaterm):  pkg update
+
+To update software within alaterm:  pacman -Syu
+
+To update alaterm itself, from Termux (not alaterm): bash 00-alaterm.bash install
+
+The installer does not re-install, it merely patches. Usually takes only a few seconds.
+
+#### April 3, 2020
+
+Fixed: Some users saw several messages about "usepacman #" at alaterm launch.
+These messages were harmless. Now removed.
+
+Fixed: Prior to this, if you installed Gedit, it would not save preferences.
+Now it will save them. Gedit uses dbus for that, but dbus would not autolaunch.
+An automatic dbus-launch has been added to the desktop launcher. 
+
+#### March 10, 2020:
+
+Minor enhancement to prevent double-launch.
 
 #### March 4, 2020:
 Minor enhancement to detect Termux-alaterm coordination.
-
-**Issue fixed in launch command.** If you installed alaterm, but it did not launch, have no fear!
-Re-run:
-```
-bash 00-alaterm.bash install
-```
-It does not re-download anything but small scripts from here. Only takes a few seconds.
-
-The fix simply re-writes the launch command so that it works for you,
-instead of just working for me. Sorry about that!
 
 #### March 3, 2020:
 Initial public release.
@@ -24,9 +34,7 @@ Beta testers invited. Should work. Maybe some typos to fix.
 
 #### March 1, 2020:
 Final stages of alpha testing. Alaterm certainly works on its developer's device,
-and has been working for several months.
-
-Currently, help files are being written,
+and has been working for several months. Currently, help files are being written,
 and the scripts are being checked for compatibility when downloaded.
 
 #### February 22, 2020:

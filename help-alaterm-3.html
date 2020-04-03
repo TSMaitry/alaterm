@@ -208,8 +208,16 @@ in the LXDE Menu.</li>
 
 <ul>
 
+<li><b>Gedit.</b> This text editor is my favorite, except for Notepad++ (which is Windows only).
+Unlike the simpler Leafpad, Gedit offers tabs and plugins.
+Unlike the programmer-oriented Geany, Gedit is not as much "in your face" for non-programmers.
+A trick is required to  make Gedit work correctly in alaterm.
+Fortunately, the trick is scripted by alaterm as of April 3, 2020:<br/>
+<code>pacman -S gedit gedit-plugins</code>
+</li>
+
 <li><b>ImageMagick.</b> This command-line
-<a href="https://imagemagick.org/index.php">command-line image editor</a>
+<a href="https://imagemagick.org/index.php">image editor</a>
 can perform a great variety of tasks. ImageMagick, or the similar GraphicsMagick,
 are widely used when image handling must be automated by script:<br/>
 <code>pacman -S imagemagick</code>
@@ -245,10 +253,10 @@ For this reason, alaterm does not come with multimedia support.</li>
 via native Android apps, there is no reason to use alaterm.</li>
 
 <li>The good news: If you do not need to play audio-video, but merely wish to edit
-the file, that can be done using the command-line program ffmpeg:<br/>
+the file, that can be done using the command-line program <b>ffmpeg</b>:<br/>
 <code>pacman -S ffmpeg</code></li>
 
-<li>You can find many web pages describing how to use ffmpeg,
+<li>You can find many web pages describing how to use <b>ffmpeg</b>,
 such as <a href="https://www.ostechnix.com/20-ffmpeg-commands-beginners/">this one</a>.</li>
 
 </ul>
@@ -275,7 +283,7 @@ For your convenience, alaterm includes a script that does it all:<br/>
 </li>
 <li>2. If you have Android 9 or later (not sure about 8), then there are numerous
 Android apps capable of opening heic/heif and exporting or saving to another
-format such as jpeg. Some of them will convert jpeg to heic/heif.</li>
+format such as jpeg. Some of them will also convert jpeg to heic/heif.</li>
 <li>3. There are online image converter services. Upload the heic/heif, then
 download the image converted to jpeg or whatever. Also works in reverse.</li>
 </ul>
@@ -284,7 +292,7 @@ download the image converted to jpeg or whatever. Also works in reverse.</li>
 <li><b>libmad and libmpeg2</b><br/>
 Although alaterm does not normally support multimedia, some programs will run after
 clever hacking. Maybe some day I will tell you how to do it, maybe not. In any case,
-programs requiring libmad or libmpeg2 will fail, unless you replace the alaterm packages
+programs requiring <b>libmad</b> or <b>libmpeg2</b> will fail, unless you replace the alaterm packages
 with locally compiled versions. Fortunately, alaterm has scripts for that:<br/>
 <code>compile-libmad</code><br/>
 <code>compile-libmpeg2</code>

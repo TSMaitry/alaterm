@@ -167,6 +167,66 @@ restore_launchCommand() { # In Termux home. Deals with situation where $PREFIX i
 	fi
 }
 
+create_fixDbuslaunch() { # In /usr/local/scripts. Thanks to bbs.archlinux.org q. 240261 answer by V1del.
+cat << EOC > fixdbuslaunch # No hyphen. Unquoted marker.
+#!/bin/bash
+# Script /usr/local/scripts/fixdbuslaunch created by installer.
+# Solves problem where dbus does not autolaunch.
+if [ -f /usr/share/applications/org.gnome.gedit.desktop ] ; then
+	cp /usr/share/applications/org.gnome.gedit.desktop ~/.local/share/applications/
+	cd ~/.local/share/applications
+	sed -i 's/Exec=gedit/Exec=dbus-run-session gedit/g' org.gnome.gedit.desktop
+else
+	rm -f ~/.local/share/applications/org.gnome.gedit.desktop
+fi
+if [ -f /usr/share/applications/org.gnome.font-viewer.desktop ] ; then
+	cp /usr/share/applications/org.gnome.font-viewer.desktop ~/.local/share/applications/
+	cd ~/.local/share/applications
+	sed -i 's/Exec=gnome-font-viewer/Exec=dbus-run-session gnome-font-viewer/g' org.gnome.font-viewer.desktop
+else
+	rm -f ~/.local/share/applications/org.gnome.font-viewer.desktop
+fi
+EOC
+}
+
+create_fixdbuslaunchHook() { # In /etc/pacman.d/hooks.
+cat << EOC > fixgedit.hook # No hyphen. Unquoted marker.
+[Trigger]
+Type = File
+Operation = Install
+Operation = Upgrade
+Operation = Remove
+Target = *
+
+[Action]
+When = PostTransaction
+Exec = /usr/local/scripts/fixdbuslaunch
+EOC
+}
+
+fix_etcBashrc() { # In /etc.
+sed -i 's/.*alias.*usepacman.*/true \# Hack fix./g' bash.bashrc
+cat << EOC >> bash.bashrc # No hyphen. Unquoted marker. Double gt.
+alias dpkg='usepacman #'
+alias dpkg-deb='usepacman #'
+alias dpkg-divert='usepacman #'
+alias dpkg-query='usepacman #'
+alias dpkg-split='usepacman #'
+alias dpkg-trigger='usepacman #'
+alias pkg='usepacman #'
+alias pkg-config='usepacman #'
+alias aptitude='usepacman #'
+alias apt='usepacman #'
+alias apt-cache='usepacman #'
+alias apt-config='usepacman #'
+alias apt-get='usepacman #'
+alias apt-key='usepacman #'
+alias apt-mark='usepacman #'
+fixdbuslaunch
+##
+EOC
+}
+
 
 if [ "$nextPart" -ge 8 ] ; then # This part repeats, if necessary.
 	cd "$hereiam"
@@ -180,6 +240,15 @@ if [ "$nextPart" -ge 8 ] ; then # This part repeats, if necessary.
 	chmod 755 compile-libmpeg2
 	create_autoremove
 	chmod 755 autoremove
+	create_fixDbuslaunch
+	chmod 755 fixdbuslaunch
+	cd "$alatermTop/etc/pacman.d/hooks"
+	create_fixdbuslaunchHook
+	cd "$alatermTop/etc"
+	if [ "$fixedEBRC" != "yes" ] ; then
+		fix_etcBashrc
+		echo "fixedEBRC=yes" >> "$alatermTop/status"
+	fi
 	cd "$alatermTop"
 	start_launchCommand
 	finish_launchCommand
@@ -189,6 +258,8 @@ if [ "$nextPart" -ge 8 ] ; then # This part repeats, if necessary.
 	if [ "$?" -ne 0 ] ; then
 		echo -e "echo \"To launch alaterm, command:  $launchCommand\n\"" >> ~/.bashrc
 	fi
+	cd "$alatermTop/home"
+	mkdir -p .config/dbus
 	cd "$alatermTop/usr/bin"
 	create_fakeLaunch
 	chmod 755 "$launchCommand" # Not the real one.
@@ -204,7 +275,7 @@ if [ "$nextPart" -ge 8 ] ; then # This part repeats, if necessary.
 	fi
 	echo -e "\n\e[1;92mDONE. To launch alaterm, command:  $launchCommand.\e[0m\n"
 	let nextPart=9
-	echo "let scriptRevision=5" >> "$alatermTop/status"
+	echo "let scriptRevision=7" >> "$alatermTop/status"
 	echo "let nextPart=9" >> "$alatermTop/status"
 fi
 
