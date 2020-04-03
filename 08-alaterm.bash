@@ -173,18 +173,18 @@ cat << EOC > fixdbuslaunch # No hyphen. Unquoted marker.
 # Script /usr/local/scripts/fixdbuslaunch created by installer.
 # Solves problem where dbus does not autolaunch.
 if [ -f /usr/share/applications/org.gnome.gedit.desktop ] ; then
-	cp /usr/share/applications/org.gnome.gedit.desktop ~/.local/share/applications/
-	cd ~/.local/share/applications
+	cp /usr/share/applications/org.gnome.gedit.desktop /home/.local/share/applications/
+	cd /home/.local/share/applications
 	sed -i 's/Exec=gedit/Exec=dbus-run-session gedit/g' org.gnome.gedit.desktop
 else
-	rm -f ~/.local/share/applications/org.gnome.gedit.desktop
+	rm -f /home/.local/share/applications/org.gnome.gedit.desktop
 fi
 if [ -f /usr/share/applications/org.gnome.font-viewer.desktop ] ; then
-	cp /usr/share/applications/org.gnome.font-viewer.desktop ~/.local/share/applications/
-	cd ~/.local/share/applications
+	cp /usr/share/applications/org.gnome.font-viewer.desktop /home/.local/share/applications/
+	cd /home/.local/share/applications
 	sed -i 's/Exec=gnome-font-viewer/Exec=dbus-run-session gnome-font-viewer/g' org.gnome.font-viewer.desktop
 else
-	rm -f ~/.local/share/applications/org.gnome.font-viewer.desktop
+	rm -f /home/.local/share/applications/org.gnome.font-viewer.desktop
 fi
 EOC
 }
@@ -275,7 +275,7 @@ if [ "$nextPart" -ge 8 ] ; then # This part repeats, if necessary.
 	fi
 	echo -e "\n\e[1;92mDONE. To launch alaterm, command:  $launchCommand.\e[0m\n"
 	let nextPart=9
-	echo "let scriptRevision=7" >> "$alatermTop/status"
+	echo "let scriptRevision=8" >> "$alatermTop/status"
 	echo "let nextPart=9" >> "$alatermTop/status"
 fi
 
