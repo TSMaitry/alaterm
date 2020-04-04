@@ -190,7 +190,7 @@ EOC
 }
 
 create_fixdbuslaunchHook() { # In /etc/pacman.d/hooks.
-cat << EOC > fixgedit.hook # No hyphen. Unquoted marker.
+cat << EOC > fixdbuslaunch.hook # No hyphen. Unquoted marker.
 [Trigger]
 Type = File
 Operation = Install
@@ -244,6 +244,7 @@ if [ "$nextPart" -ge 8 ] ; then # This part repeats, if necessary.
 	chmod 755 fixdbuslaunch
 	cd "$alatermTop/etc/pacman.d/hooks"
 	create_fixdbuslaunchHook
+	rm -f fixgedit.hook
 	cd "$alatermTop/etc"
 	if [ "$fixedEBRC" != "yes" ] ; then
 		fix_etcBashrc
@@ -275,7 +276,7 @@ if [ "$nextPart" -ge 8 ] ; then # This part repeats, if necessary.
 	fi
 	echo -e "\n\e[1;92mDONE. To launch alaterm, command:  $launchCommand.\e[0m\n"
 	let nextPart=9
-	echo "let scriptRevision=8" >> "$alatermTop/status"
+	echo "let scriptRevision=9" >> "$alatermTop/status"
 	echo "let nextPart=9" >> "$alatermTop/status"
 fi
 
