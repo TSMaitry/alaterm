@@ -2,11 +2,11 @@
 
 #### REMINDER:
 
-To update Termux (not alaterm):  pkg update
+To update Termux (not alaterm):  `pkg update`
 
-To update software within alaterm:  pacman -Syu
+To update software within alaterm:  `pacman -Syu`
 
-To update alaterm itself, from Termux (not alaterm): bash 00-alaterm.bash install
+To update alaterm itself, from Termux (not alaterm): `bash 00-alaterm.bash install`
 
 The installer does not re-install, it merely patches. Usually takes only a few seconds.
 
