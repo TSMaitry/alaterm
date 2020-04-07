@@ -3,14 +3,14 @@
 You only need the file **00-alaterm.bash**. It will fetch the remaining files,
 unless you already have them in the same directory.
 
-**Requirements:** Android 8 or later. Tested with Android 9.
-ARM CPU 32- or 64-bit. Includes many tablets, phones, and some Chromebooks.
-Kernel 4 or later. You almost certainly have this, with recent Android.
-3GB free space for minimal setup. 4GB to be useful, 5GB for serious work.
-Installation must be to on-board storage. Cannot install to removable media.
-Use with rooted devices is possible, but discouraged.
-Termux app, and VNC Viewer app. Available at Google Play or F-Droid.
-Optional: External keyboard and mouse. Bluetooth works.
+**Requirements:** (a) Android 8 or later. Tested with Android 9.
+(b) ARM CPU 32- or 64-bit. Includes many tablets, phones, and some Chromebooks.
+(c) Kernel 4 or later. You almost certainly have this, with recent Android.
+(d) 3GB free space for minimal setup. 4GB to be useful, 5GB for serious work.
+(e) Installation must be to on-board storage. Cannot install to removable media.
+(f) Use with rooted devices is possible, but discouraged.
+(g) Termux app, and VNC Viewer app. Available at Google Play or F-Droid.
+(h) Optional: External keyboard and mouse. Bluetooth works.
 
 
 ### In Termux:
@@ -125,6 +125,7 @@ at the alaterm project page on GitHub.
 
 If you re-run `bash 00-alaterm.bash install` with an existing installation,
 then any non-destructive updates will be automatically applied.
+This only updates alaterm itself, not the Linux software.
 
 
 ### WHERE ALATERM IS INSTALLED
