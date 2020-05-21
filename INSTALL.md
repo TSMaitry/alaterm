@@ -98,7 +98,7 @@ Termux displays information regarding how to launch alaterm.
 The default launch command is:  _alaterm_
 You do not need a password to launch alaterm.
 You do not need a password to install or update software.
-Actually, the password is _ password_ and is applied automatically.
+Actually, the password is _password_ and is applied automatically.
 
 12. When alaterm is launched, it may be used by command-line, GUI, or both.
 Installing and removing software is performed via command line.
