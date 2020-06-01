@@ -3,7 +3,8 @@
 You only need the file **00-alaterm.bash**. It will fetch the remaining files,
 unless you already have them in the same directory.
 
-**Requirements:** (a) Android 8 or later. Tested with Android 9.
+**Requirements:**
+(a) Android 8 or later. Tested with Android 9.
 (b) ARM CPU 32- or 64-bit. Includes many tablets, phones, and some Chromebooks.
 (c) Kernel 4 or later. You almost certainly have this, with recent Android.
 (d) 3GB free space for minimal setup. 4GB to be useful, 5GB for serious work.

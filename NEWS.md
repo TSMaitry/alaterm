@@ -10,6 +10,23 @@ To update alaterm itself, from Termux (not alaterm): `bash 00-alaterm.bash insta
 
 The installer does not re-install, it merely patches. Usually takes only a few seconds.
 
+#### June 1, 2020
+
+Removed obsolete python2 packages from installation.
+
+Fixed: Installation problem, typically with exit code 73.
+Did not affect users with previously completed installation.
+
+IF YOU HAD THIS INSTALLATION PROBLEM, HERE IS THE FIX:
+(a) In Termux, go to the alaterm installation directory. By default, it is **$PREFIX/../../alaterm**.
+(b) Open the **status** file in a text editor. Delete any lines following **nextStep=5**.
+(c) Return to the directory where you have the alaterm install scripts **0n-alaterm.bash** for various **n**.
+Delete them. Download new scripts.
+(d) Run **bash 00-alaterm.bash install**.
+
+The fix does not delete the original Arch Linux ARM files, so
+you will not have to download and unpack the archive a second time.
+
 #### April 3, 2020
 
 Fixed: Some users saw several messages about "usepacman #" at alaterm launch.

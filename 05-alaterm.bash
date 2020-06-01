@@ -29,7 +29,7 @@ construct_prsPre() { # Only used during post-install routines.
 
 create_etcBashBashrc() { # In /etc. Over-writes original.
 cat << EOC > "bash.bashrc" # No hyphen. Unquoted marker.
-# File /etc/.bash.bashrc
+# File /etc/bash.bashrc
 # Created by installation script. Replaced original file.
 export THOME="$HOME" # Termux home directory, seen from within alaterm.
 export TUSR="$PREFIX" # This is the usr directory in Termux.
@@ -68,24 +68,11 @@ if [ "\$?" -ne 0 ] ; then PATH="\$HOME/bin:\$PATH" ; export PATH ; fi
 alias top='/system/bin/top'
 alias ps='/system/bin/ps'
 alias ls='ls --color=auto'
-usepacman() {
-        echo "In alatermm, use pacman for package management."
-}
-for divertme in dpkg dpkg-deb dpkg-divert dpkg-query dpkg-split dpkg-trigger ; do
-        alias "$divertme"='usepacman #'
-done
-for divertme in pkg pkg-config aptitude apt apt-cache apt-config apt-get apt-key apt-mark ; do
-        alias "$divertme"='usepacman #'
-done
-#
-alias pacman='sudo pacman'
-alias vncviewer='echo -e "\e[33mYou need to use the separate VNC Viewer app.\e[0m" \#'
-#
 nofakeroot() {
         echo "The makepkg and fakeroot commands do not work in alaterm."
 }
-alias makepkg='nofakeroot #'
-alias fakeroot='nofakeroot #'
+alias makepkg='nofakeroot'
+alias fakeroot='nofakeroot'
 ##
 EOC
 }
@@ -223,7 +210,7 @@ if [ "$gotSudo" != "yes" ] ; then
 	#
 	echo "alias pacman='sudo pacman'" >> /etc/bash.bashrc
 	echo "alias fc-cache='sudo fc-cache'" >> /etc/bash.bashrc
-	echo "alias vncviewer='echo -e \"\e[33mUse the separate VNC Viewer app.\e[0m\" \#'" >> /etc/bash.bashrc
+	echo "alias vncviewer='echo -e \"\e[33mUse the separate VNC Viewer app.\e[0m\"'" >> /etc/bash.bashrc
 	echo "##" >> /etc/bash.bashrc
 fi
 sleep 1
@@ -240,7 +227,7 @@ rm -f /root/.bash_history
 export PS1='\e[1;38;5;75m[alaterm:\e[1;91mroot\e[1;38;5;75m@\W]#\e[0m '
 echo -e "\e[33mOnly use root if necessary. Root is within alaterm, not Android."
 echo -e "To leave root and return to ordinary alaterm user:  exit\e[0m"
-alias su='exit #'
+alias su='exit'
 #
 ## Your custom commands, if any, go below:
 
@@ -249,7 +236,10 @@ EOC
 }
 
 create_userBashProfile() { # In /home.
-	echo "[ -f ~/.bashrc ] && . ~/.bashrc" > .bash_profile
+cat << EOC > .bash_profile # No hyphen. Unquoted marker.
+# File /home/.bash_profile created by install script.
+[ -f ~/.bashrc ] && . ~/.bashrc
+EOC
 }
 
 ## Functions within function.
@@ -259,7 +249,7 @@ cat << 'EOC' > .bashrc # No hyphen, quoted marker.
 export PS1='\e[1;38;5;195m[alatermUser@\W]$\e[0m '
 export DISPLAY=:1
 source /status
-getThese="nano wget python python-xdg python2-xdg python2-numpy python2-lxml pygtk tk"
+getThese="nano wget python python-xdg tk"
 getThese+=" ghostscript tigervnc lxde evince poppler-data pstoedit poppler-glib pkgfile pigz freeglut"
 getThese+=" xterm gpicview netsurf leafpad geany geany-plugins ghex man"
 getThese+=" gnome-calculator gnome-font-viewer libraw libwmf openexr openjpeg2"
@@ -371,18 +361,19 @@ if [ "$nextPart" -eq 5 ] ; then
 	chmod 666 pacman.conf
 	sed -i '/^#Color/s/^#//' pacman.conf 2>/dev/null
 	chmod 644 pacman.conf
-	chmod 666 bash.bashrc
 	create_etcBashBashrc
-	chmod 644 bash.bashrc
+	chmod 666 bash.bashrc
 	cd "$alatermTop/root"
 	create_rootBashProfile
 	chmod 644 .bash_profile
 	create_rootBashrc
-	chmod 666 .bashrc
+	chmod 644 .bashrc
+	#
 	cd "$HOME" # Termux home. Ensures being outside alaterm.
 	construct_prsPre
 	echo "unset LD_PRELOAD" > "$HOME/prsTmp"
 	echo "exec $prsPre" >> "$HOME/prsTmp" # Termux home, not alaterm /home.
+	#
 	bash "$HOME/prsTmp"
 	ecodeb="$?"
 	if [ "$ecodeb" -ne 0 ] ; then
@@ -417,5 +408,4 @@ if [ "$nextPart" -eq 5 ] ; then
 	let nextPart=6
 	echo "let nextPart=6" >> status
 fi
-
 

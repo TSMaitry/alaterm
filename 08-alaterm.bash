@@ -204,34 +204,32 @@ Exec = /usr/local/scripts/fixdbuslaunch
 EOC
 }
 
-fix_etcBashrc() { # In /etc.
-sed -i 's/.*alias.*usepacman.*/true \# Hack fix./g' bash.bashrc
-cat << EOC >> bash.bashrc # No hyphen. Unquoted marker. Double gt.
-alias dpkg='usepacman #'
-alias dpkg-deb='usepacman #'
-alias dpkg-divert='usepacman #'
-alias dpkg-query='usepacman #'
-alias dpkg-split='usepacman #'
-alias dpkg-trigger='usepacman #'
-alias pkg='usepacman #'
-alias pkg-config='usepacman #'
-alias aptitude='usepacman #'
-alias apt='usepacman #'
-alias apt-cache='usepacman #'
-alias apt-config='usepacman #'
-alias apt-get='usepacman #'
-alias apt-key='usepacman #'
-alias apt-mark='usepacman #'
-fixdbuslaunch
-##
-EOC
+create_fakeFunctions() { # In /usr/local/scripts.
+	echo "#!/bin/bash" > dpkg
+	echo "echo \"In alaterm, use pacman for package management.\"" >> dpkg
+	chmod 755 dpkg
+	cp dpkg dpkg-deb
+	cp dpkg dpkg-convert
+	cp dpkg dpkg-divert
+	cp dpkg dpkg-query
+	cp dpkg dpkg-split
+	cp dpkg dpkg-trigger
+	cp dpkg pkg
+	cp dpkg pkg-config
+	cp dpkg aptitude
+	cp dpkg apt
+	cp dpkg apt-cache
+	cp dpkg apt-config
+	cp dpkg apt-get
+	cp dpkg apt-key
+	cp dpkg apt-mark
 }
-
 
 if [ "$nextPart" -ge 8 ] ; then # This part repeats, if necessary.
 	cd "$hereiam"
 	source fixexst-scripts.bash
 	cd "$alatermTop/usr/local/scripts"
+	create_fakeFunctions
 	create_compileLibde265
 	chmod 755 compile-libde265
 	create_compileLibmad
@@ -245,11 +243,6 @@ if [ "$nextPart" -ge 8 ] ; then # This part repeats, if necessary.
 	cd "$alatermTop/etc/pacman.d/hooks"
 	create_fixdbuslaunchHook
 	rm -f fixgedit.hook
-	cd "$alatermTop/etc"
-	if [ "$fixedEBRC" != "yes" ] ; then
-		fix_etcBashrc
-		echo "fixedEBRC=yes" >> "$alatermTop/status"
-	fi
 	cd "$alatermTop"
 	start_launchCommand
 	finish_launchCommand
