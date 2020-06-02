@@ -19,7 +19,7 @@ Did not affect users with previously completed installation.
 
 IF YOU HAD THIS INSTALLATION PROBLEM, HERE IS THE FIX:
 (a) In Termux, go to the alaterm installation directory. By default, it is **$PREFIX/../../alaterm**.
-(b) Open the **status** file in a text editor. Delete any lines following **nextStep=5**.
+(b) Open the **status** file in a text editor. Delete any lines following **let nextPart=5**.
 (c) Return to the directory where you have the alaterm install scripts **0n-alaterm.bash** for various **n**.
 Delete them. Download new scripts.
 (d) Run **bash 00-alaterm.bash install**.
