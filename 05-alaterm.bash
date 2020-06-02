@@ -1,6 +1,6 @@
 # Part of the alaterm project, https://github.com/cargocultprog/alaterm/
 # This file is: https://raw.githubusercontent.com/cargocultprog/alaterm/master/05-alaterm.bash
-#
+# Updated for version 1.1.1.
 
 echo "$(caller)" | grep -F 00-alaterm.bash >/dev/null 2>&1
 if [ "$?" -ne 0 ] ; then
@@ -249,8 +249,8 @@ cat << 'EOC' > .bashrc # No hyphen, quoted marker.
 export PS1='\e[1;38;5;195m[alatermUser@\W]$\e[0m '
 export DISPLAY=:1
 source /status
-getThese="nano wget python python-xdg tk"
-getThese+=" ghostscript tigervnc lxde evince poppler-data pstoedit poppler-glib pkgfile pigz freeglut"
+getThese="nano wget python python-xdg"
+getThese+=" ghostscript tigervnc lxde evince poppler-data poppler-glib freeglut"
 getThese+=" xterm gpicview netsurf leafpad geany geany-plugins ghex man"
 getThese+=" gnome-calculator gnome-font-viewer libraw libwmf openexr openjpeg2"
 pacman -Ss -q trash-cli >/dev/null # In case this package is unavailable.
@@ -270,7 +270,6 @@ if [ "$gotThem" != "yes" ] ; then
 		echo "Completed installation of new packages."
 		echo -e "gotThem=\"yes\"" >> /status
 	fi
-	##### Might want to double-check.
 fi
 sleep 1
 pacman -Rsc lxmusic --noconfirm >/dev/null 2>&1

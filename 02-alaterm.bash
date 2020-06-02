@@ -1,6 +1,6 @@
 # Part of the alaterm project, https://github.com/cargocultprog/alaterm/
 # This file is: https://raw.githubusercontent.com/cargocultprog/alaterm/master/02-alaterm.bash
-#
+# Updated for version 1.1.1.
 
 echo "$(caller)" | grep -F 00-alaterm.bash >/dev/null 2>&1
 if [ "$?" -ne 0 ] ; then
@@ -101,12 +101,12 @@ if [ "$nextPart" -eq 2 ] ; then
 	sleep .5
 	echo -e "let nextPart=3" >> status
 	cd "$hereiam"
-	if [ ! -f nodiscard ] ; then
+	if [[ "$hereiam" =~ home/TAexp-min1 ]] ; then # Developer use.
+		mv -f "$alatermTop/$archAr" . 2>/dev/null
+		mv -f "$alatermTop/$archAr.md5" . 2>/dev/null
+	else
 		rm -f "$alatermTop/$archAr"
 		rm -f "$alatermTop/$archAr.md5"
-	else # Developer use.
-		mv -f "$alatermTop/$archAr" . 2>/dev/null
-		mv -f "$alatermTop/$archAr" . 2>/dev/null
 	fi
 	echo "Successfully unpacked. Continuing..."
 	let nextPart=3

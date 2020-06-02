@@ -1,7 +1,7 @@
 #!/bin/bash
 # Part of the alaterm project, https://github.com/cargocultprog/alaterm/
 # This file is: https://raw.githubusercontent.com/cargocultprog/alaterm/master/00-alaterm.bash
-declare versionID=1.0.4 # Enhanced March 11, 2020.
+declare versionID=1.1.1 # Enhanced June 2, 2020.
 # Usage within Termux home on selected Android devices:
 # bash alaterm.bash action
 #   where action is one of: install remove help

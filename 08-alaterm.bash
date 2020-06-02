@@ -1,6 +1,6 @@
 # Part of the alaterm project, https://github.com/cargocultprog/alaterm/
 # This file is: https://raw.githubusercontent.com/cargocultprog/alaterm/master/08-alaterm.bash
-#
+# Updated for version 1.1.1.
 
 echo "$(caller)" | grep -F 00-alaterm.bash >/dev/null 2>&1
 if [ "$?" -ne 0 ] ; then
@@ -266,10 +266,11 @@ if [ "$nextPart" -ge 8 ] ; then # This part repeats, if necessary.
 		do
 			rm -f "$nn-alaterm.bash"
 		done
+		rm -f fixexst-scripts.bash
 	fi
-	echo -e "\n\e[1;92mDONE. To launch alaterm, command:  $launchCommand.\e[0m\n"
+	echo -e "\n\e[1;92mDONE. To launch alaterm, command:  $launchCommand\e[0m\n"
 	let nextPart=9
-	echo "let scriptRevision=9" >> "$alatermTop/status"
+	echo "let scriptRevision=10" >> "$alatermTop/status"
 	echo "let nextPart=9" >> "$alatermTop/status"
 fi
 

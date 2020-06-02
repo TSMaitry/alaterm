@@ -23,3 +23,8 @@ Multi-media programs are **not** supported. No audio. No video. Thus, no games. 
 ### INSTALLATION (Android only, ARM processor only):
 
 Look at the file INSTALL.md at this site. Simple. No-Brainer.
+
+If installation fails for you, and you have a GitHub account, be sure to raise an issue.
+The code works, but once in a while I fail to upload an edited file.
+
+Installation re-verified on June 2, 2020. Using script version 1.1.1.
