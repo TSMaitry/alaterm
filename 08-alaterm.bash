@@ -250,7 +250,7 @@ if [ "$nextPart" -ge 8 ] ; then # This part repeats, if necessary.
 	cp "$launchCommand" "$PREFIX/bin"
 	grep alaterm ~/.bashrc >/dev/null 2>&1 # In Termux home.
 	if [ "$?" -ne 0 ] ; then
-		echo -e "echo \"To launch alaterm, command:  $launchCommand\n\"" >> ~/.bashrc
+		echo -e "echo \"To launch alaterm, command:  $launchCommand\"\n" >> ~/.bashrc
 	fi
 	cd "$alatermTop/home"
 	mkdir -p .config/dbus
