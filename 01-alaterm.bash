@@ -1,6 +1,6 @@
 # Part of the alaterm project, https://github.com/cargocultprog/alaterm/
 # This file is: https://raw.githubusercontent.com/cargocultprog/alaterm/master/01-alaterm.bash
-# Updated for version 1.1.1.
+# Updated for version 1.1.2.
 
 echo "$(caller)" | grep -F 00-alaterm.bash >/dev/null 2>&1
 if [ "$?" -ne 0 ] ; then
@@ -47,8 +47,10 @@ select_architecture() { # Must be ARM processor, running Android.
 find_localArchive() { # If archive and md5 in same directory as this script.
 	if [ "$partialArchive" = "yes" ] ; then
 		localArchive="no"
-	elif [ -f "$alatermTop/$archAr" ] && [ -f "$alatermTop/$archAr.md5" ] ; then
+	elif [ -e "$HOME/TAexp-min1/$archAr" ] && [ -e "$HOME/TAexp-min1/$archAr.md5" ] ; then
 		localArchive="yes"
+		cp "$HOME/TAexp-min1/$archAr" "$alatermTop"
+		cp "$HOME/TAexp-min1/$archAr.md5" "$alatermTop"
 	fi
 }
 

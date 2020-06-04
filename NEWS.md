@@ -16,14 +16,20 @@ and it works for me. It has been working for over six months now!
 If it does not work for you, the fix is probably
 something simple such as my failure to upload the correct code.
 
-#### June 1-2, 2020
+#### June 1-3, 2020
 
-Updated to version 1.1.1. Not much change, mostly code cleanup.
+Updated to version 1.1.2. Not much change, mostly code cleanup.
 
 Removed obsolete python2 packages from installation.
-Also removed unnecessary packages.
+Also removed other unnecessary packages.
 
-Fixed: Installation problem, typically with exit code 73.
+Note: If you have xfce4 installed in Termux, as of June 3, 2020
+there seems to be a problem updating Termux itself.
+Alaterm will not install unless Termux is up to date.
+I expect that the problem in Termux will be resolved shortly, by the Termux project.
+If you do not have xfce4 installed in Termux, then this does not affect you. 
+
+Fixed: Alaterm installation problem, typically with exit code 73.
 Problem occurred during some April-May 2020 installation attempts.
 Did not affect users with previously completed installation.
 Will not affect new installations, started after this date.
