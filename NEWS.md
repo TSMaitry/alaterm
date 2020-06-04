@@ -23,23 +23,19 @@ Updated to version 1.1.2. Not much change, mostly code cleanup.
 Removed obsolete python2 packages from installation.
 Also removed other unnecessary packages.
 
-Note: If you have xfce4 installed in Termux, as of June 3, 2020
-there seems to be a problem updating Termux itself.
-Alaterm will not install unless Termux is up to date.
-I expect that the problem in Termux will be resolved shortly, by the Termux project.
-If you do not have xfce4 installed in Termux, then this does not affect you. 
+Note: If you have xfce4 installed in Termux:
+During June 2-3, 2020 there was a temporary problem updating Termux itself.
+This is not an alaterm issue. It was fixed within Termux on June 4. 
 
 Fixed: Alaterm installation problem, typically with exit code 73.
 Problem occurred during some April-May 2020 installation attempts.
 Did not affect users with previously completed installation.
 Will not affect new installations, started after this date.
 
-IF YOU HAD THIS INSTALLATION PROBLEM, HERE IS THE FIX:
-(a) In Termux, go to the alaterm installation directory. By default, it is **$PREFIX/../../alaterm**.
-(b) Open the **status** file in a text editor. Delete any lines following **let nextPart=5**.
-(c) Return to the directory where you have the alaterm install scripts **0n-alaterm.bash** for various **n**.
-Delete them. Download new scripts.
-(d) Run **bash 00-alaterm.bash install**.
+IF YOU HAD THIS INSTALLATION PROBLEM, HERE IS THE FIX (updated):
+(a) Remove your existing **0n-alaterm.bash** files, for each **n**.
+(b) Download fresh scripts to the same directory.
+(c) Run bash 00-alaterm.bash install
 
 The fix does not delete the original Arch Linux ARM files, so
 you will not have to download and unpack the archive a second time.
