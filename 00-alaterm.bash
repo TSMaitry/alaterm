@@ -1,7 +1,7 @@
 #!/bin/bash
 # Part of the alaterm project, https://github.com/cargocultprog/alaterm/
 # This file is: https://raw.githubusercontent.com/cargocultprog/alaterm/master/00-alaterm.bash
-declare versionID=1.1.2 # Enhanced June 3, 2020.
+declare versionID=1.1.3 # Enhanced June 6, 2020.
 # Usage within Termux home on selected Android devices:
 # bash alaterm.bash action
 #   where action is one of: install remove help
@@ -408,22 +408,8 @@ scriptExit() {
 	echo -e "This script will now exit.$wakelockMessage\n"
 }
 
-check_connection() { # Function ping works in both Termux and alaterm.
-	ping -c 3 -W 5 "$1" >/dev/null 2>/dev/null
-	if [ "$?" -ne 0 ]; then
-		echo -e "$WARNING Looks like your Internet is disconected."
-		echo "Or server at $1 is down."
-		printf "Wait awhile. Then $enter when ready : " ; read readvar
-		echo "Trying again..."
-		ping -c 5 -t 10 "$1" >/dev/null 2>/dev/null
-		if [ "$?" -ne 0 ] ; then
-			echo -e "$PROBLEM Still no connection."
-			echo "Check your Internet, wait, and try again later."
-			exit 1
-			else echo -e "OK, got $1 this time...\n"
-		fi
-		else echo -e "Got connection to server $1 ...\n"
-	fi
+check_connection() { # Temporary fix for bad ping.
+	true
 }
 
 complain_downloadFailed() {
@@ -462,7 +448,6 @@ verify_storageEnabled() { # Needs termux-setup-storage.
 
 update_termuxPackages() { # Needed to provide platform for alaterm.
 	echo "Checking if Termux is up-to-date, and upgrading if necessary..."
-	check_connection github.com
 	apt-get -y update && apt-get -y dist-upgrade
 	if [ "$?" -ne 0 ] ; then
 		echo -e "$PROBLEM Termux could not be updated."
@@ -603,6 +588,7 @@ else
 	echo "Android may ask if you wish to stop optimizing battery usage."
 	echo "You may allow or deny, but installation is faster if you allow."
 fi
+
 
 ## Process the component scripts:
 start_termuxWakeLock # Needed from this point. Released by any exit or error.
