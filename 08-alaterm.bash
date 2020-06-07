@@ -1,6 +1,6 @@
 # Part of the alaterm project, https://github.com/cargocultprog/alaterm/
 # This file is: https://raw.githubusercontent.com/cargocultprog/alaterm/master/08-alaterm.bash
-# Updated for version 1.1.2.
+# Updated for version 1.2.0.
 
 echo "$(caller)" | grep -F 00-alaterm.bash >/dev/null 2>&1
 if [ "$?" -ne 0 ] ; then
@@ -40,38 +40,17 @@ fi
 # This checks for active Termux vncserver:
 hash vncserver >/dev/null 2>&1 # Refers to Termux vncserver.
 if [ "$?" -eq 0 ] ; then
-	vrps="$( vncserver -list | grep :[1234567890] )"
+	vncserver -list | grep :[1234567890] >/dev/null 2>&1
 	if [ "$?" -eq 0 ] ; then # Termux vncserver is on.
-		vrpn="$( echo \$vrps | sed 's/\s.*//g' )"
-		echo -e "\e[1;33mWARNING.\e[0m Termux has its own vncserver active."
-		echo "It will conflict with the vncserver launched by alaterm."
-		echo "What do you wish to do?"
-		echo "  k = Kill the Termux vncserver, then continue to launch alaterm."
-		echo "  x = Do not launch alaterm. Termux vncserver remains on."
-		while true ; do
-			printf "Now \e[1;92menter\e[0m your choice [k|x] : " ; read readvar
-			case "$readvar" in
-				k*|K* ) vncserver -kill $vrpn >/dev/null 2>&1
-				if [ "$?" -eq 0 ] ; then
-					rm -f ~/.Xauthority
-					touch ~/.Xauthority
-					rm -f ~/.ICEauthority
-					touch ~/.ICEauthority
-					rm -r -f "$termuxPrefix/tmp/.X*"
-					rm -f "$termuxPrefix/tmp/.X*"
-					rm -f ~/.vnc/localhost*
-					echo "Termux vncserver killed. Continuing to alaterm..."
-				else
-					echo -e "\e[1;91mPROBLEM.\e[0m Unable to autokill the Termux vncserver."
-					echo "You may kill it manually, then try again."
-					exit 1
-				fi
-				break ;;
-				x|X ) echo "Script will exit without change."
-				exit 1 ; break ;;
-				* ) echo "No default. Choose k or x." ;;
-			esac
-		done
+		echo -e "\e[1;91mPROBLEM.\e[0m Termux has its own vncserver active."
+		echo "Alaterm cannot launch due to conflict."
+		echo "When this script exits to Termux, run this command:"
+		echo -e "\e[1;33mvncserver -list\e[0m"
+		echo -e "Display number is \e[1;33m:1\e[0m or \e[1;33m:2\e[0m or whatever."
+		echo "Then run this command, using the display number instead of :1 if necessary:"
+		echo -e "\e[1;33mvncserver -kill :1\e[0m"
+		echo "If the server is successfully killed, then you can run alaterm."
+		echo -e "This script will now exit.\n" ; exit 1
 	fi
 fi
 # If you closed Termux or shut down your device while alaterm was running,
@@ -125,13 +104,6 @@ $fakelc
 echo -e "\e[33mYou cannot launch alaterm from within alaterm.\e[0m"
 ##
 EOC
-}
-
-ensure_noTVNC() { # In Termux home. Ensures no leftovers, if user runs vncserver outside alaterm.
-	grep alaterm_installer .bash_logout >/dev/null 2>&1
-	if [ "$?" -ne 0 ] ; then
-		echo "[ -f \"\$PREFIX/bin/vncserver\" ] && vncserver -autokill >/dev/null 2>&1 || true # By_alaterm_installer." >> .bash_logout
-	fi
 }
 
 restore_launchCommand() { # In Termux home. Deals with situation where $PREFIX is deleted and renewed.
@@ -240,6 +212,8 @@ if [ "$nextPart" -ge 8 ] ; then # This part repeats, if necessary.
 	chmod 755 autoremove
 	create_fixDbuslaunch
 	chmod 755 fixdbuslaunch
+	cd "$alatermTop/etc"
+	sed -i '/.*autokill.*/d' bash.bash_logout
 	cd "$alatermTop/etc/pacman.d/hooks"
 	create_fixdbuslaunchHook
 	rm -f fixgedit.hook
@@ -258,19 +232,11 @@ if [ "$nextPart" -ge 8 ] ; then # This part repeats, if necessary.
 	create_fakeLaunch
 	chmod 755 "$launchCommand" # Not the real one.
 	cd "$HOME" # Termux home
-	ensure_noTVNC
 	restore_launchCommand
 	cd "$hereiam"
-	if [[ ! "$hereiam" =~ TAexp ]] ; then
-		for nn in 01 02 03 04 05 06 07 08
-		do
-			rm -f "$nn-alaterm.bash"
-		done
-		rm -f fixexst-scripts.bash
-	fi
 	echo -e "\n\e[1;92mDONE. To launch alaterm, command:  $launchCommand\e[0m\n"
 	let nextPart=9
-	echo "let scriptRevision=10" >> "$alatermTop/status"
+	echo "let scriptRevision=11" >> "$alatermTop/status" # Revision 11 at v 1.2.0.
 	echo "let nextPart=9" >> "$alatermTop/status"
 fi
 

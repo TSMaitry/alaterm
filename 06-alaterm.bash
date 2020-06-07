@@ -1,6 +1,6 @@
 # Part of the alaterm project, https://github.com/cargocultprog/alaterm/
 # This file is: https://raw.githubusercontent.com/cargocultprog/alaterm/master/06-alaterm.bash
-# Updated for version 1.1.2.
+# Updated for version 1.2.0.
 
 echo "$(caller)" | grep -F 00-alaterm.bash >/dev/null 2>&1
 if [ "$?" -ne 0 ] ; then
@@ -113,8 +113,6 @@ EOC
 
 create_etcBashlogout() { # In /etc.
 cat << EOC > bash.bash_logout # No hyphen. Unquoted marker.
-# File /etc/bash.bash_logout created by installer script.
-vncserver -autokill >/dev/null 2>&1 || true
 chmod 755 "$alatermTop" # Restores ability to edit alaterm from Termux.
 echo -e "\e[1;33mYou have left alaterm, and are now in Termux.\e[0m\n"
 ##

@@ -44,13 +44,13 @@ select_architecture() { # Must be ARM processor, running Android.
 	fi
 }
 
-find_localArchive() { # If archive and md5 in same directory as this script.
+find_localArchive() { # Developer use, with stored archive and md5..
 	if [ "$partialArchive" = "yes" ] ; then
 		localArchive="no"
-	elif [ -e "$HOME/TAexp-min1/$archAr" ] && [ -e "$HOME/TAexp-min1/$archAr.md5" ] ; then
+	elif [ -e "$HOME/storage/$archAr" ] && [ -e "$HOME/storage/$archAr.md5" ] ; then
 		localArchive="yes"
-		cp "$HOME/TAexp-min1/$archAr" "$alatermTop"
-		cp "$HOME/TAexp-min1/$archAr.md5" "$alatermTop"
+		cp "$HOME/storage/$archAr" "$alatermTop"
+		cp "$HOME/storage/$archAr.md5" "$alatermTop"
 	fi
 }
 
@@ -62,7 +62,6 @@ find_localArchive() { # If archive and md5 in same directory as this script.
 # is on the line beginning with Location:
 # and can be isolated as the second entry on that line, using awk.
 select_geoMirror() {
-	check_connection os.archlinuxarm.org
 	touch archMirrorInfo # File must exist before wget can write there.
 	local how="--tries=3 --waitretry=10 os.archlinuxarm.org"
 	wget -v -O /dev/null -o archMirrorInfo $how

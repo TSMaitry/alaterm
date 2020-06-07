@@ -1,7 +1,7 @@
 #!/bin/bash
 # Part of the alaterm project, https://github.com/cargocultprog/alaterm/
 # This file is: https://raw.githubusercontent.com/cargocultprog/alaterm/master/00-alaterm.bash
-declare versionID=1.1.3 # Enhanced June 6, 2020.
+declare versionID=1.2.0 # Enhanced June 7, 2020.
 # Usage within Termux home on selected Android devices:
 # bash alaterm.bash action
 #   where action is one of: install remove help
@@ -89,6 +89,19 @@ cd "$termuxTop"
 termuxTop=`pwd` # Gets the full Android path, without any ../
 cd "$pwDir"
 declare alatermTop="$termuxTop/$installDirectory"
+if [[ "$scriptLocation" =~ TAexp-min1 ]] ; then # Added in version 1.2.0 for developer use only.
+	while true ; do
+		printf "Developer mode, normal mode, or exit? [d|n|x] : " ; read readvar
+		case "$readvar" in
+			d*|D* ) declare devext="-dev" ; break ;;
+			n*|N* ) declare devext="" ; break ;;
+			x*|X* ) echo "Exiting at your request." ; exit 0 ; break ;;
+			* ) echo "No default. Choose:" ;;
+		esac
+	done
+fi
+alatermTop="$termuxTop/$installDirectory$devext"
+launchCommand="$launchCommand$devext"
 declare PROBLEM="\e[1;91mPROBLEM.\e[0m" # Bold light red. Use with echo -e
 declare WARNING="\e[1;33mWARNING.\e[0m" # Bold yellow. Use with echo -e
 declare HELP="\e[1;92mHELP\e[0m" # Bold light green. Use with echo -e
@@ -300,52 +313,36 @@ check_ABI() { # Check Android software compatibility.
 	[ "$kVer" -lt 4 ] && reject_incompatibleSystem # Ignore old products.
 }
 
-check_freeSpace() { # Not re-checked later. df -k delivers data in kiloblocks.
-	local kBlocks="$(df -k . 2>/dev/null | gawk 'FNR == 2 {print $4}')"
-	[ "$kBlocks" = "" ] && kBlocks="$(df -k . 2>/dev/null | gawk 'FNR == 3 {print $3}')"
-	[ "$kBlocks" = "" ] && let kBlocks=0
-	let spaceK="$(expr $kBlocks + 0)" # Integer, not string.
-	let userSpace="$spaceK"/1048576
-	if [ "$userSpace" -eq 0 ] ; then
-		echo -e "$WARNING Unable to calculate available free space."
-		echo "Manually check free space using Android File Manager."
-		echo "Do not include removable media."
-		echo "You need 3GB minimum, 4GB to be useful, 5GB best."
-		echo "You may install [i] or exit [x]. No default."
-		while true ; do
-			printf "Now $enter your choice. [i|x] : " ; read rvar
-			case "$rvar" in
-				i*|I* ) userSpace=10000 # Placeholder.
-				echo -e "You chose to install. Continuing...\n"
-				break ;;
-				x|X ) echo -e "Exiting at your request.\n"
-				exit 0 ; break ;;
-				* ) echo "Bad response. There is no default."
-				;;
-			esac
-		done
-	elif [ "$userSpace" -lt 3 ] ; then # Has less than 3Gb available.
-		echo -e "$PROBLEM Less than 3GB of free space on device."
-		echo -e "Minimum 3GB, 4GB to be useful, 5GB best. No install.\n"
-		exit 1
-	elif [ "$userSpace" -lt 4 ] ; then # Can install, but not much room.
-		echo -e "$WARNING Less than 4Gb of free space on device."
-		echo "You have at least 3GB, enough for a minimal desktop."
-		echo "But you need 4GB for useful programs, 5GB best."
-		echo "You may install [i] or exit [x]. No default."
-		while true ; do
-			printf "Now $enter your choice. [i|x] : " ; read rvar
-			case "$rvar" in
-				i*|I* ) echo "You chose to install. Continuing..." ;  break ;;
-				x|X ) echo -e "Exiting at your request.\n" ; exit 0 ; break ;;
-				* ) echo "Bad response. There is no default." ;;
-			esac
-		done
+check_freeSpace() { # Improved in script version 1.2.0, I hope.
+	let datanumnum=0
+	dataline="$(df -h . 2>/dev/null | grep /data$ | gawk 'FNR == 1 {print $4}')" 2>/dev/null
+	if [[ "$dataline" =~ G ]] ; then
+		datanum="${dataline//G}"
+		datanumnum="$((datanum + 0))"
+	fi
+	if [ "$datanumnum" -lt 3 ] ; then
+		echo "$WARNING Test reports less than 3G internal free space."
+		echo "Minimal alaterm cannot be installed with less than 3G."
+		echo "However, this test is not foolproof."
+		echo "If your Android system file manager shows enough space,"
+		echo "then you may proceed. Removable media does not count."
+		echo "What do you wish to do?"
+		echo "  p = Proceed. File manager shows enough internal free space."
+		echo "  x = Exit. Not enough space. Maybe clean up files, try again."
+		echo "Now $enter your choice: [p|X] : " ; read readvar
+		case "$readvar" in
+			p*|P* ) echo "Continuing, at your request..." ;;
+			* ) echo "You did not request to proceed." ; exit 1 ;;
+		esac
+	elif [ "$datanumnum" -lt 4 ] ; then
+		echo "$WARNING Test reports less than 4G internal free space."
+		echo "Enough for minimal alaterm, but not many useful programs."
+	elif [ "$datanumnum" -lt 5 ] ; then
+		echo "$WARNING Test reports less than 5G internal free space."
+		echo "Enough for alaterm and some useful programs, but not deluxe."
 	else
-		if [ "$userSpace" -ne 10000 ] ; then
-			echo "You have at least 4GB free space on device."
-			echo -e "That is enough to be useful. Continuing...\n"
-		fi
+		echo "Test reports at least 5G internal free space."
+		echo "That is enough for alaterm and many useful programs."
 	fi
 }
 
@@ -408,10 +405,6 @@ scriptExit() {
 	echo -e "This script will now exit.$wakelockMessage\n"
 }
 
-check_connection() { # Temporary fix for bad ping.
-	true
-}
-
 complain_downloadFailed() {
 	echo -e "\e[1;33mPROBLEM.\e[0m Download was interrupted. Re-try failed."
 	echo "Exit this script, wait awhile, then try again."
@@ -451,8 +444,11 @@ update_termuxPackages() { # Needed to provide platform for alaterm.
 	apt-get -y update && apt-get -y dist-upgrade
 	if [ "$?" -ne 0 ] ; then
 		echo -e "$PROBLEM Termux could not be updated."
-		echo "Bad Internet connection, or server is erratic."
-		echo "Probably a transient issue. Try again in a few minutes."
+		echo "Possibly bad or erratic Internet connection. Try again."
+		echo "But if connection is good, perhaps Termux itself has a problem."
+		echo "Try to update Termux without using this script."
+		echo "Command:  pkg update"
+		echo "If that also fails, then the problem is not caused by this script."
 		exit 1
 	fi
 }
@@ -589,6 +585,14 @@ else
 	echo "You may allow or deny, but installation is faster if you allow."
 fi
 
+if [ "$devext" = "-dev" ] ; then
+	printf "Completed script 00. Proceed? [Y|n] : " ; read readvar
+	case "$readvar" in
+		n*|N* ) echo "Exiting at your request" ; exit 0 ;;
+		* ) true ;;
+	esac
+fi
+
 
 ## Process the component scripts:
 start_termuxWakeLock # Needed from this point. Released by any exit or error.
@@ -596,6 +600,13 @@ for nn in 01 02 03 04 05 06 07 08
 do
 	cd "$hereiam"
 	source "$nn-alaterm.bash"
+	if [ "$devext" = "-dev" ] ; then
+		printf "Completed script $nn. Proceed? [Y|n] : " ; read readvar
+		case "$readvar" in
+			n*|N* ) echo "Exiting at your request" ; exit 0 ;;
+			* ) true ;;
+		esac
+	fi
 done
 # fixexst-scripts.bash is sourced in 08-alaterm.bash.
 

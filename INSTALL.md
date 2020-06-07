@@ -3,6 +3,9 @@
 You only need the file **00-alaterm.bash**. It will fetch the remaining files,
 unless you already have them in the same directory.
 
+NOTE: If you attempted to install during April-May 2020, but it failed,
+then try again using current code. A bug affected some users. Now fixed.
+
 **Requirements:**
 (a) Android 8 or later. Tested with Android 9.
 (b) ARM CPU 32- or 64-bit. Includes many tablets, phones, and some Chromebooks.
@@ -111,23 +114,21 @@ The initial desktop has wallpaper, taskbar, Menu, File Manager.
 If you use a mouse, right-click is enabled for context menus.
 
 
-
 ### UPDATES TO ALATERM
 
 Once alaterm is installed and running, that is all you need to do.
-Programs such as **gimp** and **libreoffice-still** are installed via command line.
-Caution: Installation of Java, or its runtime, may conflict with Android. 
+Then, you can install programs such as GIMP and LibreOffice via command line.
 
 It is always possible that something needs to be corrected,
 without re-installation. Or, a new capability may appear in Termux,
-and that will enable a new capability in alaterm.
+which enables a new capability in alaterm.
 You can check for possible new information in the NEWS.md file,
 at the alaterm project page on GitHub.
 
 If you re-run `bash 00-alaterm.bash install` with an existing installation,
 then any non-destructive updates will be automatically applied.
 This only updates alaterm itself, not the Linux software.
-
+It does not re-dowload the massive Arch Linux ARM archive.
 
 ### WHERE ALATERM IS INSTALLED
 
@@ -141,14 +142,28 @@ A copy of its launch script is at `/data/data/com.termux/alaterm/alaterm`.
 If necessary, you may copy the launch script to `$PREFIX/bin`.
 
 
-### ABOUT BUGS AND SOFTWARE AVAILABILITY
+### SOFTWARE AVAILABILITY
 
 Please understand that alaterm does not provide software.
 All it does is install software provided by the Arch Linux ARM project.
 
-If you have a request, or found a software bug, **do not** report it here.
+Among the programs known to work are: GIMP, LibreOffice, Inkscape, TexWorks (TeXLive),
+Evince, Netsurf, FontForge, and a few others.
 
-If you found a bug in the installation script, then **do** report it here.
+You will not be able to use programs that require audio, even if the software can be installed.
+This is because Android always handles audio, but the Arch Linux ARM software
+is unable to communicate with the Android sound system. This cannot be fixed.
 
-Alaterm is not configured for multimedia. Absence of audio is not a bug. 
+A discussion of useful programs, and how to install them,
+is provided in the HTML help files installed within alaterm.
+Or, you can read them in plain text at this GitHub project page.
+
+
+### ABOUT BUGS AND SOFTWARE AVAILABILITY
+
+If you have a software request, or found a software bug, **do not** report it here.
+
+If you found a bug in the alaterm installation script, then **do** report it here.
+
+Alaterm cannot be configured for multimedia. Absence of audio is not a bug.
 

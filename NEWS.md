@@ -1,5 +1,17 @@
 ### NEWS for alaterm at GitHub.
 
+#### UPDATE
+
+On June 6, 2020, alaterm is updated to version 1.2.0.
+
+If you already have alaterm installed, you can apply the update with these steps:
+(a) If you retained any of the previous installer scripts, delete them.
+(b) Download the latest 00-alaterm.bash script.
+(c) Termux command: `bash 00-alaterm.bash install`
+
+The update does not re-install.
+It merely changes a few files in the existing alaterm installation. Very quick.
+
 #### REMINDERS:
 
 To update Termux (not alaterm):  `pkg update`
@@ -15,6 +27,13 @@ be sure to start an issue on this site. I test my code before uploading,
 and it works for me. It has been working for over six months now!
 If it does not work for you, the fix is probably
 something simple such as my failure to upload the correct code.
+
+#### June 6, 2020
+
+Updated to version 1.2.0.
+Fixed problem involving Internet connection check, for some users.
+Added some code for use only by developer.
+Corrected rarely-used vncserver conflicts.
 
 #### June 1-3, 2020
 
@@ -77,5 +96,5 @@ GitHub project initialized.
 
 #### Some time in Autumn 2019:
 
-Got the code working on my own machine.
+Got alaterm working on my own machine.
 I have been regularly using it since then.
