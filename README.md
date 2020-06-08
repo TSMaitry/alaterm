@@ -58,4 +58,4 @@ Look at the file INSTALL.md at this site. Simple. No-Brainer.
 If installation fails for you, and you have a GitHub account, be sure to raise an issue.
 Beware: Some forks of this project are not up-to-date, and may have obsolete code.
 
-Installation re-verified on June 2, 2020. Using script version 1.1.1.
+Installation re-verified on June 6, 2020. Using script version 1.2.0.
