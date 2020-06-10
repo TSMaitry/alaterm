@@ -72,7 +72,7 @@ To remove alaterm, launch Termux, then:
 
 ```
 bash 00-alaterm.bash remove
-``
+```
 
 You will be asked for confirmation, twice.
 
