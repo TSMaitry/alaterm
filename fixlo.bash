@@ -1,12 +1,17 @@
 #!/bin/bash
 # Fix for LibreOffice /proc not mounted.
-# Do not use this unless you need it.
-# Must be re-run whenever LibreOffice is updated.
+# DO NOT USE THIS UNLESS YOU NEED IT.
+# If LibreOffice fails to launch,
+# and terminal reports error with /proc not mounted,
+# first try exiting Termux, then re-launch it.
+# If that did not work, then try this script.
+# It must be re-run whenever LibreOffice is updated.
 # Run from Termux:  bash fixlo
 # Do not run from within alaterm.
 
 if [ "$THOME" != "" ] ; then
 	echo "This script does not run from within alaterm."
+	echo "Logout of alaterm, then run script from Termux."
 	exit 1
 fi
 mkdir -p "$alatermTop/prod"
