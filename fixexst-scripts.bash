@@ -450,6 +450,7 @@ cat << EOC > autoremove # No hyphen. Unquoted marker.
 # Script /usr/local/scripts/autoremove created by installer script.
 # Works something like Debian apt autoremove.
 sudo pacman -Qdtq | sudo pacman --noconfirm -Rs - >/dev/null 2>&1
+echo "Autoremoved unnecessary packages, if any."
 ##
 EOC
 }
