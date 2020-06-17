@@ -1,6 +1,6 @@
 # Part of the alaterm project, https://github.com/cargocultprog/alaterm/
 # This file is: https://raw.githubusercontent.com/cargocultprog/alaterm/master/08-alaterm.bash
-# Updated for version 1.2.0.
+# Updated for version 1.2.1.
 
 echo "$(caller)" | grep -F 00-alaterm.bash >/dev/null 2>&1
 if [ "$?" -ne 0 ] ; then
@@ -171,6 +171,7 @@ Operation = Remove
 Target = *
 
 [Action]
+Description = Fixing dbus launchers...
 When = PostTransaction
 Exec = /usr/local/scripts/fixdbuslaunch
 EOC
@@ -187,7 +188,6 @@ create_fakeFunctions() { # In /usr/local/scripts.
 	cp dpkg dpkg-split
 	cp dpkg dpkg-trigger
 	cp dpkg pkg
-	cp dpkg pkg-config
 	cp dpkg aptitude
 	cp dpkg apt
 	cp dpkg apt-cache
