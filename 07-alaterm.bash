@@ -1,6 +1,6 @@
 # Part of the alaterm project, https://github.com/cargocultprog/alaterm/
 # This file is: https://raw.githubusercontent.com/cargocultprog/alaterm/master/07-alaterm.bash
-# Updated for version 1.2.0.
+# Updated for version 1.2.2.
 
 echo "$(caller)" | grep -F 00-alaterm.bash >/dev/null 2>&1
 if [ "$?" -ne 0 ] ; then
@@ -300,7 +300,7 @@ case "$readvar" in
 	* ) true ;;
 esac
 echo "Now contacting the alaterm site at GitHub..."
-alatermSite=https://raw.githubusercontent.com/cargocultprog/alaterm
+alatermSite=https://raw.githubusercontent.com/cargocultprog/alaterm # Also defined in 08.
 mkdir -p /usr/local/help
 cd /usr/local/help
 gotallhelp="yes"

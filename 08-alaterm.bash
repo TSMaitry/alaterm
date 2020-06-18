@@ -1,6 +1,6 @@
 # Part of the alaterm project, https://github.com/cargocultprog/alaterm/
 # This file is: https://raw.githubusercontent.com/cargocultprog/alaterm/master/08-alaterm.bash
-# Updated for version 1.2.1.
+# Updated for version 1.2.2.
 
 echo "$(caller)" | grep -F 00-alaterm.bash >/dev/null 2>&1
 if [ "$?" -ne 0 ] ; then
@@ -197,10 +197,71 @@ create_fakeFunctions() { # In /usr/local/scripts.
 	cp dpkg apt-mark
 }
 
+add_texHunt() { # In /etc. Finds latest TUG TeXLive, if present.
+cat << 'EOC' >> bash.bashrc # No hyphen. Quoted marker. Double gt.
+## If using Internet installer of TUG TeXLive, rather than Arch pacman:
+let i=2010
+texlocalfolder="doesnotexist"
+while [ "$i" -ge 2010 ] ; do
+	if [ -d "/usr/local/texlive/$i" ] ; then texlocalfolder="$i" ; fi
+	((i++))
+	if [ "$i" -gt 2050 ] ; then break ; fi
+done
+if [ -d "/usr/local/texlive/$texlocalfolder/bin" ] ; then
+	tlflist="$(ls /usr/local/texlive/$texlocalfolder/bin)"
+	thearmtype=$(echo "$tlflist" | sed 's/ .*//')
+	if [ -d "/usr/local/texlive/$texlocalfolder/bin/$thearmtype" ] ; then
+		PATH="/usr/local/texlive/$texlocalfolder/bin/$thearmtype:$PATH" ; export PATH
+		export MANPATH="/usr/local/texlive/$texlocalfolder/texmf-dist/doc/man:$MANPATH"
+		export INFOPATH="/usr/local/texlive/$texlocalfolder/texmf-dist/doc/info:$INFOPATH"
+	fi
+fi
+##
+EOC
+}
+
+fix_etcBashBashrc() { # In /etc.
+	sed -i '/alias makepkg/d' bash.bashrc 2>/dev/null
+	sed -i '/alias fakeroot/d' bash.bashrc 2>/dev/null
+	sed -e -i '/nofakeroot()/,+2d' bash.bashrc 2>/dev/null
+	sed -i '/Ensure that.*and Termux/d' bash.bashrc
+	sed -i '/PATH.*local\/scripts/d' bash.bashrc
+	sed -i '/PATH.*HOME\/bin/d' bash.bashrc
+	grep "TUG TeXLive" bash.bashrc >/dev/null 2>&1
+	if [ "$?" -ne 0 ] ; then add_texHunt ; fi
+}
+
+fix_etcProfile() { #in /etc.
+	grep "home correction" profile >/dev/null 2>&1
+	if [ "$?" -ne 0 ] ;then
+		echo "# Added home correction:" >> profile
+		echo "PATH=\$HOME/bin:\$PATH" >> profile
+		echo "export PATH" >> profile
+		echo "##" >> profile
+	fi
+}
+
+update_help() { # In /usr/local/help.
+	helpval="$(grep helpversion help-alaterm-0.html | sed 's/.*=//g' | sed 's/ .*//g')"
+	helpnum="$(($helpval + 0))" 2>/dev/null
+	if [ "$?" -eq 0 ] ; then
+		if [ "$helpnum" -lt 2 ] ; then # 2 at v. 1.2.2.
+			echo "Updating help files..."
+			rm -f help-alaterm*
+			wget -t 3 -T 3 $alatermSite/master/help-alaterm-0.html >/dev/null 2>&1
+			wget -t 3 -T 3 $alatermSite/master/help-alaterm-1.html >/dev/null 2>&1
+			wget -t 3 -T 3 $alatermSite/master/help-alaterm-2.html >/dev/null 2>&1
+			wget -t 3 -T 3 $alatermSite/master/help-alaterm-3.html >/dev/null 2>&1
+		fi
+	fi
+}
+
 if [ "$nextPart" -ge 8 ] ; then # This part repeats, if necessary.
+	alatermSite=https://raw.githubusercontent.com/cargocultprog/alaterm # Also defined in 07.
 	cd "$hereiam"
 	source fixexst-scripts.bash
 	cd "$alatermTop/usr/local/scripts"
+	rm -f pkg-config # Fix in v. 1.2.2.
 	create_fakeFunctions
 	create_compileLibde265
 	chmod 755 compile-libde265
@@ -214,6 +275,10 @@ if [ "$nextPart" -ge 8 ] ; then # This part repeats, if necessary.
 	chmod 755 fixdbuslaunch
 	cd "$alatermTop/etc"
 	sed -i '/.*autokill.*/d' bash.bash_logout
+	fix_etcBashBashrc # v. 1.2.2.
+	fix_etcProfile # v. 1.2.2.
+	cd "$alatermTop/usr/local/help"
+	update_help # v. 1.2.2.
 	cd "$alatermTop/etc/pacman.d/hooks"
 	create_fixdbuslaunchHook
 	rm -f fixgedit.hook
@@ -236,7 +301,7 @@ if [ "$nextPart" -ge 8 ] ; then # This part repeats, if necessary.
 	cd "$hereiam"
 	echo -e "\n\e[1;92mDONE. To launch alaterm, command:  $launchCommand\e[0m\n"
 	let nextPart=9
-	echo "let scriptRevision=11" >> "$alatermTop/status" # Revision 11 at v 1.2.0.
+	echo "let scriptRevision=12" >> "$alatermTop/status" # Revision 12 at v 1.2.2.
 	echo "let nextPart=9" >> "$alatermTop/status"
 fi
 

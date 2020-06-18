@@ -1,6 +1,6 @@
 # File fixexst-scripts.bash
 # Invoked as alalterm install scripts complete.
-# Updated for version 1.2.0.
+# Updated for version 1.2.2.
 
 create_compileLibde265() { # In /usr/local/scripts.
 cat << 'EOC' > compile-libde265 # No hyphen. Quoted marker. Functions within.

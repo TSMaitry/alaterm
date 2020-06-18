@@ -1,6 +1,6 @@
 # Part of the alaterm project, https://github.com/cargocultprog/alaterm/
 # This file is: https://raw.githubusercontent.com/cargocultprog/alaterm/master/05-alaterm.bash
-# Updated for version 1.2.0.
+# Updated for version 1.2.2.
 
 echo "$(caller)" | grep -F 00-alaterm.bash >/dev/null 2>&1
 if [ "$?" -ne 0 ] ; then
@@ -68,11 +68,13 @@ if [ "\$?" -ne 0 ] ; then PATH="\$HOME/bin:\$PATH" ; export PATH ; fi
 alias top='/system/bin/top'
 alias ps='/system/bin/ps'
 alias ls='ls --color=auto'
-nofakeroot() {
-        echo "The makepkg and fakeroot commands do not work in alaterm."
-}
-alias makepkg='nofakeroot'
-alias fakeroot='nofakeroot'
+# If using Internet installer of TeXlive from TUG, rather than Arch pacman:
+if [ -f "/usr/local/texlive/2020" ] ; then # If not 2020, then change this line and following lines.
+	echo "$PATH" | grep "/usr/local/texlive/2020" >/dev/null 2>&1
+	if [ "$?" -ne 0 ] ; then PATH="/usr/local/texlive/2020/bin/armhf-linux:$PATH" ; export PATH ; fi
+	export MANPATH="/usr/local/texlive/2020/texmf-dist/doc/man:$MANPATH"
+	export INFOPATH="/usr/local/texlive/2020/texmf-dist/doc/info:$INFOPATH"
+fi
 ##
 EOC
 }
