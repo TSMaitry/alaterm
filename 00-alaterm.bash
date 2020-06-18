@@ -1,13 +1,16 @@
 #!/bin/bash
 # Part of the alaterm project, https://github.com/cargocultprog/alaterm/
 # This file is: https://raw.githubusercontent.com/cargocultprog/alaterm/master/00-alaterm.bash
-declare versionID=1.2.2 # Enhanced June 18, 2020.
+declare versionID=1.2.3 # Updated June 19, 2020.
+let currentHelp=3 # Defined in html help comments as helpversion.
+let scriptRevision=12 # Keeps track of tweaks. Value 12 in version 1.2.3. 
+declare alatermSite=https://raw.githubusercontent.com/cargocultprog/alaterm # Main site.
 # Usage within Termux home on selected Android devices:
 # bash alaterm.bash action
 #   where action is one of: install remove help
 #   abbreviated as: i r h
-# Interactive script. Requires meaningful user response from time to time.
-# You cannot just launch it and walk away while it works.
+# Interactive script. May require meaningful user response from time to time.
+# If lucky, you can just launch it and walk away while it works.
 #
 # Copyright and License at bottom of this file.
 #

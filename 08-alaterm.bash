@@ -1,6 +1,6 @@
 # Part of the alaterm project, https://github.com/cargocultprog/alaterm/
 # This file is: https://raw.githubusercontent.com/cargocultprog/alaterm/master/08-alaterm.bash
-# Updated for version 1.2.2.
+# Updated for version 1.2.3.
 
 echo "$(caller)" | grep -F 00-alaterm.bash >/dev/null 2>&1
 if [ "$?" -ne 0 ] ; then
@@ -242,22 +242,32 @@ fix_etcProfile() { #in /etc.
 }
 
 update_help() { # In /usr/local/help.
-	helpval="$(grep helpversion help-alaterm-0.html | sed 's/.*=//g' | sed 's/ .*//g')"
+	helpval="$(grep helpversion help-alaterm-0.html | sed 's/.*=//g' | sed 's/ .*//g')" 2>/dev/null
 	helpnum="$(($helpval + 0))" 2>/dev/null
 	if [ "$?" -eq 0 ] ; then
-		if [ "$helpnum" -lt 2 ] ; then # 2 at v. 1.2.2.
+		if [ "$helpnum" -lt "$currentHelp" ] ; then
 			echo "Updating help files..."
-			rm -f help-alaterm*
+			mv help-alaterm-0.html help-alaterm-0.html.old 2>/dev/null
 			wget -t 3 -T 3 $alatermSite/master/help-alaterm-0.html >/dev/null 2>&1
+			if [ "$?" -eq 0 ] ; then rm -f help-alaterm-0.html.old
+			else mv help-alaterm-0.old help-alaterm-0.html 2>/dev/null ; fi
+			mv help-alaterm-1.html help-alaterm-1.html.old 2>/dev/null
 			wget -t 3 -T 3 $alatermSite/master/help-alaterm-1.html >/dev/null 2>&1
+			if [ "$?" -eq 0 ] ; then rm -f help-alaterm-1.html.old
+			else mv help-alaterm-1.old help-alaterm-1.html 2>/dev/null ; fi
+			mv help-alaterm-2.html help-alaterm-2.html.old 2>/dev/null
 			wget -t 3 -T 3 $alatermSite/master/help-alaterm-2.html >/dev/null 2>&1
+			if [ "$?" -eq 0 ] ; then rm -f help-alaterm-2.html.old
+			else mv help-alaterm-2.old help-alaterm-2.html 2>/dev/null ; fi
+			mv help-alaterm-3.html help-alaterm-3.html.old 2>/dev/null
 			wget -t 3 -T 3 $alatermSite/master/help-alaterm-3.html >/dev/null 2>&1
+			if [ "$?" -eq 0 ] ; then rm -f help-alaterm-3.html.old
+			else mv help-alaterm-3.old help-alaterm-3.html 2>/dev/null ; fi
 		fi
 	fi
 }
 
 if [ "$nextPart" -ge 8 ] ; then # This part repeats, if necessary.
-	alatermSite=https://raw.githubusercontent.com/cargocultprog/alaterm # Also defined in 07.
 	cd "$hereiam"
 	source fixexst-scripts.bash
 	cd "$alatermTop/usr/local/scripts"
@@ -301,7 +311,7 @@ if [ "$nextPart" -ge 8 ] ; then # This part repeats, if necessary.
 	cd "$hereiam"
 	echo -e "\n\e[1;92mDONE. To launch alaterm, command:  $launchCommand\e[0m\n"
 	let nextPart=9
-	echo "let scriptRevision=12" >> "$alatermTop/status" # Revision 12 at v 1.2.2.
+	echo "let scriptRevision=$scriptRevision" >> "$alatermTop/status"
 	echo "let nextPart=9" >> "$alatermTop/status"
 fi
 

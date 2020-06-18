@@ -2,15 +2,16 @@
 
 #### UPDATE
 
-On June 18, 2020, alaterm is updated to version 1.2.2.
+On June 19, 2020, alaterm is updated to version 1.2.3.
 
 If you already have alaterm installed, you can apply the update with these steps:
 (a) If you retained any of the previous installer scripts, delete them.
 (b) Download the latest 00-alaterm.bash script.
 (c) Termux command: `bash 00-alaterm.bash install`
 
-The update does not re-install.
-It merely changes a few files in the existing alaterm installation. Very quick.
+Very quick. The update does not re-install.
+It merely changes a few files in the existing alaterm installation,
+and downloads newer help files.
 
 #### REMINDERS:
 
@@ -28,13 +29,15 @@ and it works for me. It has been working for over six months now!
 If it does not work for you, the fix is probably
 something simple such as my failure to upload the correct code.
 
-#### June 18, 2020
+#### June 18-19, 2020
 
-Updated to version 1.2.2.
+Updated to version 1.2.3.
 
 Tweaked the order of PATH to be more standard.
 
 Added ability to auto-detect TeXLive if installed via TUG instead of pacman.
+
+Revised HELP files.
 
 #### June 6, 2020
 
