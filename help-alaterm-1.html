@@ -9,7 +9,7 @@
 <!-- Download into alaterm is automatic, during installation. -->
 <!-- File location /usr/local/help/help-alaterm-0.html -->
 <!-- If you are reading this at GitHub, it may appear as plain text. -->
-<!-- let helpversion=2 -->
+<!-- helpversion=3 -->
 
 <title>HELP for alaterm - 1</title>
 
@@ -63,10 +63,11 @@ at connection 127.0.0.1:5901.</li>
 <ul>
 
 <li>Alaterm is <i>not</i> an Android app. To use alaterm, you need
-<a href="https://play.google.com/store/apps/details?id=com.termux">Termux</a>, which <i>is</i> an Android app.</li>
+<a href="https://play.google.com/store/apps/details?id=com.termux">Termux</a>,
+which <i>is</i> an Android app.</li>
 
 <li>Alaterm sits entirely within Termux. If you uninstall Termux, you lose alaterm.
-However, if you choose the default installation for alaterm, then clearing Termux $PREFIX/usr
+However, if you choose the default installation for alaterm, then clearing Termux $PREFIX
 does not delete alaterm.</li>
 
 <li>After alaterm is installed, you may continue to use Termux.
@@ -149,7 +150,7 @@ Login is automatic, so you will not be asked for username or password.</li>
 <li>When you connect to VNC viewer, the network password is <b>password</b>.</li>
 
 <li>Only on rare occasions will you need to use <b>sudo</b>
-to obtain a higher level of privilege. No paswod is required.</li>
+to obtain a higher level of privilege. No password is required.</li>
 
 <li> Only on the rarest occasions (probably never)
 will you need to use <b>su</b> to become the root user.
@@ -183,7 +184,7 @@ at the top level of the file hierarchy, just as if it were installed as an ordin
 <li>Some programs, such as daemons and services, cannot work in "proot" because they require
 true access to the top level. But Android itself is at the top level.</li>
 
-<li>Alaterm does not know about Android. Termuyx handles communication between alaterm and Android.</li>
+<li>Alaterm does not know about Android. Termux handles communication between alaterm and Android.</li>
 
 <li>The "proot" does not completely jail alaterm. If you have granted Termux permission
 to access shared files, then alaterm can also access those files.</li>
@@ -216,11 +217,12 @@ then there is nothing alaterm can do about that.</li>
 
 <li>If you have an Android device, but it does not have an ARM CPU, then
 the alaterm developer has no way to verify whether the scripts work or not.
-The same applies if the device has an ARM CPU but does not run Android.</li>
+The same applies if the device has an ARM CPU but does not run Android.
+So, the alaterm installer rejects such machines.</li>
 
 <li>On the other hand, if alaterm installs on your device, but fails to launch
 or exhibits unexpected behavior with the basic set of programs, then maybe
-something can be done about it.</li>
+something can be done about it. Create an issue at the GitHub project page.</li>
 
 <li>If alaterm works for you, or if your device has other software that
 blocks alaterm installation, then you are invited to mention it.

@@ -8,7 +8,7 @@
 <!-- This file is intended to be viewed in a web browser. -->
 <!-- Download into Alaterm is automatic. -->
 <!-- If you are reading this at GitHub, it may appear as plain text. -->
-<!-- let helpversion=2 -->
+<!-- helpversion=3 -->
 
 
 <title>HELP for Alaterm - 3</title>
@@ -148,7 +148,7 @@ Now the "fresh" (edge) version also works.</li>
 Android has many native apps that can create documents, show slide presentations,
 calculate spreadsheets, and even maintain a small database.
 Many of them are linked to "cloud" storage via Microsoft or Google, or other providers.
-In some cases, your little device sends information to the greate computer in the sky,
+In some cases, your little device sends information to the great computer in the sky,
 which does the heavy work for you, saves the information, and returns processed results to you.
 The only reason to use LibreOffice locally is if you are not often connected to cloud storage,
 or you have existing documents that must use the LibreOffice file formats.</li>
@@ -187,18 +187,21 @@ download the online installer <code>install-tl-unx.tar.gz</code>.
 Often best, and up to date:<br/>
 <a href="https://www.tug.org/texlive/acquire-netinstall.html">TUG acquire netinstall</a><br/>
 Unpack it. Then launch the installer:<br/>
-<code>perl install-tl</code><br/>
-If you wish, you can use something other than <code>TERMUXHOME=~/termux</code>.
-It might be best to put a dot in front of the directory name,
-so that you do not accidentally delete it if you clean out your home folder.
-If you use the other default directories, then alaterm will be able to find them automatically.
-You may need to logout and relaunch alaterm.
+<code>perl install-tl</code>
+<ul>
+<li>If your Android architecture is armv7 (32-bit), you can use the armv6 or armhf binaries.</li>
+<li>Using <code>TEXMFHOME=~/texmfhome</code> is not best.<br/>
+Better is <code>TEXMFHOME=~/.texmfhome</code>, with a dot,
+so that you do not accidentally delete it if you clean out your home folder.</li>
+<li>Keep the other default directories. Alaterm will be able to find them automatically.</li>
+<li>You may need to logout and relaunch alaterm, before using TeX.</li>
+</ul>
 </li>
 
 <li>You can install TeXworks, TeXmaker, TeXstudio:<br/>
-pacman -S texworks<br/>
-pacman -S texmaker<br/>
-pacman -S texstudio<br/>
+<code>pacman -S texworks</code><br/>
+<code>pacman -S texmaker</code><br/>
+<code>pacman -S texstudio</code><br/>
 TeXworks and TeXstudio are equally happy with TeX from either pacman or TUG.
 But TeXmaker cannot find a TUG installation unless you do some file tweaking.
 Proof left to student.
@@ -235,9 +238,7 @@ in the LXDE Menu.</li>
 
 <li><b>Gedit.</b> This text editor is my favorite, except for Notepad++ (which is Windows only).
 Unlike the simpler Leafpad, Gedit offers tabs and plugins.
-Unlike the programmer-oriented Geany, Gedit is not as much "in your face" for non-programmers.
-A trick is required to  make Gedit work correctly in alaterm.
-Fortunately, the trick is scripted by alaterm as of April 3, 2020:<br/>
+Unlike the programmer-oriented Geany, Gedit is not as much "in your face" for non-programmers:<br/>
 <code>pacman -S gedit gedit-plugins</code>
 </li>
 
