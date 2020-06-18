@@ -8,7 +8,7 @@
 <!-- This file is intended to be viewed in a web browser. -->
 <!-- Download into Alaterm is automatic. -->
 <!-- If you are reading this at GitHub, it may appear as plain text. -->
-<!-- let helpversion=1 -->
+<!-- let helpversion=2 -->
 
 
 <title>HELP for Alaterm - 3</title>
@@ -162,6 +162,8 @@ Do not even dream of creating a massive relational database on your device.</li>
 <li>You might or might not be able to print to a Bluetooth printer.
 You can definitely export files to PDF, move the PDF to where Android can see it, then print from there.</li>
 
+<li>After installing LibreOffice, logout of alaterm, then relaunch it.</li>
+
 </ul>
 
 
@@ -173,31 +175,54 @@ You can definitely export files to PDF, move the PDF to where Android can see it
 <li>The TeX typesetter, also known as LaTeX and TeXLive, works well.
 It can process via command line, or with GUI programs.</li>
 
-<li>The command-line TeXLive files can be installed directly into Termux,
-without the need for alaterm. Or they can be installed into alaterm. Or both!</li>
+<li>TeXLive can be installed in Termux alone, or in alaterm alone, or in both. They are independent.</li>
 
-<li>If you already have a good, working TeX installation in Termux,
-and if you intend to use it by command-line and/or TeXWorks GUI,
-then you do not need to install TeX in alaterm.
-<ul>
-<li>You can directly access the Termux command-line TeX programs, by typing its commands in alaterm.</li>
-<li>You can install the TeXWorks GUI in alaterm, and it will be able to use the TeX software
-from Termux.</li>
-</ul>
-</li>
-
-<li>If you do not already have a good, working TeX installation in Termux,
-then you can install it in alaterm:<br/>
+<li>To install TeXLive in alaterm, using pacman (not always best):<br/>
 <code>pacman -S texlive-most</code><br/>
 That will ask you which parts you require. TeXLive is inherently a very large installation,
 perhaps up to a Gigabyte. Do not install parts that you do not expect to need.</li>
 
-<li>You can install TeXMaker and TeXStudio in alaterm, but in these cases
-you will also have to install TeX into alaterm.</li>
+<li>To install TeXLive in alaterm, directly from the TeX User Group (TUG) page,
+download the online installer <code>install-tl-unx.tar.gz</code>.
+Often best, and up to date:<br/>
+<a href="https://www.tug.org/texlive/acquire-netinstall.html">TUG acquire netinstall</a><br/>
+Unpack it. Then launch the installer:<br/>
+<code>perl install-tl</code><br/>
+If you wish, you can use something other than <code>TERMUXHOME=~/termux</code>.
+It might be best to put a dot in front of the directory name,
+so that you do not accidentally delete it if you clean out your home folder.
+If you use the other default directories, then alaterm will be able to find them automatically.
+You may need to logout and relaunch alaterm.
+</li>
 
-<li>There is no <b>tlmgr</b> program for managing TeX in alaterm.</li>
+<li>You can install TeXworks, TeXmaker, TeXstudio:<br/>
+pacman -S texworks<br/>
+pacman -S texmaker<br/>
+pacman -S texstudio<br/>
+TeXworks and TeXstudio are equally happy with TeX from either pacman or TUG.
+But TeXmaker cannot find a TUG installation unless you do some file tweaking.
+Proof left to student.
+</li>
 
-<li>The resulting PDF files can be viewed by <b>Evince</b>, called "Document Viewer"
+<li>The various TeX GUI programs may be unable to save their preference files.
+There is no obvious fix for this. However, if you know where their preferences are kept,
+and you know how to manually write the necessary key-values,
+then the GUI may be able to read them.
+</li>
+
+<li>If pacman <code>tlmgr</code> does not allow you to install or update TeX packages,
+then have a look at these two web pages for solutions. The TUG version seems OK.
+<ul>
+<li><a href="https://forum.manjaro.org/t/local-tex-live-is-older-than-remote-repository/138209">
+local-tex-live-is-older-than-remote-repository</a>
+</li>
+<li><a href="https://wiki.archlinux.org/index.php/TeX_Live">
+Arch Linux TeXlive, configuring tlmgr</a>
+</li>
+</ul>
+</li>
+
+<li>PDF files can be viewed by <b>Evince</b>, called "Document Viewer"
 in the LXDE Menu.</li>
 
 </ul>
