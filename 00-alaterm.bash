@@ -400,7 +400,7 @@ scriptSignal() { # Run on various interrupts. Ensures wakelock is removed.
 	release_termuxWakeLock
 	echo -e "$WARNING Signal ${?} received."
 	echo "This script will now exit.$wakelockMessage"
-	echo "You may re-launch script. Resumes where it left off.\n" ; exit 1
+	echo -e "You may re-launch script. Resumes where it left off.\n" ; exit 1
 }
 
 scriptExit() {
