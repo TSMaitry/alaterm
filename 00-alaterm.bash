@@ -1,9 +1,9 @@
 #!/bin/bash
 # Part of the alaterm project, https://github.com/cargocultprog/alaterm/
 # This file is: https://raw.githubusercontent.com/cargocultprog/alaterm/master/00-alaterm.bash
-declare versionID=1.2.3 # Updated June 19, 2020.
+declare versionID=1.2.3 # Updated June 21, 2020. Minor tweak.
 let currentHelp=3 # Defined in html help comments as helpversion.
-let scriptRevision=12 # Keeps track of tweaks. Value 12 in version 1.2.3. 
+let scriptRevision=13 # Keeps track of tweaks. Value 13 in version 1.2.3, with minor tweak.
 declare alatermSite=https://raw.githubusercontent.com/cargocultprog/alaterm # Main site.
 # Usage within Termux home on selected Android devices:
 # bash alaterm.bash action
@@ -553,17 +553,16 @@ fi
 cd "$pwDir"
 
 ## If necessary, download the component scripts to the current directory:
-export mainurl="https://raw.githubusercontent.com/cargocultprog/alaterm/master"
 cd "$hereiam"
 echo -e "\e[1;92mDownloading scripts from the alaterm repository at GitHub...\e[0m"
 for nn in 01 02 03 04 05 06 07 08
 do
 	if [ ! -r "$nn-alaterm.bash" ] ;then
-		wget "$mainurl/$nn-alaterm.bash" >/dev/null 2>&1
+		wget $alatermSite/master/$nn-alaterm.bash >/dev/null 2>&1
 	fi
 done
 if [ ! -r fixexst-scripts.bash ] ; then
-	wget "$mainurl/fixexst-scripts.bash" >/dev/null 2>&1
+	wget $alatermSite/master/fixexst-scripts.bash >/dev/null 2>&1
 fi
 
 ## Verify that the component scripts are here:
