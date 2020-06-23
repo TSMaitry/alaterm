@@ -1,9 +1,9 @@
 #!/bin/bash
 # Part of the alaterm project, https://github.com/cargocultprog/alaterm/
 # This file is: https://raw.githubusercontent.com/cargocultprog/alaterm/master/00-alaterm.bash
-declare versionID=1.2.3 # Updated June 21, 2020. Minor tweak.
+declare versionID=1.2.4 # Updated June 23, 2020.
 let currentHelp=3 # Defined in html help comments as helpversion.
-let scriptRevision=13 # Keeps track of tweaks. Value 13 in version 1.2.3, with minor tweak.
+let scriptRevision=14 # Keeps track of tweaks. Value 14 in version 1.2.4.
 declare alatermSite=https://raw.githubusercontent.com/cargocultprog/alaterm # Main site.
 # Usage within Termux home on selected Android devices:
 # bash alaterm.bash action
@@ -321,7 +321,7 @@ check_freeSpace() { # Improved in script version 1.2.0, I hope.
 	dataline="$(df -h . 2>/dev/null | grep /data$ | gawk 'FNR == 1 {print $4}')" 2>/dev/null
 	if [[ "$dataline" =~ G ]] ; then
 		datanum="${dataline//G}"
-		datanumnum="$((datanum + 0))"
+		let datanumnum="$((datanum + 0))"
 	fi
 	if [ "$datanumnum" -lt 3 ] ; then
 		echo "$WARNING Test reports less than 3G internal free space."
