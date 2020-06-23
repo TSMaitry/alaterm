@@ -1,9 +1,9 @@
 #!/bin/bash
 # Part of the alaterm project, https://github.com/cargocultprog/alaterm/
 # This file is: https://raw.githubusercontent.com/cargocultprog/alaterm/master/00-alaterm.bash
-declare versionID=1.2.4 # Updated June 23, 2020.
+declare versionID=1.2.5 # Updated June 23, 2020.
 let currentHelp=3 # Defined in html help comments as helpversion.
-let scriptRevision=14 # Keeps track of tweaks. Value 14 in version 1.2.4.
+let scriptRevision=15 # Keeps track of tweaks. Value 15 in version 1.2.5.
 declare alatermSite=https://raw.githubusercontent.com/cargocultprog/alaterm # Main site.
 # Usage within Termux home on selected Android devices:
 # bash alaterm.bash action
@@ -321,10 +321,11 @@ check_freeSpace() { # Improved in script version 1.2.0, I hope.
 	dataline="$(df -h . 2>/dev/null | grep /data$ | gawk 'FNR == 1 {print $4}')" 2>/dev/null
 	if [[ "$dataline" =~ G ]] ; then
 		datanum="${dataline//G}"
-		let datanumnum="$((datanum + 0))"
+		datanum="${datanum// }"
+		[[ "$datanum" =~ ^[0-9]*$ ]] && let datanumnum="$((datanum + 0))"
 	fi
 	if [ "$datanumnum" -lt 3 ] ; then
-		echo "$WARNING Test reports less than 3G internal free space."
+		echo -e "$WARNING Test reports less than 3G internal free space."
 		echo "Minimal alaterm cannot be installed with less than 3G."
 		echo "However, this test is not foolproof."
 		echo "If your Android system file manager shows enough space,"
@@ -332,7 +333,7 @@ check_freeSpace() { # Improved in script version 1.2.0, I hope.
 		echo "What do you wish to do?"
 		echo "  p = Proceed. File manager shows enough internal free space."
 		echo "  x = Exit. Not enough space. Maybe clean up files, try again."
-		echo "Now $enter your choice: [p|X] : " ; read readvar
+		echo -e "Now $enter your choice: [p|X] : " ; read readvar
 		case "$readvar" in
 			p*|P* ) echo "Continuing, at your request..." ;;
 			* ) echo "You did not request to proceed." ; exit 1 ;;

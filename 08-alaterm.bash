@@ -1,6 +1,6 @@
 # Part of the alaterm project, https://github.com/cargocultprog/alaterm/
 # This file is: https://raw.githubusercontent.com/cargocultprog/alaterm/master/08-alaterm.bash
-# Updated for version 1.2.3.
+# Updated for version 1.2.5.
 
 echo "$(caller)" | grep -F 00-alaterm.bash >/dev/null 2>&1
 if [ "$?" -ne 0 ] ; then
@@ -242,8 +242,9 @@ fix_etcProfile() { #in /etc.
 }
 
 update_help() { # In /usr/local/help.
+	let helpnum=0
 	helpval="$(grep helpversion help-alaterm-0.html | sed 's/.*=//g' | sed 's/ .*//g')" 2>/dev/null
-	helpnum="$(($helpval + 0))" 2>/dev/null
+	[[ "$helpval" =~ ^[0-9]*$ ]] && let helpnum="$(($helpval + 0))" 2>/dev/null
 	if [ "$?" -eq 0 ] ; then
 		if [ "$helpnum" -lt "$currentHelp" ] ; then
 			echo "Updating help files..."
