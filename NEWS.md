@@ -2,7 +2,7 @@
 
 #### UPDATE
 
-On June 19, 2020, alaterm is updated to version 1.2.3.
+On June 23, 2020, alaterm is updated to version 1.2.4.
 
 If you already have alaterm installed, you can apply the update with these steps:
 (a) If you retained any of the previous installer scripts, delete them.
