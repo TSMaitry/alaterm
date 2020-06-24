@@ -1,10 +1,10 @@
 #!/bin/bash
 # Part of the alaterm project, https://github.com/cargocultprog/alaterm/
 # This file is: https://raw.githubusercontent.com/cargocultprog/alaterm/master/00-alaterm.bash
-declare versionID=1.2.5 # Updated June 23, 2020.
+declare versionID=1.2.6 # Updated June 24, 2020.
 let currentHelp=3 # Defined in html help comments as helpversion.
-let scriptRevision=15 # Keeps track of tweaks. Value 15 in version 1.2.5.
-declare alatermSite=https://raw.githubusercontent.com/cargocultprog/alaterm # Main site.
+let scriptRevision=16 # Keeps track of tweaks. Value 16 in version 1.2.6.
+declare alatermSite=https://raw.githubusercontent.com/cargocultprog/alaterm # Main site, raw code.
 # Usage within Termux home on selected Android devices:
 # bash alaterm.bash action
 #   where action is one of: install remove help
@@ -225,7 +225,8 @@ declare CPUABI8="arm64-v8a" # 64-bit. Do not confuse with arm-v8l CPU.
 declare isRooted="no" # Issues warning if your device is rooted.
 declare termuxProxy="no" # Issues warning if Termux has proxy server.
 declare priorInstall="no" # Yes if attempting to over-write previous.
-let userSpace=0 # Will become integer GB available for install.
+let userSpace=-1 # For free space calculation.
+declare preInstallFreeSpace="unknown" # Becomes integer GB available for install.
 let priorUpdate=0 # Possible future use.
 let priorChecktime=0 # Possible future use.
 declare termuxPrefix="$PREFIX" # Equivalent of /usr, within Termux.
@@ -316,21 +317,17 @@ check_ABI() { # Check Android software compatibility.
 	[ "$kVer" -lt 4 ] && reject_incompatibleSystem # Ignore old products.
 }
 
-check_freeSpace() { # Improved in script version 1.2.0, I hope.
-	let datanumnum=0
+check_freeSpace() { # Improved in script version 1.2.6 to handle unexpected return from df.
 	dataline="$(df -h . 2>/dev/null | grep /data$ | gawk 'FNR == 1 {print $4}')" 2>/dev/null
 	if [[ "$dataline" =~ G ]] ; then
-		datanum="${dataline//G}"
-		datanum="${datanum// }"
-		[[ "$datanum" =~ ^[0-9]*$ ]] && let datanumnum="$((datanum + 0))"
+		datanum="$(echo $dataline | sed 's/G//g' | sed 's/\..*//g')"
+		[[ "$datanum" =~ ^[0-9]*$ ]] && let userSpace="$((datanum + 0))"
 	fi
-	if [ "$datanumnum" -lt 3 ] ; then
-		echo -e "$WARNING Test reports less than 3G internal free space."
-		echo "Minimal alaterm cannot be installed with less than 3G."
-		echo "However, this test is not foolproof."
-		echo "If your Android system file manager shows enough space,"
-		echo "then you may proceed. Removable media does not count."
-		echo "What do you wish to do?"
+	if [ "$userSpace" -eq -1 ] ; then
+		echo -e "$WARNING Test was unable to calculate internal free space."
+		echo "Use the Android file manager to manually check free space."
+		echo "Do not include removable media."
+		echo "After that check, what do you wish to do?"
 		echo "  p = Proceed. File manager shows enough internal free space."
 		echo "  x = Exit. Not enough space. Maybe clean up files, try again."
 		echo -e "Now $enter your choice: [p|X] : " ; read readvar
@@ -338,15 +335,23 @@ check_freeSpace() { # Improved in script version 1.2.0, I hope.
 			p*|P* ) echo "Continuing, at your request..." ;;
 			* ) echo "You did not request to proceed." ; exit 1 ;;
 		esac
-	elif [ "$datanumnum" -lt 4 ] ; then
+	elif [ "$userSpace" -lt 3 ] ; then
+		echo -e "$PROBLEM Test reports less than 3G internal free space."
+		echo "Minimal alaterm cannot be installed with less than 3G."
+		exit 1
+	elif [ "$userSpace" -lt 4 ] ; then
 		echo "$WARNING Test reports less than 4G internal free space."
 		echo "Enough for minimal alaterm, but not many useful programs."
-	elif [ "$datanumnum" -lt 5 ] ; then
+	elif [ "$userSpace" -lt 5 ] ; then
 		echo "$WARNING Test reports less than 5G internal free space."
 		echo "Enough for alaterm and some useful programs, but not deluxe."
 	else
 		echo "Test reports at least 5G internal free space."
 		echo "That is enough for alaterm and many useful programs."
+	fi
+	if [ "$userSpace" -ne -1 ] ; then
+		preInstallFreeSpace="$userSpace"
+		preInstallFreeSpace+="G"
 	fi
 }
 
@@ -520,7 +525,7 @@ termuxProxy="$termuxProxy" # Was a proxy detected?
 CPUABI="$CPUABI" # Your device.
 CPUABI7="armeabi-v7a" # 32-bit. May or may not be Chromebook.
 CPUABI8="arm64-v8a" # 64-bit. Do not confuse with arm-v8l CPU.
-userSpace="$userSpace" # Only checked once.
+preInstallFreeSpace="$preInstallFreeSpace" # Only checked once. Integer.
 priorInstall="$priorInstall" # If replacing an earlier installation.
 let priorUpdate=0 # Possible future use.
 let priorChecktime=0 # Possible future use.
@@ -541,6 +546,17 @@ if [ "$nextPart" -eq 0 ] ; then
 		create_statusFile
 		chmod 666 status
 		echo -e "Your device passed preliminary inspection. Continuing...\n"
+	fi
+	if [ "$devext" = "-dev" ] ; then
+		printf "Proceed to update Termux? [Y|n] : " ; read readvar
+		case "$readvar" in
+			n*|N* ) cd "$hereiam"
+				echo -e "Contents of status file, before erasure:\n"
+				cat "$alatermTop/status"
+				rm -rf "$alatermTop"
+				echo -e "\nExiting at your request" ; exit 0 ;;
+			* ) true ;;
+		esac
 	fi
 	update_termuxPackages
 	get_moreTermux
@@ -583,9 +599,13 @@ if [ "$allhere" = "no" ] ; then
 	echo "Wait awhile, then re-launch this script. Exit."
 	exit 1
 else
-	echo -e "\e[92mGot the scripts. Continuing...\e[0m"
-	echo "Android may ask if you wish to stop optimizing battery usage."
-	echo "You may allow or deny, but installation is faster if you allow."
+	echo -e "\e[1;92mGot the scripts. IMPORTANT:\e[0m"
+	echo "The installer will now request a wakelock."
+	echo "Android may show a popup message."
+	echo "For faster processing, allow it to stop optimizing battery usage."
+	echo "Optimize will be restored when the script completes or fails."
+	echo "If you deny, then the installer will work, but slower."
+	printf "Now hit $enter to continue: " ; read readvar
 fi
 
 if [ "$devext" = "-dev" ] ; then

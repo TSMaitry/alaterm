@@ -2,7 +2,7 @@
 
 #### UPDATE
 
-On June 23, 2020, alaterm is updated to version 1.2.5.
+On June 24, 2020, alaterm is updated to version 1.2.6.
 
 If you already have alaterm installed, you can apply the update with these steps:
 (a) If you retained any of the previous installer scripts, delete them.
@@ -29,9 +29,9 @@ and it works for me. It has been working for over six months now!
 If it does not work for you, the fix is probably
 something simple such as my failure to upload the correct code.
 
-#### June 18-23, 2020
+#### June 18-24, 2020
 
-Updated to version 1.2.5.
+Updated to version 1.2.6.
 
 Tweaked the order of PATH to be more standard.
 
@@ -39,7 +39,7 @@ Added ability to auto-detect TeXLive if installed via TUG instead of pacman.
 
 Revised HELP files.
 
-Changed method of free space detection.
+Changed method of free space detection, to accomodate unexpected results.
 
 #### June 6, 2020
 
