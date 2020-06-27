@@ -2,7 +2,7 @@
 
 #### UPDATE
 
-On June 24, 2020, alaterm is updated to version 1.2.6.
+On June 30, 2020, alaterm is updated to version 1.2.8.
 
 If you already have alaterm installed, you can apply the update with these steps:
 (a) If you retained any of the previous installer scripts, delete them.
@@ -28,6 +28,10 @@ be sure to start an issue on this site. I test my code before uploading,
 and it works for me. It has been working for over six months now!
 If it does not work for you, the fix is probably
 something simple such as my failure to upload the correct code.
+
+#### June 30, 2020
+
+Updated to version 1.2.8. Minor code cleanup.
 
 #### June 18-24, 2020
 
