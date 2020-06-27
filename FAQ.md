@@ -125,8 +125,8 @@ that you already have alaterm there, so all it needs to do is update.
 
 ##### Q. How often is alaterm updated?
 
-A. Since alaterm is merely an installer script, it is rarely updated.
-However, the installed programs are frequently updated.
+A. Alaterm is merely an installer script. It is occasionally updated for bugs or features.
+The installed programs are frequently updated by the Arch Linux ARM project.
 
 
 ##### Q. If I uninstall Termux, what happens?
@@ -183,9 +183,16 @@ Or, if you only need a command-line program such as TeXLive or ffmpeg,
 then you do not need any GUI.
 
 
-##### If I root my device, does that make alaterm better?
+##### Q. If I root my device, does that make alaterm better?
 
-A. I do not know, and do not care.
+A. I do not know, and do not care. Do not even ask about rooting.
+
+
+##### Q. Can the installer script be modified for a different Linux distro?
+
+A. No. The installer is specific to Arch Linux ARM.
+It is not as simple as changing the name to some other distro.
+Besides, most other distros do not have code compiled for ARM processors.
 
 
 ##### Q. Can I contribute to this project?

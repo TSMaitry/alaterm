@@ -1,6 +1,6 @@
 # Part of the alaterm project, https://github.com/cargocultprog/alaterm/
 # This file is: https://raw.githubusercontent.com/cargocultprog/alaterm/master/08-alaterm.bash
-# Updated for version 1.2.6.
+# Updated for version 1.2.8.
 
 echo "$(caller)" | grep -F 00-alaterm.bash >/dev/null 2>&1
 if [ "$?" -ne 0 ] ; then
@@ -241,6 +241,33 @@ fix_etcProfile() { #in /etc.
 	fi
 }
 
+add_banMenuItems() { # In /usr/local/scripts.
+	grep qdbusviewer ban-menu-items >/dev/null 2>&1
+	[ "$?" -ne 0 ] && add_bans_one
+}
+
+add_bans_one() { # Modifies /usr/local/scripts/ban-menu-items.
+cat << 'EOC' >> "ban-menu-items" # No hyphen, quoted marker, double gt.
+# Some programs also install Qt, which has its own menu items that do not work.
+declare -A nomenu1
+nomenu1[assistant]="Qt Assistant"
+nomenu1[designer]="Qt Designer"
+nomenu1[linguist]="Qt Linguist"
+nomenu1[qdbusviewer]="Qt dbus Viewer"
+for i in "${!nomenu1[@]}" ; do
+	if [ -f "/usr/share/applications/$i.desktop" ] ; then
+		echo "[Desktop Entry]" > "$lsa/$i.desktop"
+		echo "Name=${nomenu1[$i]}" >> "$lsa/$i.desktop"
+		echo "Type=Application" >> "$lsa/$i.desktop"
+		echo "NoDisplay=true" >> "$lsa/$i.desktop"
+	elif [ -f "$lsa/$i.desktop" ] ; then
+		rm -f "$lsa/$i.desktop"
+	fi
+done
+##
+EOC
+}
+
 update_help() { # In /usr/local/help.
 	let helpnum=0
 	helpval="$(grep helpversion help-alaterm-0.html | sed 's/.*=//g' | sed 's/ .*//g')" 2>/dev/null
@@ -275,6 +302,7 @@ if [ "$nextPart" -ge 8 ] ; then # This part repeats, if necessary.
 	rm -f pkg-config # Fix in v. 1.2.2.
 	create_fakeFunctions
 	create_compileLibde265
+	add_banMenuItems # v. 1.2.8.
 	chmod 755 compile-libde265
 	create_compileLibmad
 	chmod 755 compile-libmad
@@ -312,8 +340,8 @@ if [ "$nextPart" -ge 8 ] ; then # This part repeats, if necessary.
 	cd "$hereiam"
 	echo -e "\n\e[1;92mDONE. To launch alaterm, command:  $launchCommand\e[0m\n"
 	let nextPart=9
-	echo "let scriptRevision=$scriptRevision" >> "$alatermTop/status"
-	echo "let nextPart=9" >> "$alatermTop/status"
+	echo "let scriptRevision=$thisRevision" >> "$alatermTop/status"
+	echo "let nextPart=9" >> "$alatermTop/status" # Fake marker. There is no Part 09.
 fi
 
 

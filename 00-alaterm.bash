@@ -1,9 +1,9 @@
 #!/bin/bash
 # Part of the alaterm project, https://github.com/cargocultprog/alaterm/
 # This file is: https://raw.githubusercontent.com/cargocultprog/alaterm/master/00-alaterm.bash
-declare versionID=1.2.6 # Updated June 24, 2020.
+declare versionID=1.2.8 # Updated June 30, 2020.
+let thisRevision=17 # 17 in version 1.2.8.
 let currentHelp=3 # Defined in html help comments as helpversion.
-let scriptRevision=16 # Keeps track of tweaks. Value 16 in version 1.2.6.
 declare alatermSite=https://raw.githubusercontent.com/cargocultprog/alaterm # Main site, raw code.
 # Usage within Termux home on selected Android devices:
 # bash alaterm.bash action
@@ -227,8 +227,6 @@ declare termuxProxy="no" # Issues warning if Termux has proxy server.
 declare priorInstall="no" # Yes if attempting to over-write previous.
 let userSpace=-1 # For free space calculation.
 declare preInstallFreeSpace="unknown" # Becomes integer GB available for install.
-let priorUpdate=0 # Possible future use.
-let priorChecktime=0 # Possible future use.
 declare termuxPrefix="$PREFIX" # Equivalent of /usr, within Termux.
 declare termuxHome="$HOME" # Where Termux is, at start.
 let termuxTries=0 # Possibly used when intermittent downloads.
@@ -242,6 +240,7 @@ declare prsPre="" # Becomes part of the launch command.
 declare prsUser="" # Becomes part of the launch command.
 declare gotHelp="no" # Becomes yes when help file installed.
 declare gotTCLI="no" # Becomes yes if trash-cli installed.
+let scriptRevision=0 # Becomes thisRevision upon completion.
 let processors=0 # Becomes number of processors in CPU: 4, 6, 8.
 let nextPart=0 # Keeps track of progress. Recorded in status file.
 # Get variables stored by previously running this script, if any:
@@ -527,8 +526,6 @@ CPUABI7="armeabi-v7a" # 32-bit. May or may not be Chromebook.
 CPUABI8="arm64-v8a" # 64-bit. Do not confuse with arm-v8l CPU.
 preInstallFreeSpace="$preInstallFreeSpace" # Only checked once. Integer.
 priorInstall="$priorInstall" # If replacing an earlier installation.
-let priorUpdate=0 # Possible future use.
-let priorChecktime=0 # Possible future use.
 EOC
 }
 

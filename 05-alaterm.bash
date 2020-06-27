@@ -1,6 +1,6 @@
 # Part of the alaterm project, https://github.com/cargocultprog/alaterm/
 # This file is: https://raw.githubusercontent.com/cargocultprog/alaterm/master/05-alaterm.bash
-# Updated for version 1.2.6.
+# Updated for version 1.2.8.
 
 echo "$(caller)" | grep -F 00-alaterm.bash >/dev/null 2>&1
 if [ "$?" -ne 0 ] ; then
@@ -228,6 +228,7 @@ cat << 'EOC' > ".bashrc" # No hyphen, quoted marker.
 rm -f /root/.bash_history
 export PS1='\e[1;38;5;75m[alaterm:\e[1;91mroot\e[1;38;5;75m@\W]#\e[0m '
 echo -e "\e[33mOnly use root if necessary. Root is within alaterm, not Android."
+echo -e "Programs using the GUI cannot be launched from root."
 echo -e "To leave root and return to ordinary alaterm user:  exit\e[0m"
 alias su='exit'
 #
