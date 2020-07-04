@@ -1,6 +1,6 @@
 # File fixexst-scripts.bash
 # Invoked as alalterm install scripts complete.
-# Updated for version 1.2.8.
+# Updated for version 1.2.8.b
 
 create_compileLibde265() { # In /usr/local/scripts.
 cat << 'EOC' > compile-libde265 # No hyphen. Quoted marker. Functions within.
@@ -102,7 +102,7 @@ get_sourcecode() {
 	echo -e "\e[1;92mInstalling support programs...\e[0m"
 	sudo pacman -S --noconfirm --needed gdk-pixbuf2 sdl imagemagick
 	echo -e "\e[1;92mDownloading source code for libde265...\e[0m"
-	cd ~/.source
+	mkdir -p ~/.source && cd ~/.source
 	git clone https://github.com/strukturag/libde265.git
 	configure_libde265
 }
@@ -248,6 +248,7 @@ setup_compiler() {
 }
 get_sourcecode() {
 	echo -e "\e[1;92mDownloading source code for libmad...\e[0m"
+	mkdir -p ~/.source && cd ~/.source
 	git clone https://github.com/markjeee/libmad.git
 	if [ "$?" -ne 0 ] ; then
 		echo -e "\e[1;91mPROBLEM.\e[0m Download failed during git clone libmad."
@@ -383,6 +384,7 @@ setup_compiler() {
 }
 get_sourcecode() {
 	echo -e "\e[1;92mDownloading source code for libmpeg2...\e[0m"
+	mkdir ~/.source && cd ~/.source
 	git clone https://github.com/cisco-open-source/libmpeg2.git
 	if [ "$?" -ne 0 ] ; then
 		echo -e "\e[1;91mPROBLEM.\e[0m Download failed during git clone libmpeg2."
