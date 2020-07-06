@@ -6,7 +6,7 @@ let thisRevision=17 # 17 in version 1.2.8.
 let currentHelp=3 # Defined in html help comments as helpversion.
 declare alatermSite=https://raw.githubusercontent.com/cargocultprog/alaterm # Main site, raw code.
 # Usage within Termux home on selected Android devices:
-# bash alaterm.bash action
+# bash 00-alaterm.bash action
 #   where action is one of: install remove help
 #   abbreviated as: i r h
 # Interactive script. May require meaningful user response from time to time.
@@ -354,11 +354,12 @@ check_freeSpace() { # Improved in script version 1.2.6 to handle unexpected retu
 	fi
 }
 
-check_priorInstall() { # Warn if existing installation in same location.
+check_priorInstall() { # Warn if existing installation in same location, but missing status file.
 	if [ ! -f "$alatermTop/bin/env" ] ; then return ; fi
 	if [ ! -f "$alatermTop/bin/pacman" ] ; then return ; fi
 	if [ -f "$alatermTop/status" ] ; then return ; fi
 	echo -e "$WARNING An installation is already present in $alatermTop."
+	echo "Its status file is missing, so its integrity is unknown."
 	echo "If you install, then you will lose the previous installation."
 	echo "Nothing will be saved. Do you really wish to install?"
 	echo "  y = Yes, install and lose previous installation."
@@ -571,7 +572,7 @@ cd "$hereiam"
 echo -e "\e[1;92mDownloading scripts from the alaterm repository at GitHub...\e[0m"
 for nn in 01 02 03 04 05 06 07 08
 do
-	if [ ! -r "$nn-alaterm.bash" ] ;then
+	if [ ! -r "$nn-alaterm.bash" ] ; then
 		wget $alatermSite/master/$nn-alaterm.bash >/dev/null 2>&1
 	fi
 done
