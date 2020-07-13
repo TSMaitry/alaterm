@@ -1,6 +1,6 @@
 # Part of the alaterm project, https://github.com/cargocultprog/alaterm/
 # This file is: https://raw.githubusercontent.com/cargocultprog/alaterm/master/08-alaterm.bash
-# Updated for version 1.2.8.
+# Updated for version 1.2.8.-b.
 
 echo "$(caller)" | grep -F 00-alaterm.bash >/dev/null 2>&1
 if [ "$?" -ne 0 ] ; then
@@ -197,28 +197,6 @@ create_fakeFunctions() { # In /usr/local/scripts.
 	cp dpkg apt-mark
 }
 
-add_texHunt() { # In /etc. Finds latest TUG TeXLive, if present.
-cat << 'EOC' >> bash.bashrc # No hyphen. Quoted marker. Double gt.
-## If using Internet installer of TUG TeXLive, rather than Arch pacman:
-let i=2010
-texlocalfolder="doesnotexist"
-while [ "$i" -ge 2010 ] ; do
-	if [ -d "/usr/local/texlive/$i" ] ; then texlocalfolder="$i" ; fi
-	((i++))
-	if [ "$i" -gt 2050 ] ; then break ; fi
-done
-if [ -d "/usr/local/texlive/$texlocalfolder/bin" ] ; then
-	tlflist="$(ls /usr/local/texlive/$texlocalfolder/bin)"
-	thearmtype=$(echo "$tlflist" | sed 's/ .*//')
-	if [ -d "/usr/local/texlive/$texlocalfolder/bin/$thearmtype" ] ; then
-		PATH="/usr/local/texlive/$texlocalfolder/bin/$thearmtype:$PATH" ; export PATH
-		export MANPATH="/usr/local/texlive/$texlocalfolder/texmf-dist/doc/man:$MANPATH"
-		export INFOPATH="/usr/local/texlive/$texlocalfolder/texmf-dist/doc/info:$INFOPATH"
-	fi
-fi
-##
-EOC
-}
 
 fix_etcBashBashrc() { # In /etc.
 	sed -i '/alias makepkg/d' bash.bashrc 2>/dev/null
@@ -227,8 +205,9 @@ fix_etcBashBashrc() { # In /etc.
 	sed -i '/Ensure that.*and Termux/d' bash.bashrc
 	sed -i '/PATH.*local\/scripts/d' bash.bashrc
 	sed -i '/PATH.*HOME\/bin/d' bash.bashrc
-	grep "TUG TeXLive" bash.bashrc >/dev/null 2>&1
-	if [ "$?" -ne 0 ] ; then add_texHunt ; fi
+	sed -i 's/-ge 2010/-le 2009/' bash.bashrc 2>/dev/null
+	tlt="If using Internet installer of TUG TeXLive" # Added in v. 1.2.8.
+	sed "/$tlt/,+16d" "$alatermTop/etc/bash.bashrc" # Removed v. 1.2.8-b.
 }
 
 fix_etcProfile() { #in /etc.

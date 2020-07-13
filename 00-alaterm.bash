@@ -2,7 +2,7 @@
 # Part of the alaterm project, https://github.com/cargocultprog/alaterm/
 # This file is: https://raw.githubusercontent.com/cargocultprog/alaterm/master/00-alaterm.bash
 declare versionID=1.2.8 # Updated June 30, 2020.
-let thisRevision=17 # 17 in version 1.2.8.
+let thisRevision=18 # 18 in version 1.2.8.-b.
 let currentHelp=3 # Defined in html help comments as helpversion.
 declare alatermSite=https://raw.githubusercontent.com/cargocultprog/alaterm # Main site, raw code.
 # Usage within Termux home on selected Android devices:
