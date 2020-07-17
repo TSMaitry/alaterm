@@ -2,7 +2,7 @@
 
 #### UPDATE
 
-On July 17, 2020, alaterm is updated to version 1.4.0.
+On July 18, 2020, alaterm is updated to version 1.4.2.
 
 If you already have alaterm installed, you can apply the update with these steps:
 (a) If you retained any of the previous installer scripts, delete them.
@@ -29,9 +29,9 @@ and it works for me. It has been working for over six months now!
 If it does not work for you, the fix is probably
 something simple such as my failure to upload the correct code.
 
-#### July 17, 2020
+#### July 17-18, 2020
 
-Updated to version 1.4.0. Minor code cleanup.
+Updated to version 1.4.2. Minor code cleanup. Better permissions.
 
 #### June 30, 2020
 

@@ -1,6 +1,6 @@
 # Part of the alaterm project, https://github.com/cargocultprog/alaterm/
 # This file is: https://raw.githubusercontent.com/cargocultprog/alaterm/master/08-alaterm.bash
-# Updated for version 1.4.0.
+# Updated for version 1.4.2.
 
 echo "$(caller)" | grep -F 00-alaterm.bash >/dev/null 2>&1
 if [ "$?" -ne 0 ] ; then
@@ -60,14 +60,14 @@ fi
 # This gives you the opportunity to manually identify the problem from Termux,
 # in case it was not fixed, without an infinite do-loop.
 alatermstatnow="$(stat --format '%a' $alatermTop)"
-if [ "$alatermstatnow" = "100" ] ; then
-	chmod 755 "$alatermTop"
+if [ "$alatermstatnow" = "550" ] ; then
+	chmod 750 "$alatermTop"
 	echo -e "\e[1;33mINFO:\e[0m The last time you used alaterm, you did not logout correctly."
 	echo "That caused a problem. It has now been fixed automatically."
 	echo "This launch script will now exit. You may re-launch it."
 	exit 1
 fi
-chmod 100 "$alatermTop" # Makes alaterm / invisible in PCManFM.
+chmod 550 "$alatermTop" # Makes alaterm / invisible in PCManFM.
 # The proot string tells how alaterm is configured within its proot confinement.
 # Actually, it is not much confinement, since alaterm can access most outside files,
 # and can even run a few Termux executables.
@@ -88,7 +88,7 @@ unset LD_PRELOAD
 # Now to launch alaterm:
 eval "exec $prsUser"
 # The above command continues to run, until logout of alaterm. After logout:
-chmod 755 "$alatermTop" # Restores ability to edit alaterm from Termux.
+chmod 750 "$alatermTop" # Restores ability to edit alaterm from Termux.
 echo -e "\e[1;33mYou have left alaterm, and are now in Termux.\e[0m\n"
 ##
 EOC
@@ -109,8 +109,8 @@ EOC
 restore_launchCommand() { # In Termux home. Deals with situation where $PREFIX is deleted and renewed.
 	grep alaterm_installer .bashrc >/dev/null 2>&1
 	if [ "$?" -ne 0 ] ; then
-		echo "alatermTop=$alatermTop # By_alaterm_installer." >> .bashrc
-		echo "launchCommand=$launchCommand # By_alaterm_installer." >> .bashrc
+		echo "export alatermTop=$alatermTop # By_alaterm_installer." >> .bashrc
+		echo "export launchCommand=$launchCommand # By_alaterm_installer." >> .bashrc
 	fi
 	if [ ! -f "$PREFIX/bin/$launchCommand" ] ; then
 		grep alaterm_installer .bashrc >/dev/null 2>&1
@@ -180,7 +180,7 @@ EOC
 create_fakeFunctions() { # In /usr/local/scripts.
 	echo "#!/bin/bash" > dpkg
 	echo "echo \"In alaterm, use pacman for package management.\"" >> dpkg
-	chmod 755 dpkg
+	chmod 750 dpkg
 	cp dpkg dpkg-deb
 	cp dpkg dpkg-convert
 	cp dpkg dpkg-divert
@@ -207,7 +207,7 @@ fix_etcBashBashrc() { # In /etc.
 	sed -i '/PATH.*HOME\/bin/d' bash.bashrc
 	sed -i 's/-ge 2010/-le 2009/' bash.bashrc 2>/dev/null
 	tlt="If using Internet installer of TUG TeXLive" # Added in v. 1.2.8.
-	sed "/$tlt/,+16d" "$alatermTop/etc/bash.bashrc" # Removed v. 1.2.8-b.
+	sed -i "/$tlt/,+16d" "$alatermTop/etc/bash.bashrc" # Removed v. 1.2.8-b.
 }
 
 fix_etcProfile() { #in /etc.
@@ -282,15 +282,15 @@ if [ "$nextPart" -ge 8 ] ; then # This part repeats, if necessary.
 	create_fakeFunctions
 	create_compileLibde265
 	add_banMenuItems # v. 1.2.8.
-	chmod 755 compile-libde265
+	chmod 750 compile-libde265
 	create_compileLibmad
-	chmod 755 compile-libmad
+	chmod 750 compile-libmad
 	create_compileLibmpeg2
-	chmod 755 compile-libmpeg2
+	chmod 750 compile-libmpeg2
 	create_autoremove
-	chmod 755 autoremove
+	chmod 750 autoremove
 	create_fixDbuslaunch
-	chmod 755 fixdbuslaunch
+	chmod 750 fixdbuslaunch
 	cd "$alatermTop/etc"
 	sed -i '/.*autokill.*/d' bash.bash_logout
 	fix_etcBashBashrc # v. 1.2.2.
@@ -303,7 +303,7 @@ if [ "$nextPart" -ge 8 ] ; then # This part repeats, if necessary.
 	cd "$alatermTop"
 	start_launchCommand
 	finish_launchCommand
-	chmod 755 "$launchCommand"
+	chmod 750 "$launchCommand"
 	cp "$launchCommand" "$PREFIX/bin"
 	grep alaterm ~/.bashrc >/dev/null 2>&1 # In Termux home.
 	if [ "$?" -ne 0 ] ; then
@@ -313,7 +313,7 @@ if [ "$nextPart" -ge 8 ] ; then # This part repeats, if necessary.
 	mkdir -p .config/dbus
 	cd "$alatermTop/usr/bin"
 	create_fakeLaunch
-	chmod 755 "$launchCommand" # Not the real one.
+	chmod 750 "$launchCommand" # Not the real one.
 	cd "$HOME" # Termux home
 	restore_launchCommand
 	cd "$hereiam"

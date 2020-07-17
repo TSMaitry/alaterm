@@ -1,6 +1,6 @@
 # Part of the alaterm project, https://github.com/cargocultprog/alaterm/
 # This file is: https://raw.githubusercontent.com/cargocultprog/alaterm/master/07-alaterm.bash
-# Updated for version 1.4.0.
+# Updated for version 1.4.2.
 
 echo "$(caller)" | grep -F 00-alaterm.bash >/dev/null 2>&1
 if [ "$?" -ne 0 ] ; then
@@ -341,7 +341,7 @@ download_helpFiles() { # In /usr/local/help.
         if [ "$gotallhelp" = "no" ] ; then
 		cd "$alatermTop/usr/local/scripts"
 		create_downloadHelp
-		chmod 755 download-help
+		chmod 750 download-help
                 echo -e "$WARNING Unable to download the help files."
 		echo "Not a fatal error. Continuing..."
         else
@@ -367,13 +367,13 @@ if [ "$nextPart" -eq 7 ] ; then
 	mkdir -p "$alatermTop/usr/local/scripts"
 	cd "$alatermTop/usr/local/scripts"
 	create_banMenuItems
-	chmod 755 ban-menu-items
+	chmod 750 ban-menu-items
 	ban-menu-items
 	create_mimeappsList
-	chmod 755 mimeapps-list
+	chmod 750 mimeapps-list
 	mimeapps-list
 	create_defaultResolution
-	chmod 755 default-resolution
+	chmod 750 default-resolution
 	mkdir -p "$alatermTop/usr/local/help"
 	cd "$alatermTop/usr/local/help"
 	download_helpFiles
@@ -382,7 +382,7 @@ if [ "$nextPart" -eq 7 ] ; then
 	create_mimeappslistHook
 	cd "$alatermTop/home"
 	create_Xdefaults
-	chmod 666 .Xdefaults
+	chmod 660 .Xdefaults
 	create_bookmarks
 	cd "$alatermTop"
 	echo "Almost done..."

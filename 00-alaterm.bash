@@ -1,8 +1,8 @@
 #!/bin/bash
 # Part of the alaterm project, https://github.com/cargocultprog/alaterm/
 # This file is: https://raw.githubusercontent.com/cargocultprog/alaterm/master/00-alaterm.bash
-declare versionID=1.4.0 # Updated July 17, 2020.
-let thisRevision=19 # 19 in version 1.4.0.
+declare versionID=1.4.2 # Updated July 17, 2020.
+let thisRevision=42 # 42 in version 1.4.2.
 let currentHelp=3 # Defined in html help comments as helpversion.
 declare alatermSite=https://raw.githubusercontent.com/cargocultprog/alaterm # Main site, raw code.
 # Usage within Termux home on selected Android devices:
@@ -244,8 +244,10 @@ let scriptRevision=0 # Becomes thisRevision upon completion.
 let processors=0 # Becomes number of processors in CPU: 4, 6, 8.
 let nextPart=0 # Keeps track of progress. Recorded in status file.
 # Get variables stored by previously running this script, if any:
-[ -f "$alatermTop/status" ] && source "$alatermTop/status"
-
+if [ -f "$alatermTop/status" ] ; then
+	chmod 640 "$alatermTop/status"
+	source "$alatermTop/status"
+fi
 ## Compatibility tests:
 reject_incompatibleSystem() { # If script does not like your system.
 	echo -e "$PROBLEM Your system is not compatible with this script."
@@ -542,7 +544,7 @@ if [ "$nextPart" -eq 0 ] ; then
 		create_alatermTop
 		cd "$alatermTop"
 		create_statusFile
-		chmod 666 status
+		chmod 640 status
 		echo -e "Your device passed preliminary inspection. Continuing...\n"
 	fi
 	if [ "$devext" = "-dev" ] ; then

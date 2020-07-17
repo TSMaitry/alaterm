@@ -1,6 +1,6 @@
 # Part of the alaterm project, https://github.com/cargocultprog/alaterm/
 # This file is: https://raw.githubusercontent.com/cargocultprog/alaterm/master/05-alaterm.bash
-# Updated for version 1.4.0.
+# Updated for version 1.4.2.
 
 echo "$(caller)" | grep -F 00-alaterm.bash >/dev/null 2>&1
 if [ "$?" -ne 0 ] ; then
@@ -111,16 +111,16 @@ trap preconfExit EXIT
 source /status || exit 71
 if [ "$localeGenerated" != "yes" ] ; then
 	locale-gen
-	chmod 644 /etc/environment
-	chmod 644 /etc/locale.conf
+	chmod 640 /etc/environment
+	chmod 640 /etc/locale.conf
 	echo -e "localeGenerated=\"yes\"" >> /status
 fi
 cd /etc
 if [ -f moto ] ; then
-	chmod 666 moto && echo "" > moto && chmod 644 moto
+	chmod 660 moto && echo "" > moto && chmod 640 moto
 fi
 if [ -f motd ] ; then
-	chmod 666 motd && echo "" > motd && chmod 644 motd
+	chmod 660 motd && echo "" > motd && chmod 640 motd
 fi
 if [ "$alarmDeleted" != "yes" ] ; then
 	cd /home
@@ -198,13 +198,13 @@ if [ "$gotSudo" != "yes" ] ; then
 		sleep .5
 		cd /etc
 		if [ -f sudoers ] ; then # File should be there.
-			chmod 666 sudoers
+			chmod 660 sudoers
 			echo -e "Defaults lecture=\"never\"" >> sudoers
 			echo -e "Defaults targetpw" >> sudoers
 			echo -e "user ALL=\x28ALL\x29 NOPASSWD: ALL" >> sudoers
 			chmod 440 sudoers
 			echo "Set disable_coredump false" >> sudo.conf
-			chmod 644 sudo.conf
+			chmod 640 sudo.conf
 		fi
 		echo "gotSudo=\"yes\"" >> /status
 	fi
@@ -326,7 +326,7 @@ if [ "$configuredVnc" != "yes" ] ; then
         create_userVncPassword
         chmod 600 passwd
         create_userVncXstartup
-        chmod 755 xstartup
+        chmod 750 xstartup
 	echo -e "configuredVnc=\"yes\"" >> /status
 fi
 sleep 0.5
@@ -360,16 +360,16 @@ EOC
 if [ "$nextPart" -eq 5 ] ; then
 	mkdir -p "$alatermTop/home/.local/share/applications"
 	cd "$alatermTop/etc"
-	chmod 666 pacman.conf
+	chmod 660 pacman.conf
 	sed -i '/^#Color/s/^#//' pacman.conf 2>/dev/null
-	chmod 644 pacman.conf
+	chmod 640 pacman.conf
 	create_etcBashBashrc
-	chmod 666 bash.bashrc
+	chmod 660 bash.bashrc
 	cd "$alatermTop/root"
 	create_rootBashProfile
-	chmod 644 .bash_profile
+	chmod 640 .bash_profile
 	create_rootBashrc
-	chmod 644 .bashrc
+	chmod 640 .bashrc
 	#
 	cd "$HOME" # Termux home. Ensures being outside alaterm.
 	construct_prsPre
@@ -388,7 +388,7 @@ if [ "$nextPart" -eq 5 ] ; then
 	rm -f "$HOME/prsTmp"
 	cd "$alatermTop/root"
 	recreate_rootBashrc
-	chmod 644 .bashrc
+	chmod 640 .bashrc
 	cd "$alatermTop/etc"
 	cd "$alatermTop/home"
 	create_userBashProfile
