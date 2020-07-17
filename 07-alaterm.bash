@@ -1,6 +1,6 @@
 # Part of the alaterm project, https://github.com/cargocultprog/alaterm/
 # This file is: https://raw.githubusercontent.com/cargocultprog/alaterm/master/07-alaterm.bash
-# Updated for version 1.2.8.
+# Updated for version 1.4.0.
 
 echo "$(caller)" | grep -F 00-alaterm.bash >/dev/null 2>&1
 if [ "$?" -ne 0 ] ; then
@@ -207,32 +207,31 @@ configure_desktop() { # In $alatermTop/home.
 		sed -i 's/<number>2<\/number>/<number>1<\/number>/g' lxde-rc.xml 2>/dev/null
 		cd "$h"
 	fi
-	if [ ! -f .config/pcmanfm/LXDE/desktop-items-0.conf ] ; then
+	if [ -f .config/pcmanfm/LXDE/desktop-items-0.conf ] ; then
 		mkdir -p .config/pcmanfm/LXDE
 		cd .config/pcmanfm/LXDE
-		sed -i 's/show_trash.*/show_trash=0/g' desktop-items-0.conf 2>/dev/null
-		sed -i 's/show_documents.*/show_documents=0/g' desktop-items-0.conf 2>/dev/null
-		sed -i 's/show_mounts.*/show_mounts=0/g' desktop-items-0.conf 2>/dev/null
-		sed -i 's/show_wm_menu.*/show_wm_menu=0/g' desktop-items-0.conf 2>/dev/null
-		sed -i 's/desktop_font.*/desktop_font=Sans 12/g' desktop-items-0.conf 2>/dev/null
+		sed -i 's/show_trash.*/show_trash=0/g' desktop-items-0.conf
+		sed -i 's/show_documents.*/show_documents=0/g' desktop-items-0.conf
+		sed -i 's/show_mounts.*/show_mounts=0/g' desktop-items-0.conf
+		sed -i 's/show_wm_menu.*/show_wm_menu=0/g' desktop-items-0.conf
+		sed -i 's/desktop_font.*/desktop_font=Sans 12/g' desktop-items-0.conf
 		cd "$h"
 	fi
-	if [ ! -f .config/libfm/libfm.conf ] ; then
+	if [ -f .config/libfm/libfm.conf ] ; then
 		mkdir -p .config/libfm
 		cd .config/libfm
-		sed -i '/.*utoremove.*/d' libfm.conf 2>/dev/null
-		sed -i 's/no_usb_trash.*/no_usb_trash=1/g' libfm.conf 2>/dev/null
-		sed -i 's/places_home.*/places_home=1/g' libfm.conf 2>/dev/null
-		sed -i 's/places_desktop.*/places_desktop=1/g' libfm.conf 2>/dev/null
-		sed -i 's/places_unmounted.*/places_unmounted=0/g' libfm.conf 2>/dev/null
-		sed -i 's/places_network.*/places_network=0/g' libfm.conf 2>/dev/null
-		sed -i 's/places_root.*/places_root=0/g' libfm.conf 2>/dev/null
-		sed -i 's/places_computer.*/places_computer=0/g' libfm.conf 2>/dev/null
-		sed -i 's/places_trash.*/places_trash=0/g' libfm.conf 2>/dev/null
-		sed -i 's/places_applications.*/places_applications=1/g' libfm.conf 2>/dev/null
+		sed -i '/.*utoremove.*/d' libfm.conf
+		sed -i 's/no_usb_trash.*/no_usb_trash=1/g' libfm.conf
+		sed -i 's/places_home.*/places_home=1/g' libfm.conf
+		sed -i 's/places_desktop.*/places_desktop=1/g' libfm.conf
+		sed -i 's/places_unmounted.*/places_unmounted=0/g' libfm.conf
+		sed -i 's/places_network.*/places_network=0/g' libfm.conf
+		sed -i 's/places_root.*/places_root=0/g' libfm.conf
+		sed -i 's/places_computer.*/places_computer=0/g' libfm.conf
+		sed -i 's/places_trash.*/places_trash=0/g' libfm.conf
+		sed -i 's/places_applications.*/places_applications=1/g' libfm.conf
 		cd "$h"
 	fi
-	##### Edit ~/.config/openbox/menu.xml
 }
 
 create_configPanel() { # In $alatermTop/home.
