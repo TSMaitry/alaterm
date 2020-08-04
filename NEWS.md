@@ -33,6 +33,9 @@ something simple such as my failure to upload the correct code.
 
 Updated to version 1.4.2. Minor code cleanup. Better permissions.
 
+Note: Version 1.4.2 -b on August 4, 2020. Correction for locale detection.
+Does not affect existing installations.
+
 #### June 30, 2020
 
 Updated to version 1.2.8. Minor code cleanup.

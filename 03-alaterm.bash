@@ -1,6 +1,6 @@
 # Part of the alaterm project, https://github.com/cargocultprog/alaterm/
 # This file is: https://raw.githubusercontent.com/cargocultprog/alaterm/master/03-alaterm.bash
-# Updated for version 1.4.2.
+# Updated for version 1.4.2. -b
 
 echo "$(caller)" | grep -F 00-alaterm.bash >/dev/null 2>&1
 if [ "$?" -ne 0 ] ; then
@@ -39,14 +39,14 @@ find_locale() {
 		userLocale="$psla"_"$psc"
 	elif [ "$rpll" != "" ] && [ "$rplr" != "" ] ; then
 		userLocale="$rpll"_"$rplr"
-	elif [[ "$pslo" =~ *_* ]] ; then # underscore
+	elif [[ "$pslo" =~ _ ]] ; then # underscore
 		userLocale="$pslo"
-	elif [[ "$pslo" =~ *-* ]] ; then # hyphen
-		userLocale="$($pslo | sed 's/-/_/')"
-	elif [[ "$rpl" =~ *_* ]] ; then # underscore
+	elif [[ "$pslo" =~ \- ]] ; then # hyphen
+		userLocale="$(echo $pslo | sed 's/-/_/')"
+	elif [[ "$rpl" =~ _ ]] ; then # underscore
 		userLocale="$rpl"
-	elif [[ "$rpl" =~ *-* ]] ; then # hyphen
-		userLocale="$($rpl | sed 's/-/_/')"
+	elif [[ "$rpl" =~ \- ]] ; then # hyphen
+		userLocale="$(echo $rpl | sed 's/-/_/')"
 	else
 		userLocale="en_US" # Default.
 	fi
@@ -91,7 +91,7 @@ if [ "$nextPart" -eq 3 ] ; then
 	declare -g LANG="$userLocale.UTF-8"
 	cd "$alatermTop"
 	echo "# Locale will use UTF-8 encoding." >> status
-	echo -e "userLocale=\"$userLocale\"" >> status
+	echo -e "export userLocale=\"$userLocale\"" >> status
 	echo "Set locale. Continuing..."
 	let nextPart=4
 	echo -e "let nextPart=4" >> status
