@@ -1,33 +1,41 @@
-### NEWS for alaterm at GitHub.
+### NEWS for Alaterm at GitHub.
 
 #### UPDATE
 
-On July 18, 2020, alaterm is updated to version 1.4.2.
+On August 6, 2020, Alaterm is updated to version 1.6.0.
+This update does not affect existing installations.
 
-If you already have alaterm installed, you can apply the update with these steps:
-(a) If you retained any of the previous installer scripts, delete them.
-(b) Download the latest 00-alaterm.bash script.
-(c) Termux command: `bash 00-alaterm.bash install`
+Prior to version 1.6.0, installation required only file 00-alaterm.bash,
+which would fetch the other scripts from this web site,
+even if they were already downloaded.
 
-Very quick. The update does not re-install.
-It merely changes a few files in the existing alaterm installation,
-and possibly downloads newer help files.
+From version 1.6.0, all of the required scripts must be downloaded together.
+Missing items will not be fetched. So, a new user must either git clone,
+or download the ZIP file. If using the ZIP file, be sure to unzip it
+from within Termux, rather than by Android file manager.
 
 #### REMINDERS:
 
-To update Termux (not alaterm):  `pkg update`
+To update Termux (not Alaterm):  `pkg update`
 
-To update software within alaterm:  `pacman -Syu`
+To update software within Alaterm:  `pacman -Syu`
 
-To update alaterm itself, from Termux (not alaterm): `bash 00-alaterm.bash install`
+To update Alaterm itself, from Termux (not Alaterm):
+`bash 00-alaterm.bash install`
 
-The installer does not re-install, it merely patches. Usually takes only a few seconds.
+The installer does not re-install, it merely patches.
+Usually takes only a few seconds.
 
 If you encounter a problem during installation, and have a GitHub account,
 be sure to start an issue on this site. I test my code before uploading,
 and it works for me. It has been working for over six months now!
 If it does not work for you, the fix is probably
-something simple such as my failure to upload the correct code.
+something simple, such as my failure to upload the correct code.
+
+#### August 6, 2020
+
+Version 1.6.0. No longer fetches missing installer files.
+All must be downloaded together.
 
 #### July 17-18, 2020
 
@@ -47,6 +55,7 @@ Updated to version 1.2.6.
 Tweaked the order of PATH to be more standard.
 
 Added ability to auto-detect TeXLive if installed via TUG instead of pacman.
+Note: This is removed in subsequent update. Did not work well.
 
 Revised HELP files.
 
@@ -89,7 +98,7 @@ Fixed: Some users saw several messages about "usepacman #" at alaterm launch.
 These messages were harmless. Now removed.
 
 Fixed: Prior to this, if you installed Gedit, it would not save preferences.
-Now it will save them. Gedit uses dbus for that, but dbus would not autolaunch.
+Now it will save them. Gedit uses dbus for that, but dbus did not autolaunch.
 An automatic dbus-launch has been added to the desktop launcher. 
 
 #### March 10, 2020:
@@ -110,8 +119,8 @@ Beta testers invited. Should work. Maybe some typos to fix.
 
 #### March 1, 2020:
 
-Final stages of alpha testing. Alaterm certainly works on its developer's device,
-and has been working for several months. Currently, help files are being written,
+Final stages of alpha testing. Alaterm works on its developer's device,
+and has been working for several months. Help files are now being written,
 and the scripts are being checked for compatibility when downloaded.
 
 #### February 22, 2020:
@@ -120,5 +129,5 @@ GitHub project initialized.
 
 #### Some time in Autumn 2019:
 
-Got alaterm working on my own machine.
+Got Alaterm working on my own machine.
 I have been regularly using it since then.

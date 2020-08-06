@@ -1,6 +1,6 @@
 # Part of the alaterm project, https://github.com/cargocultprog/alaterm/
 # This file is: https://raw.githubusercontent.com/cargocultprog/alaterm/master/07-alaterm.bash
-# Updated for version 1.4.2.
+# Updated for version 1.6.0.
 
 echo "$(caller)" | grep -F 00-alaterm.bash >/dev/null 2>&1
 if [ "$?" -ne 0 ] ; then
@@ -217,21 +217,6 @@ configure_desktop() { # In $alatermTop/home.
 		sed -i 's/desktop_font.*/desktop_font=Sans 12/g' desktop-items-0.conf
 		cd "$h"
 	fi
-	if [ -f .config/libfm/libfm.conf ] ; then
-		mkdir -p .config/libfm
-		cd .config/libfm
-		sed -i '/.*utoremove.*/d' libfm.conf
-		sed -i 's/no_usb_trash.*/no_usb_trash=1/g' libfm.conf
-		sed -i 's/places_home.*/places_home=1/g' libfm.conf
-		sed -i 's/places_desktop.*/places_desktop=1/g' libfm.conf
-		sed -i 's/places_unmounted.*/places_unmounted=0/g' libfm.conf
-		sed -i 's/places_network.*/places_network=0/g' libfm.conf
-		sed -i 's/places_root.*/places_root=0/g' libfm.conf
-		sed -i 's/places_computer.*/places_computer=0/g' libfm.conf
-		sed -i 's/places_trash.*/places_trash=0/g' libfm.conf
-		sed -i 's/places_applications.*/places_applications=1/g' libfm.conf
-		cd "$h"
-	fi
 }
 
 create_configPanel() { # In $alatermTop/home.
@@ -284,72 +269,6 @@ file:///home/.local/share/Trash Trash
 EOC
 }
 
-create_downloadHelp() { # In /usr/local/scripts, only created if necessary.
-cat << 'EOC' > download-help # No hyphen. Quoted marker.
-#!/bin/bash
-# File /usr/local/scripts/download-help created by installer script.
-# Auto-removed once help files are downloaded.
-echo "You are reading this message because the help files"
-echo "failed to download at the time you installed alaterm."
-printf "Would you like to download them now? [Y|n] : " ; read readvar
-case "$readvar" in
-	n*|N* ) echo "You answered no. Try again sometime."
-		printf "Press any key to close this window" ; read r
-		exit 0 ;;
-	* ) true ;;
-esac
-echo "Now contacting the alaterm site at GitHub..."
-mkdir -p /usr/local/help
-cd /usr/local/help
-gotallhelp="yes"
-wget -t 3 -T 3 $alatermSite/master/help-alaterm-0.html
-[ "$?" -ne 0 ] && gotallhelp="no"
-wget -t 3 -T 3 $alatermSite/master/help-alaterm-1.html
-[ "$?" -ne 0 ] && gotallhelp="no"
-wget -t 3 -T 3 $alatermSite/master/help-alaterm-2.html
-[ "$?" -ne 0 ] && gotallhelp="no"
-wget -t 3 -T 3 $alatermSite/master/help-alaterm-3.html
-[ "$?" -ne 0 ] && gotallhelp="no"
-if [ "$gotallhelp" = "no" ] ; then
-	echo "Failed to download all help files. Try again sometime."
-	printf "Press any key to close this window." ; read r
-	exit 1
-else
-	thisfile="$alatermTop/home/.config/lxpanel/LXDE/panels/panel"
-	sed -i 's/xterm \/usr\/local\/scripts\/download-help/netsurf \/usr\/local\/help\/help-alaterm-0\.html/g' "$thisfile"
-	lxpanelctl restart
-	sleep .5
-	rm -f /usr/local/scripts/download-help
-	echo "Success! The next time you seek help, it will appear."
-	echo "Press any key to close this window." ; read r
-	exit 0
-fi
-EOC
-}
-
-download_helpFiles() { # In /usr/local/help.
-	alatermSite=https://raw.githubusercontent.com/cargocultprog/alaterm
-	gotallhelp="yes"
-	wget -t 3 -T 3 $alatermSite/master/help-alaterm-0.html
-	[ "$?" -ne 0 ] && gotallhelp="no"
-	wget -t 3 -T 3 $alatermSite/master/help-alaterm-1.html
-	[ "$?" -ne 0 ] && gotallhelp="no"
-	wget -t 3 -T 3 $alatermSite/master/help-alaterm-2.html
-	[ "$?" -ne 0 ] && gotallhelp="no"
-	wget -t 3 -T 3 $alatermSite/master/help-alaterm-3.html
-	[ "$?" -ne 0 ] && gotallhelp="no"
-        if [ "$gotallhelp" = "no" ] ; then
-		cd "$alatermTop/usr/local/scripts"
-		create_downloadHelp
-		chmod 750 download-help
-                echo -e "$WARNING Unable to download the help files."
-		echo "Not a fatal error. Continuing..."
-        else
-		thisfile="$alatermTop/home/.config/lxpanel/LXDE/panels/panel"
-		sed -i 's/xterm \/usr\/local\/scripts\/download-help/netsurf \/usr\/local\/help\/help-alaterm-0\.html/g' "$thisfile"
-	fi
-}
-
 create_Xdefaults() { # In /home.
 	echo "xterm*faceName: Source Code Pro" >> .Xdefaults
 	echo "xterm*faceSize: 12" >> .Xdefaults
@@ -374,15 +293,12 @@ if [ "$nextPart" -eq 7 ] ; then
 	mimeapps-list
 	create_defaultResolution
 	chmod 750 default-resolution
-	mkdir -p "$alatermTop/usr/local/help"
-	cd "$alatermTop/usr/local/help"
-	download_helpFiles
 	cd "$alatermTop/etc/pacman.d/hooks"
 	create_banmenuitemsHook
 	create_mimeappslistHook
 	cd "$alatermTop/home"
 	create_Xdefaults
-	chmod 660 .Xdefaults
+	chmod 640 .Xdefaults
 	create_bookmarks
 	cd "$alatermTop"
 	echo "Almost done..."

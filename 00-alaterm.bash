@@ -1,8 +1,8 @@
 #!/bin/bash
-# Part of the alaterm project, https://github.com/cargocultprog/alaterm/
+# Part of the Alaterm project, https://github.com/cargocultprog/alaterm/
 # This file is: https://raw.githubusercontent.com/cargocultprog/alaterm/master/00-alaterm.bash
-declare versionID=1.4.2 # Updated July 17, 2020.
-let thisRevision=42 # 42 in version 1.4.2.
+declare versionID=1.6.0 # Updated August 6, 2020.
+let thisRevision=60 # 44 in version 1.6.0.
 let currentHelp=3 # Defined in html help comments as helpversion.
 declare alatermSite=https://raw.githubusercontent.com/cargocultprog/alaterm # Main site, raw code.
 # Usage within Termux home on selected Android devices:
@@ -36,43 +36,14 @@ declare alatermSite=https://raw.githubusercontent.com/cargocultprog/alaterm # Ma
 #   then the script will reject your device.
 #
 ##############################################################################
-# THESE ARE THE ONLY USER-CUSTOMIZABLE SETTINGS:
-# You can install via this script and SDRausty script independently,
-# as long as alatermTop and launchCommand are different. OK by default.
-# 1. Where alaterm will be installed. Default: installDirectory=alaterm
-declare installDirectory=alaterm
-#    * In Android, Termux is at /data/data/com.termux directory.
-#    * That contains several directories. Among them:
-#      /data/data/com.termux/files/usr is where Termux keeps its own programs.
-#      /data/data/com.termux/files/home is home, where Termux starts.
-#    * If you install to the recommended default location, then
-#      /data/data/com.termux/alaterm will be the alaterm / root directory.
-#      That root directory will contain alaterm /bin, /etc, /home, and so forth.
-#    * The alternative, by SDRausty, installs to Termux home/arch.
-#    * Advantage of installing to the default location is that
-#      alaterm will not be accidentally removed, if you clean Termux home.
-# 2. To launch alaterm from Termux. Default: launchCommand=alaterm
-declare launchCommand=alaterm
-#    * The alternative script, by SDRausty, uses: startarch
-# END OF USER-CUSTOMIZABLE SETTINGS.
+declare installDirectory=alaterm # Expands to /data/data/com.termux/alaterm
+declare launchCommand=alaterm # Launches Alaterm from Termux.
 ##############################################################################
-# MAINTAINER NOTE:
-# This script recognizes only the armeabi-v7a and arm64-v8a ABI.
-# This includes all ARM ABI used as of early 2020, including some Chromebooks.
-# No newer ABI have been announced, although this is possible in the future.
-# If a newer ABI is released, AND the Arch Linux ARM project has an archive
-# compiled for that ABI, then you can attempt to use this script.
-# In that case, you will need to edit references to CPUABI, the Arch archive,
-# and its md5 checksum. This must be done in all the component scripts.
-##############################################################################
-
 
 # The various portions are broken into several files, processed in order.
 # They are NOT stand-alone. They must be processed using this file as master.
-# The developer has a trick for debugging the individual files,
-# but you, the user, cannot do it that way.
 
-# When each component finishes, it writes info to a status file that is retained.
+# When each component finishes, it writes info to a saved status file.
 # In case of problem, it is possible to examine the status file,
 # which will show the last component that completed successfully.
 # The status file also holds some variables that are read during install.
@@ -92,19 +63,10 @@ cd "$termuxTop"
 termuxTop=`pwd` # Gets the full Android path, without any ../
 cd "$pwDir"
 declare alatermTop="$termuxTop/$installDirectory"
-if [[ "$scriptLocation" =~ TAexp-min1 ]] ; then # Added in version 1.2.0 for developer use only.
-	while true ; do
-		printf "Developer mode, normal mode, or exit? [d|n|x] : " ; read readvar
-		case "$readvar" in
-			d*|D* ) declare devext="-dev" ; break ;;
-			n*|N* ) declare devext="" ; break ;;
-			x*|X* ) echo "Exiting at your request." ; exit 0 ; break ;;
-			* ) echo "No default. Choose:" ;;
-		esac
-	done
-fi
-alatermTop="$termuxTop/$installDirectory$devext"
-launchCommand="$launchCommand$devext"
+# Devmode removed in version 1.x.x, as of 1.4.4.
+# Possible version incompatibility fix:
+[ -d "$alatermTop" ] && chmod 750 "$alatermTop"
+[ -f "$alatermTop/status" ] && chmod 640 "$alatermTop/status"
 declare PROBLEM="\e[1;91mPROBLEM.\e[0m" # Bold light red. Use with echo -e
 declare WARNING="\e[1;33mWARNING.\e[0m" # Bold yellow. Use with echo -e
 declare HELP="\e[1;92mHELP\e[0m" # Bold light green. Use with echo -e
@@ -142,7 +104,7 @@ declare actionMode="none"
 
 ## Show help, if requested:
 if [ "$actionMode" = "help" ] ; then
-	echo "This script installs or removes alaterm: Arch Linux ARM in Termux."
+	echo "This script installs or removes Alaterm: Arch Linux ARM in Termux."
 	echo "Your device must run 32-bit or 64-bit Android 8 or later."
 	echo "The CPU must be ARM architecture, not Intel or AMD."
 	echo "Various screen sizes are supported, with or without touchscreen."
@@ -164,13 +126,13 @@ fi
 ## Must be same location as the one specified for installatiion:
 if [ "$actionMode" = "remove" ] ; then
 	if [ ! -d "$alatermTop" ] ; then
-		echo -e "$PROBLEM Did not find alaterm at default location $alatermTop."
-		echo "Either it was not installed, or was installed  elsewhere."
-		echo "If you installed it to a different location, then uninstall manually."
-		echo -e "Nothing was removed. This script will now exit.\n"
+		echo -e "$PROBLEM Did not find Alaterm at expected location:"
+		echo "  $alatermTop"
+		echo "Nothing done."
 		exit 1
 	else
-		echo "Found alaterm at expected location $alatermTop."
+		echo "Found Alaterm at expected location:"
+		echo "  $alatermTop"
 		echo "Do you wish to remove it?"
 		printf "Now $enter yes or no. Default no. [y|N] : " ; read readvar
 		case "$readvar" in
@@ -244,10 +206,7 @@ let scriptRevision=0 # Becomes thisRevision upon completion.
 let processors=0 # Becomes number of processors in CPU: 4, 6, 8.
 let nextPart=0 # Keeps track of progress. Recorded in status file.
 # Get variables stored by previously running this script, if any:
-if [ -f "$alatermTop/status" ] ; then
-	chmod 640 "$alatermTop/status"
-	source "$alatermTop/status"
-fi
+[ -f "$alatermTop/status" ] && source "$alatermTop/status"
 ## Compatibility tests:
 reject_incompatibleSystem() { # If script does not like your system.
 	echo -e "$PROBLEM Your system is not compatible with this script."
@@ -500,7 +459,6 @@ create_alatermTop() { # Verifies that chosen location can be used.
 	if [ "$?" -ne 0 ] ; then
 		echo -e "$PROBLEM Could not create the install directory."
 		echo -e "Pehaps its parent directory is not writeable."
-		echo -e "Try editing this script. Choose a different installDirectory."
 		echo -e "This script will now exit.\n"
 		exit 1
 	fi
@@ -516,15 +474,19 @@ cat << EOC > status # No hyphen. Unquoted marker.
 # In case of later patches, the info here is needed.
 installerVersion="$versionID"
 scriptLocation="$scriptLocation"
-termuxTop="$termuxTop"
-termuxPrefix="$PREFIX"
-termuxHome="$HOME"
-termuxLdPreload="$LD_PRELOAD"
-alatermTop="$alatermTop" # Where alaterm sits in Android.
-launchCommand="$launchCommand" # How to launch alaterm from Termux.
+export PROBLEM="\e[1;91mPROBLEM.\e[0m" # Bold light red.
+export WARNING="\e[1;33mWARNING.\e[0m" # Bold yellow.
+export termuxTop="$termuxTop"
+export termuxPrefix="$PREFIX"
+export TUSR="$PREFIX"
+export termuxHome="$HOME"
+export THOME="$HOME"
+export termuxLdPreload="$LD_PRELOAD"
+export alatermTop="$alatermTop" # Where alaterm sits in Android.
+export launchCommand="$launchCommand" # How to launch alaterm from Termux.
 isRooted="$isRooted" # Was a rooted device detected?
 termuxProxy="$termuxProxy" # Was a proxy detected?
-CPUABI="$CPUABI" # Your device.
+export CPUABI="$CPUABI" # Your device.
 CPUABI7="armeabi-v7a" # 32-bit. May or may not be Chromebook.
 CPUABI8="arm64-v8a" # 64-bit. Do not confuse with arm-v8l CPU.
 preInstallFreeSpace="$preInstallFreeSpace" # Only checked once. Integer.
@@ -544,19 +506,7 @@ if [ "$nextPart" -eq 0 ] ; then
 		create_alatermTop
 		cd "$alatermTop"
 		create_statusFile
-		chmod 640 status
 		echo -e "Your device passed preliminary inspection. Continuing...\n"
-	fi
-	if [ "$devext" = "-dev" ] ; then
-		printf "Proceed to update Termux? [Y|n] : " ; read readvar
-		case "$readvar" in
-			n*|N* ) cd "$hereiam"
-				echo -e "Contents of status file, before erasure:\n"
-				cat "$alatermTop/status"
-				rm -rf "$alatermTop"
-				echo -e "\nExiting at your request" ; exit 0 ;;
-			* ) true ;;
-		esac
 	fi
 	update_termuxPackages
 	get_moreTermux
@@ -569,18 +519,9 @@ fi
 
 cd "$pwDir"
 
-## If necessary, download the component scripts to the current directory:
-cd "$hereiam"
-echo -e "\e[1;92mDownloading scripts from the alaterm repository at GitHub...\e[0m"
-for nn in 01 02 03 04 05 06 07 08
-do
-	if [ ! -r "$nn-alaterm.bash" ] ; then
-		wget $alatermSite/master/$nn-alaterm.bash >/dev/null 2>&1
-	fi
-done
-if [ ! -r fixexst-scripts.bash ] ; then
-	wget $alatermSite/master/fixexst-scripts.bash >/dev/null 2>&1
-fi
+## In version 1.4.4, this file does not download the remaining scripts.
+## Instead, it assumes that all were obtained at the same time,
+## either from git clone or downloaded zip.
 
 ## Verify that the component scripts are here:
 allhere="yes"
@@ -595,8 +536,10 @@ if [ ! -r fixexst-scripts.bash ] ; then
 	allhere="no"
 fi
 if [ "$allhere" = "no" ] ; then
-	echo -e "$PROBLEM One or more of the component scripts failed to download."
-	echo "Wait awhile, then re-launch this script. Exit."
+	echo -e "$PROBLEM Missing one or more of the component scripts."
+	echo "From version 1.4.4, this script does not download the others."
+	echo "Instead, it requires all to be present, either via git clone"
+	echo "or from the unzipped site download."
 	exit 1
 else
 	echo -e "\e[1;92mGot the scripts. IMPORTANT:\e[0m"
@@ -608,14 +551,6 @@ else
 	printf "Now hit $enter to continue: " ; read readvar
 fi
 
-if [ "$devext" = "-dev" ] ; then
-	printf "Completed script 00. Proceed? [Y|n] : " ; read readvar
-	case "$readvar" in
-		n*|N* ) echo "Exiting at your request" ; exit 0 ;;
-		* ) true ;;
-	esac
-fi
-
 
 ## Process the component scripts:
 start_termuxWakeLock # Needed from this point. Released by any exit or error.
@@ -623,13 +558,6 @@ for nn in 01 02 03 04 05 06 07 08
 do
 	cd "$hereiam"
 	source "$nn-alaterm.bash"
-	if [ "$devext" = "-dev" ] ; then
-		printf "Completed script $nn. Proceed? [Y|n] : " ; read readvar
-		case "$readvar" in
-			n*|N* ) echo "Exiting at your request" ; exit 0 ;;
-			* ) true ;;
-		esac
-	fi
 done
 # fixexst-scripts.bash is sourced in 08-alaterm.bash.
 
@@ -638,8 +566,9 @@ exit 0 # So that the following License is not precessed as script.
 
 ********** License applicable to all component files:
 
-alaterm (Arch Linux ARM in Termux)
+Alaterm (Arch Linux ARM in Termux)
 Copyright 2020 by Robert Allgeyer, of Aptos California USA "cargocultprog"
+License applies to Alaterm files, not to software downloaded from elsewhere.
 
 MIT LICENSE
 

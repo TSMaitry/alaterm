@@ -1,6 +1,6 @@
 # Part of the alaterm project, https://github.com/cargocultprog/alaterm/
 # This file is: https://raw.githubusercontent.com/cargocultprog/alaterm/master/08-alaterm.bash
-# Updated for version 1.4.2.
+# Updated for version 1.6.0.
 
 echo "$(caller)" | grep -F 00-alaterm.bash >/dev/null 2>&1
 if [ "$?" -ne 0 ] ; then
@@ -53,21 +53,9 @@ if [ "$?" -eq 0 ] ; then
 		echo -e "This script will now exit.\n" ; exit 1
 	fi
 fi
-# If you closed Termux or shut down your device while alaterm was running,
-# then it left the alaterm directory in an inaccessible state.
-# This is detected here, and fixed.
-# But the launch script does not continue to launch. Instead, run it a second time.
-# This gives you the opportunity to manually identify the problem from Termux,
-# in case it was not fixed, without an infinite do-loop.
-alatermstatnow="$(stat --format '%a' $alatermTop)"
-if [ "$alatermstatnow" = "550" ] ; then
-	chmod 750 "$alatermTop"
-	echo -e "\e[1;33mINFO:\e[0m The last time you used alaterm, you did not logout correctly."
-	echo "That caused a problem. It has now been fixed automatically."
-	echo "This launch script will now exit. You may re-launch it."
-	exit 1
-fi
-chmod 550 "$alatermTop" # Makes alaterm / invisible in PCManFM.
+#
+# The alatermstatnow routine, in versions prior to 1.4.4, has been removed.
+#
 # The proot string tells how alaterm is configured within its proot confinement.
 # Actually, it is not much confinement, since alaterm can access most outside files,
 # and can even run a few Termux executables.
@@ -87,9 +75,7 @@ prsUser+="/bin/su -l user"
 unset LD_PRELOAD
 # Now to launch alaterm:
 eval "exec $prsUser"
-# The above command continues to run, until logout of alaterm. After logout:
-chmod 750 "$alatermTop" # Restores ability to edit alaterm from Termux.
-echo -e "\e[1;33mYou have left alaterm, and are now in Termux.\e[0m\n"
+# The above command continues to run, until logout of alaterm.
 ##
 EOC
 }
@@ -208,6 +194,9 @@ fix_etcBashBashrc() { # In /etc.
 	sed -i 's/-ge 2010/-le 2009/' bash.bashrc 2>/dev/null
 	tlt="If using Internet installer of TUG TeXLive" # Added in v. 1.2.8.
 	sed -i "/$tlt/,+16d" "$alatermTop/etc/bash.bashrc" # Removed v. 1.2.8-b.
+	# In v. 1.4.4:
+	grep /status bash.bashrc >/dev/null 2>&1
+	[ "$?" -ne 0 ] && echo "source /status" >> bash.bashrc
 }
 
 fix_etcProfile() { #in /etc.
@@ -247,31 +236,43 @@ done
 EOC
 }
 
-update_help() { # In /usr/local/help.
-	let helpnum=0
-	helpval="$(grep helpversion help-alaterm-0.html | sed 's/.*=//g' | sed 's/ .*//g')" 2>/dev/null
-	[[ "$helpval" =~ ^[0-9]*$ ]] && let helpnum="$(($helpval + 0))" 2>/dev/null
+copy_help() {
+	mkdir -p "$alatermTop/usr/local/scripts/help"
+	cp "$hereiam/help-alaterm-0.html" "$alatermTop/usr/local/scripts/help"
+	cp "$hereiam/help-alaterm-1.html" "$alatermTop/usr/local/scripts/help"
+	cp "$hereiam/help-alaterm-2.html" "$alatermTop/usr/local/scripts/help"
+	cp "$hereiam/help-alaterm-3.html" "$alatermTop/usr/local/scripts/help"
+} # End copy_help.
+
+fix_exports() {
+	cd "$alatermTop"
+	grep PROBLEM= status >/dev/null 2>&1
 	if [ "$?" -eq 0 ] ; then
-		if [ "$helpnum" -lt "$currentHelp" ] ; then
-			echo "Updating help files..."
-			mv help-alaterm-0.html help-alaterm-0.html.old 2>/dev/null
-			wget -t 3 -T 3 $alatermSite/master/help-alaterm-0.html >/dev/null 2>&1
-			if [ "$?" -eq 0 ] ; then rm -f help-alaterm-0.html.old
-			else mv help-alaterm-0.old help-alaterm-0.html 2>/dev/null ; fi
-			mv help-alaterm-1.html help-alaterm-1.html.old 2>/dev/null
-			wget -t 3 -T 3 $alatermSite/master/help-alaterm-1.html >/dev/null 2>&1
-			if [ "$?" -eq 0 ] ; then rm -f help-alaterm-1.html.old
-			else mv help-alaterm-1.old help-alaterm-1.html 2>/dev/null ; fi
-			mv help-alaterm-2.html help-alaterm-2.html.old 2>/dev/null
-			wget -t 3 -T 3 $alatermSite/master/help-alaterm-2.html >/dev/null 2>&1
-			if [ "$?" -eq 0 ] ; then rm -f help-alaterm-2.html.old
-			else mv help-alaterm-2.old help-alaterm-2.html 2>/dev/null ; fi
-			mv help-alaterm-3.html help-alaterm-3.html.old 2>/dev/null
-			wget -t 3 -T 3 $alatermSite/master/help-alaterm-3.html >/dev/null 2>&1
-			if [ "$?" -eq 0 ] ; then rm -f help-alaterm-3.html.old
-			else mv help-alaterm-3.old help-alaterm-3.html 2>/dev/null ; fi
-		fi
+		sed -i 's/^PROBLEM/export PROBLEM/' status
+	else
+		echo "export PROBLEM=\"\e[1;91mPROBLEM.\e[0m\"" >> status
 	fi
+	grep WARNING= status >/dev/null 2>&1
+	if [ "$?" -eq 0 ] ; then
+		sed -i 's/^WARNING/export WARNING/' status
+	else
+		echo "export WARNING=\"\e[1;91mWARNING.\e[0m\"" >> status
+	fi
+	sed -i 's/^termuxTop/export termuxTop/' status
+	sed -i 's/^termuxPrefix/export termuxPrefix/' status
+	grep TUSR= status >/dev/null 2>&1
+	if [ "$?" -ne 0 ] ; then
+		echo "export TUSR=\"$termuxPrefix\"" >> status
+	fi
+	sed -i 's/^termuxHome/export termuxHome/' status
+	if [ "$?" -ne 0 ] ; then
+		echo "export THOME=\"$termuxHome\"" >> status
+	fi
+	sed -i 's/^termuxLdPreload/export termuxLdPreload/' status
+	sed -i 's/^alatermTop/export alatermTop/' status
+	sed -i 's/^launchCommand/export launchCommand/' status
+	sed -i 's/^CPUABI/export CPUABI/' status
+	sed -i 's/^userLocale/export userLocale/' status
 }
 
 if [ "$nextPart" -ge 8 ] ; then # This part repeats, if necessary.
@@ -296,11 +297,12 @@ if [ "$nextPart" -ge 8 ] ; then # This part repeats, if necessary.
 	fix_etcBashBashrc # v. 1.2.2.
 	fix_etcProfile # v. 1.2.2.
 	cd "$alatermTop/usr/local/help"
-	update_help # v. 1.2.2.
+	copy_help # v. 1.4.4.
 	cd "$alatermTop/etc/pacman.d/hooks"
 	create_fixdbuslaunchHook
 	rm -f fixgedit.hook
 	cd "$alatermTop"
+	fix_exports
 	start_launchCommand
 	finish_launchCommand
 	chmod 750 "$launchCommand"
@@ -319,8 +321,12 @@ if [ "$nextPart" -ge 8 ] ; then # This part repeats, if necessary.
 	cd "$hereiam"
 	echo -e "\n\e[1;92mDONE. To launch alaterm, command:  $launchCommand\e[0m\n"
 	let nextPart=9
-	echo "let scriptRevision=$thisRevision" >> "$alatermTop/status"
-	echo "let nextPart=9" >> "$alatermTop/status" # Fake marker. There is no Part 09.
+	if [ "$scriptRevision" != "$thisRevision" ] ; then
+		echo "let scriptRevision=$thisRevision" >> "$alatermTop/status"
+	fi
+	if [ "$nextPart" -ne 9 ] ; then
+		echo "let nextPart=9" >> "$alatermTop/status" # Fake marker. There is no Part 09.
+	fi
 fi
 
 

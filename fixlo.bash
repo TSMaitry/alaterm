@@ -15,10 +15,10 @@ if [ "$THOME" != "" ] ; then # THOME is defined within alaterm.
 	exit 1
 fi
 mkdir -p "$alatermTop/prod"
-chmod 755 "$alatermTop/prod"
+chmod 750 "$alatermTop/prod"
 cd "$alatermTop/prod"
 echo "1" > version
-chmod 755 version
+chmod 750 version
 cd "$alatermTop/usr/lib/libreoffice/program"
 sed -i 's/\/proc/\/prod/g' oosplash
 

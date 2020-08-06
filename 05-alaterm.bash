@@ -1,6 +1,6 @@
 # Part of the alaterm project, https://github.com/cargocultprog/alaterm/
 # This file is: https://raw.githubusercontent.com/cargocultprog/alaterm/master/05-alaterm.bash
-# Updated for version 1.4.2.
+# Updated for version 1.6.0.
 
 echo "$(caller)" | grep -F 00-alaterm.bash >/dev/null 2>&1
 if [ "$?" -ne 0 ] ; then
@@ -31,6 +31,7 @@ create_etcBashBashrc() { # In /etc. Over-writes original.
 cat << EOC > "bash.bashrc" # No hyphen. Unquoted marker.
 # File /etc/bash.bashrc
 # Created by installation script. Replaced original file.
+source /status
 export THOME="$HOME" # Termux home directory, seen from within alaterm.
 export TUSR="$PREFIX" # This is the usr directory in Termux.
 export ALATERMDIR="$alatermTop" # As seen from outside alaterm, by Termux.
@@ -98,11 +99,7 @@ preconfSignal() {
 	exit 71
 }
 preconfExit() {
-	local badstuff="$?"
-	if [ "$badstuff" -ne 0 ] && [ "$badstuff" -ne 71 ] ; then
-		echo -e "PROBLEM. Something caused preconfigure to exit early."
-	echo -e "Exit code $badstuff."
-	echo -e "Script will exit now. You will be returned to Termux.\n"
+	echo -e "PROBLEM. Something caused preconfigure to exit early."
 	fi
 }
 trap preconfSignal HUP INT TERM QUIT
@@ -117,10 +114,10 @@ if [ "$localeGenerated" != "yes" ] ; then
 fi
 cd /etc
 if [ -f moto ] ; then
-	chmod 660 moto && echo "" > moto && chmod 640 moto
+	echo "" > moto && chmod 640 moto
 fi
 if [ -f motd ] ; then
-	chmod 660 motd && echo "" > motd && chmod 640 motd
+	echo "" > motd && chmod 640 motd
 fi
 if [ "$alarmDeleted" != "yes" ] ; then
 	cd /home
@@ -392,9 +389,9 @@ if [ "$nextPart" -eq 5 ] ; then
 	cd "$alatermTop/etc"
 	cd "$alatermTop/home"
 	create_userBashProfile
-	chmod 666 .bash_profile
+	chmod 640 .bash_profile
 	create_userBashrc
-	chmod 666 .bashrc
+	chmod 640 .bashrc
 	touch .Xauthority
 	mkdir -p ".local/share/Trash/files"
 	mkdir -p ".local/share/Trash/info"
