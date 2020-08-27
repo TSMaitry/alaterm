@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="help-alaterm.css">
+
+<!-- Within Alaterm, use NetSurf browser. -->
+<!-- To read help outside of Alaterm, download the repository ZIP. -->
+<!-- Unzip it, then view the html in any browser. -->
+<!-- helpversion=5 -->
+
+<title>Multimedia</title>
+
+</head>
+<body id="h">
+<div id="master">
+
+<p class="index">&lt;&lt; <a href="index.html">INDEX</a></p>
+
+
+<h3 id="h8">8. Multimedia</h3>
+
+<p class="menu">8.1. <a href="#h8.1">Media file editing</a></p>
+<p class="menu">8.2. <a href="#h8.2">libmad and libmpeg2</a></p>
+<p class="menu">8.3. <a href="#h8.3">libde265</a></p>
+
+<p class="top">^<a href="#h">TOP</a>^</p>
+
+<p class="break">If you intend to play or manipulate multimedia files,
+then you are in for a world of hurt.
+For this reason, Alaterm does not come with multimedia support.</p>
+
+<p>Since your Android device already has high-quality multimedia support,
+via native Android apps, there is no reason to use Alaterm.</p>
+
+<p class="top">^<a href="#h">TOP</a>^</p>
+
+
+<h4 id="h8.1">8.1. Media file editing</h4>
+
+<p class="break">Even if you cannot play a media file,
+you may be able to edit its contents.</p>
+
+<p>For ordinary audio files, you can use Thunar. This is
+a file manager alternative to the built-in PCManFM.
+First, install Thunar and its plugin:</p>
+<p class="code"><code>pacman -S thunar thunar-media-tags-plugin</code></p>
+
+<p>In the Menu, open System Tools, Thunar File Manager.
+Find the audio file using Thunar. Then right-click its icon,
+and choose Properties from the context menu. Select the audio tab.</p>
+
+<p class="break">The <a href="https://ffmpeg.org/">ffmpeg</a>
+command-line program can do just about any media file manipulation.
+GUI programs are often font-ends to <b>ffmpeg</b>.</p>
+<p class="code"><code>pacman -S ffmpeg</code></p>
+
+<p>You can find many web pages describing how to use <b>ffmpeg</b>, such as
+<a href="https://www.ostechnix.com/20-ffmpeg-commands-beginners/">this</a>.</p>
+
+<p class="top">^<a href="#h">TOP</a>^</p>
+
+
+<h4 id="h8.2">8.2. libmad and libmpeg2</h4>
+
+<p class="break">Although Alaterm does not normally support multimedia,
+some programs will run after clever hacking. Hacking is unsupported.
+In any case, programs requiring <b>libmad</b> or <b>libmpeg2</b> may fail,
+unless you replace the Alaterm packages with locally compiled versions.
+Fortunately, Alaterm has scripts for that:</p>
+<p class="code"><code>compile-libmad</code></p>
+<p class="code"><code>compile-libmpeg2</code></p>
+
+<p class="top">^<a href="#h">TOP</a>^</p>
+
+
+<h4 id="h8.3">8.3. HEIC/HEIF and libde265</h4>
+
+<p class="break">Many modern handheld devices save visual media files
+in <b>heic/heif</b> format, also known as <b>h265.</b>
+This is especially true for Apple phones.
+See <a href="images.html#h4.3">here</a> for more information.</p>
+
+
+<p class="top">^<a href="#h">TOP</a>^</p>
+
+</div><!-- end master -->
+</body>
+</html>
+

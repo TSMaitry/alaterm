@@ -1,0 +1,38 @@
+/* In some cases, NetSurf styling different from what other browsers use. */
+/* So, brute-force styles have been used in cases such as lists, */
+/* where CSS would otherwise have more elegant methods. */
+
+/* Default Monospace font, and some others, have ligatures. */
+/* NetSurf applies them, even to inappropriate code. Roboto font is OK. */
+
+body {font-family: Roboto; font-size: 125%;
+background-color: #aaaaaa; padding-top:1em;}
+
+#master {background-color:#ffffff; padding:1em; max-width: 50em;
+border: solid; margin-left:auto; margin-right:auto; margin-bottom: 2em;}
+
+h1, h2, h3, h4 {clear:both; margin-top: 1em; margin-bottom:1em;}
+h5 {clear:both; margin-top:1.5em; margin-bottom:1em;}
+
+p {margin:0em; text-indent:1em;}
+
+p.indent {text-indent:1em;}
+p.noindent {text-indent:0em;}
+
+p.break {margin-top:1em; text-indent:0em;}
+
+p.code {margin-left:2em;}
+
+p.menu {text-indent:0em; margin-top:1em; margin-bottom:1em;}
+
+/* Fake list item, aligned for single digit with . and space. */
+p.li {margin-left:2em; text-indent:-1.1em;}
+p.li2 {margin-left:2em; text-indent:1em;}
+p.lili {margin-left:4em; text-indent:-1.1em;}
+p.lili2 {margin-left:4em; text-indent:1em;}
+
+code {color:#660000; white-space:nowrap; font-size:120%;}
+
+p.index {text-indent:0em; font-size:120%; font-weight:bold;}
+
+p.top {text-align: right;}

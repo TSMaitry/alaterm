@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Create a report to help alaterm improve
+about: Create a report to help Alaterm improve
 title: ''
 labels: ''
 assignees: cargocultprog
@@ -8,7 +8,7 @@ assignees: cargocultprog
 ---
 
 **Describe the bug**
-Remember: Alaterm bug reports are only for alaterm installer scripts, not programs.
+Remember: Alaterm bug reports are for Alaterm install scripts, not programs.
 
 **Your device**
 What is your device? Example: Samsung Galaxy Tab A 2019.
@@ -21,7 +21,7 @@ Some problems are caused by Internet interruption.
 Did you re-try the installer? Same thing, or different message?
 
 **Status file**
-Copy the text of file `$PREFIX/../../status` here.
+In Termux, copy the text of file `$PREFIX/../../status` here.
 
 **Additional context**
 Add any other context about the problem here.

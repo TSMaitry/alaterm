@@ -2,17 +2,13 @@
 
 #### UPDATE
 
-On August 6, 2020, Alaterm is updated to version 1.6.0.
-This update does not affect existing installations.
+August 28, 2020: Version 2 installer.
 
-Prior to version 1.6.0, installation required only file 00-alaterm.bash,
-which would fetch the other scripts from this web site,
-even if they were already downloaded.
+Same Alaterm after installation, but scripts have been rewritten.
+The new code is more easily read and maintained. 
 
-From version 1.6.0, all of the required scripts must be downloaded together.
-Missing items will not be fetched. So, a new user must either git clone,
-or download the ZIP file. If using the ZIP file, be sure to unzip it
-from within Termux, rather than by Android file manager.
+If you already installed Alaterm using version 1 scripts,
+there is nothing to do. Version 2 is not an update to version 1.
 
 #### REMINDERS:
 
@@ -21,16 +17,17 @@ To update Termux (not Alaterm):  `pkg update`
 To update software within Alaterm:  `pacman -Syu`
 
 To update Alaterm itself, from Termux (not Alaterm):
-`bash 00-alaterm.bash install`
-
-The installer does not re-install, it merely patches.
-Usually takes only a few seconds.
+See the contents of file UPDATE.md for instructions.
 
 If you encounter a problem during installation, and have a GitHub account,
 be sure to start an issue on this site. I test my code before uploading,
 and it works for me. It has been working for over six months now!
 If it does not work for you, the fix is probably
 something simple, such as my failure to upload the correct code.
+
+#### August 28, 2020
+
+Version 2.0.0. Scripts re-named and re-coded.
 
 #### August 6, 2020
 

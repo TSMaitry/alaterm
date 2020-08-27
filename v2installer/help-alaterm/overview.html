@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="help-alaterm.css">
+
+<!-- Within Alaterm, use NetSurf browser. -->
+<!-- To read help outside of Alaterm, download the repository ZIP. -->
+<!-- Unzip it, then view the html in any browser. -->
+<!-- helpversion=5 -->
+
+<title>Overview</title>
+
+</head>
+<body id="h">
+<div id="master">
+
+<p class="index">&lt;&lt; <a href="index.html">INDEX</a></p>
+
+
+<h3 id="h1">1. Overview</h3>
+
+<p class="menu">1.1. <a href="#h1.1">What is Alaterm?</a></p>
+<p class="menu">1.2. <a href="#h1.2">How does Alaterm affect Termux and Android?</a></p>
+<p class="menu">1.3. <a href="#h1.3">What can Alaterm do?</a></p>
+<p class="menu">1.4. <a href="#h1.4">What cannot be done by Alaterm?</a></p>
+<p class="menu">1.5. <a href="#h1.5">Passwords and Security</a></p>
+
+
+<h4 id="h1.1">1.1. What is Alaterm?</h4>
+
+<p>Alaterm is an Android-specific customized installation of
+<a href="https://archlinuxarm.org/">Arch Linux ARM</a>,
+which is a version of Arch Linux compiled for the ARM CPU architecture.</p>
+
+<p>Alaterm is not a Linux distribution. It does not provide software.
+It installs software provided by others, then configures the software.</p>
+
+<p>Unlike the independent TermuxArch project,
+Alaterm is specifically configured for the benefit of desktop software users,
+rather than programmers.</p>
+
+<p>Alaterm allows you to run the graphical LXDE Desktop, visible with the
+VNC Viewer app at connection 127.0.0.1:5901.</p>
+
+<p class="top"><a href="#h">^TOP^</a></p>
+
+
+<h4 id="h1.2">1.2. How does Alaterm affect Termux and Android?</h4>
+
+<p>Alaterm is <i>not</i> an Android app. To use Alaterm, you need Termux,
+which <i>is</i> an Android app.</p>
+
+<p>Alaterm sits entirely within Termux.
+If you uninstall Termux, you lose Alaterm.</p>
+
+<p>After Alaterm is installed, Termux features are the same as before.
+In case of problems, Alaterm files can be edited by Termux.</p>
+
+<p>Alaterm does not affect your Android desktop.</p>
+
+<p>You can multi-task. Android is active at all times,
+and manages WiFi and Bluetooth. While Alaterm is running,
+you can summon an Android Email app,
+or listen to an Android music app, or use an Android web browser.</p>
+
+<p>Alaterm is not a dual-boot.
+It does not "root" your device, or jailbreak it.
+If you have rooted your device on your own initiative,
+then the consequences of using Alaterm are unknown.</p>
+
+<p class="top"><a href="#h">^TOP^</a></p>
+
+
+<h4 id="h1.3">1.3. What can Alaterm do?</h4>
+
+<p>The installed software provides the essential elements
+of a graphical desktop. When viewed in VNC Viewer, you will see wallpaper,
+taskbar, Menu, and file manager.
+If using a mouse, right-click will display context menus.</p>
+
+<p>The screen is touch-sensitive,
+and will work on many small devices such as phones.
+However, the benefits of Alaterm are best with a large tablet,
+external keyboard, and mouse.</p>
+
+<p>Some basic utility programs are pre-installed: calculator, font viewer,
+PDF viewer, text editor, programming editor, image viewer,
+web browser, preferences manager.</p>
+
+<p>From the command line. you can install additional software,
+including many programs with advanced features.
+They will almost always look and operate the same way
+as they do on a laptop computer.</p>
+
+<p>Be warned that due to limited resources,
+your device cannot have too many apps running at the same time.
+If overloaded, Android may close Termux. So if you multi-task,
+be sure to save your work in Alaterm before doing something else.</p>
+
+<p class="top"><a href="#h">^TOP^</a></p>
+
+
+<h4 id="h1.4">1.4. What cannot be done by Alaterm?</h4>
+
+<p>If Android security prohibits Termux from doing something,
+then Alaterm cannot do it. In particular,
+software requiring a service or daemon is unlikely to work.</p>
+
+<p>You cannot use a <b>cups</b> printer, but most useful applications can
+export either PDF or images. Then you can print using another Android app,
+or copy the files to removable media such as a USB pendrive.</p>
+
+<p>You cannot mount a CD player, DVD player, or external hard drive,
+unless Android can mount them and they are shared. This is unlikely.
+However, you can mount a USB pendrive or removable SDcard,
+if your device has the necessary connections.
+You can also transfer files via Bluetooth.</p>
+
+<p>Alaterm is not configured for sound. Very few audio programs work properly,
+and it requires considerable effort to configure them.
+If your purpose is multimedia,
+then just do it with Android apps, not Alaterm.</p>
+
+<p>The graphical Trash (Rubbish) Bin does not work.
+There is a Trash folder, but its
+contents can only be managed via command line.</p>
+
+<p class="top"><a href="#h">^TOP^</a></p>
+
+
+<h4 id="h1.5">1.5. Passwords and Security</h4>
+
+<p>Every part of Alaterm can be manipulated directly from Termux.
+There is no point to having secure passwords in Alaterm,
+because they can be changed without permission.</p>
+
+<p>In Alaterm, your username us <b>user</b> and its password is
+<b>password</b>. Login is automatic,
+so you will not be asked for username or password.</p>
+
+<p>When connecting to VNC viewer, the network password is <b>password</b>.</p>
+
+<p>Only on rare occasions will you need to use <b>sudo</b>
+to obtain a higher level of privilege. No password is required.</p>
+
+<p>Only on the rarest occasions (probably never)
+will you need to use <b>su</b> to become the root user.
+Its password is <b>root</b>. Note that this is only internal to Alaterm.
+It does not root Android.</p>
+
+
+<p class="top"><a href="#h">^TOP^</a></p>
+
+</div><!-- end master -->
+</body>
+</html>
+

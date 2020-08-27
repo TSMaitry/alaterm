@@ -1,0 +1,276 @@
+#!/bin/bash
+# Alaterm: Arch Linux ARM in Termux.
+# Copyright and MIT License at bottom of this file.
+declare repository=https://github.com/cargocultprog/alaterm
+declare versionID=2.0.0 # Updated August 18, 2020.
+let thisRevision=200 # 200 in version 2.0.0.
+##
+
+## DEVICE REQUIREMENTS:
+## ---------------------------------------------------------------------------
+# * Device must have ARM processor and Android 8 or later operating system.
+#     Includes most phones, tablets, and Chromebooks. Not Apple or Microsoft.
+# * Requires the Termux app, by Fredrik Fornwall.
+#     Optional, additional capabilities if Termux:API is added.
+# * Requires the VNC Viewer app, by RealVNC.
+##
+
+## USAGE:
+## ---------------------------------------------------------------------------
+# * Script usage within Termux:
+#     bash alaterm-installer ACTION
+#       where ACTION is one of: install remove help version
+#       may be abbreviated as: i r h v
+# * Interactive script. May require user response from time to time.
+#     If lucky, you can let it run by itself, after the first few minutes.
+# * Total installation time may take 40-60 minutes, depending on Internet.
+##
+
+## LONG DESCRIPTION:
+## ---------------------------------------------------------------------------
+# * Arch Linux ARM is a modern Linux distribution compiled for ARM processors.
+#   Most Linux distros are not compiled for ARM, or their ARM version is old.
+# * Alaterm installs portions of Arch Linux ARM into the Termux app.
+#   It merely adds software to Termux. It does not change Termux itself.
+# * Alaterm does not make device or system alterations. No root access.
+#   If you remove Alaterm, your device will never know it was there.
+# * Alaterm works with small screens and touchscreen-only devices,
+#   but the benefits are best realized when the screen is 10.1 inches or more,
+#   and you have a keyboard and mouse. Works with Bluetooth.
+# * Alaterm is optimized for ordinary users who want a desktop environment.
+#   You will be able to run programs such as GIMP and LibreOffice.
+#   However, audio and multimedia are controlled by Android, not Alaterm.
+# * Alaterm does not contain software for pentest, hacking, or rooting.
+#   Although experts may be able to add such software, it is discouraged.
+# * The Alaterm installer begins by measuring your device properties.
+#   If your device is incompatible, it will be rejected.
+# * Alaterm is not a dual-boot. It runs in Termux, within Android.
+#   While you work in Alaterm, Android apps can play music and monitor Email.
+#   You can multi-task, switching between Alaterm and other Android windows.
+#   This capability is limited by available device resources.
+# * Alaterm can be run as Termux command-line, without GUI.
+#   To see the GUI desktop, Termux and VNC Viewer must both be running.
+##
+
+## READ SCRIPT ARGUMENT:
+## ---------------------------------------------------------------------------
+# Decide what to do now:
+show_usage() { # Unless exactly one valid argument provided.
+	echo "$(basename $0), version $versionID."
+	echo "Installs or removes Alaterm within Termux."
+	echo "For selected Android devices with ARM processors."
+	echo "Usage: bash $(basename $0) <install|remove|help|version>"
+	echo "Exactly one argument required. May abbreviate as: i r h v"
+	echo -e "Any choice, except version, gets interactive dialog.\n"
+	exit 0
+} # End show_usage.
+#
+show_scriptHelp() {
+	echo "This installs, updates, or removes Alaterm:"
+	echo "Arch Linux ARM in Termux."
+	echo "Your device must run 32-bit or 64-bit Android 8 or later."
+	echo "The CPU must be ARM architecture, not Intel or AMD."
+	echo "Various screen sizes are supported, with/without touchscreen."
+	echo "Benefits are best with 10.1in screen, keyboard, and mouse."
+	echo "At least 3GB internal free space is required for minimal setup."
+	echo "Adding useful programs will increase to 4, 5 or more GB."
+	echo "Minimum 2GB RAM required. Better with 3GB or more."
+	echo "The installation is up-to-date and offers many useful programs."
+	echo "Among these are Gimp, Inkscape, LibreOffice, TeXLive with GUI."
+	echo "But audio-video should be done with other Android apps."
+	echo "This is not a dual-boot. Does not root your device or use root."
+	echo "Android runs at all times, so you can multi-task if enough RAM."
+	echo "GUI is LXDE Desktop: menus, right-click capability, and more."
+	echo "Keep in mind that your device is not designed for heavy usage!"
+	exit 0
+} # End show_scriptHelp.
+#
+show_version() {
+	echo "$(basename $0), version $versionID" && exit 0
+} # End show_version.
+#
+[ "$#" -gt 1 ] && show_usage
+declare actionMode="none"
+[[ "$1" =~ ^-*(I|i) ]] && actionMode="install"
+[[ "$1" =~ ^-*(R|r) ]] && actionMode="remove"
+[[ "$1" =~ ^-*(H|h) ]] && actionMode="help" && show_scriptHelp
+[[ "$1" =~ ^-*(V|v) ]] && actionMode="version" && show_version
+[ "$actionMode" = "none" ] && show_usage
+# If install or remove, script continues...
+##
+
+## INITIALIZATION:
+## ---------------------------------------------------------------------------
+# $here is alaterm-installer directory, even if called from elsewhere.
+# Solution thanks to stackexchange.com question 59895, reply by Dave Dopson:
+export here="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+cd "$here" # Component files are relative to $here.
+#
+missing_something() {
+	echo -e "\e[1;91mPROBLEM.\e[0m Incomplete v2installer file set."
+	echo "  Get fresh Alaterm files:"
+	echo -e "  $repository\n"
+	exit 1
+}
+##
+
+## GLOBAL VARIABLES AND FUNCTIONS:
+## ---------------------------------------------------------------------------
+## Functions and variables used by all following scripts.
+source "$here/process/globals.bash"
+[ "$?" -ne 0 ] && missing_something
+##
+
+## REMOVE:
+## ---------------------------------------------------------------------------
+## May fail if you edited installer with custom location.
+if [ "$actionMode" = "remove" ] ; then
+	source "$here/process/remove.bash"
+	[ "$?" -ne 0 ] && missing_something
+fi
+##
+
+
+##############################################################################
+## INSTALLER BEGINS HERE
+##############################################################################
+
+if [ "$actionMode" != "install" ] ; then
+	echo "PROBLEM: You should not see this message."
+	exit 1
+fi
+
+## DEVICE COMPATIBILITY CHECKS:
+## ---------------------------------------------------------------------------
+## Measures ABI, free space, etc.
+if [ "$checkedCompatibility" != "yes" ] ; then
+	source "$here/process/compatibility.bash"
+	[ "$?" -ne 0 ] && missing_something
+fi
+##
+
+## DOWNLOAD ARCHIVE:
+## ---------------------------------------------------------------------------
+## Gets Arch Linux ARM and its md5.
+if [ "$gotArchive" != "yes" ] ; then
+	source "$here/process/archive.bash"
+	[ "$?" -ne 0 ] && missing_something
+fi
+##
+
+## UNPACK ARCHIVE IN PROOT:
+## ---------------------------------------------------------------------------
+## Fools Arch into thinking that it is the operating system.
+if [ "$unpackedArchive" != "yes" ] ; then
+	source "$here/process/unpack.bash"
+	[ "$?" -ne 0 ] && missing_something
+fi
+##
+
+## SET LOCALE:
+## ---------------------------------------------------------------------------
+## Reads locale from device properties. Will always be UTF-8.
+if [ "$localeSet" != "yes" ] ; then
+	source "$here/process/locale.bash"
+	[ "$?" -ne 0 ] && missing_something
+fi
+##
+
+## CREATE FAKE BIND FILES:
+## ---------------------------------------------------------------------------
+## Provides fake info for /proc/stat and /proc/version, if needed.
+if [ "$createdBinds" != "yes" ] ; then
+	source "$here/process/binds.bash"
+	[ "$?" -ne 0 ] && missing_something
+fi
+##
+
+## PRELIMINARY CONFIGURATION:
+## ---------------------------------------------------------------------------
+## Creates dotfiles, launches Arch, updates, deletes, adds, creates user, etc.
+if [ "$completedPrelim" != "yes" ] ; then
+	source "$here/process/prelimconfig.bash"
+	[ "$?" -ne 0 ] && missing_something
+fi
+##
+
+## INSTALL AND CONFIGURE LXDE DESKTOP:
+## ---------------------------------------------------------------------------
+## Re-launches Arch as new user, installs the LXDE Desktop.
+if [ "$configuredDesktop" != "yes" ] ; then
+	source "$here/process/getlxde.bash"
+	[ "$?" -ne 0 ] && missing_something
+fi
+##
+
+## INSTALL HELP, LOCAL SCRIPTS, AND LAUNCH COMMAND:
+## ---------------------------------------------------------------------------
+## Creates and installs the command for launching Alaterm from Termux.
+if [ "$completedInstall" != "yes" ] ; then
+	source "$here/process/finish.bash"
+	[ "$?" -ne 0 ] && missing_something
+fi
+##
+
+## DONE:
+## ---------------------------------------------------------------------------
+## Congratulations!
+echo -e "$DONE"
+#
+echo "Delete [d] Arch archive and its md5,"
+echo "or keep [k] them in Termux home?"
+while true ; do
+	printf "$Enter your choice [d|k] : " ; read r
+	case "$r" in
+		d*|D* ) printf "Deleting archive... "
+			rm -f "$alatermTop/$yourArchive"
+			rm -f "$alatermTop/$yourArchive.md5"
+			break ;;
+		k*|K* )	printf "Moving archive to Termux home... "
+			mv "$alatermTop/$yourArchive" "~"
+			mv "$alatermTop/$yourArchive.md5" "~"
+			break ;;
+		* )	echo "No default." ;;
+	esac
+done
+echo -e "$DONE"
+echo -e "\e[1;33mTo launch Alaterm, command:  alaterm\e[0m"
+#
+exit 0 # So the following Copyright and License is not processed as script.
+##
+
+
+##############################################################################
+## COPYRIGHT AND LICENSE.
+##############################################################################
+
+
+********** License and Copyright applicable to all Alaterm component files.
+********** Not applicable to the separate Arch Linux ARM archive or software.
+
+Alaterm (Arch Linux ARM in Termux)
+Copyright 2020 by Robert Allgeyer, of Aptos California USA "cargocultprog"
+
+MIT LICENSE
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom
+the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+************** End of License.
+
+## End alaterm-installer.

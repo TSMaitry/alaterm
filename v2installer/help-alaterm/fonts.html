@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="help-alaterm.css">
+
+<!-- Within Alaterm, use NetSurf browser. -->
+<!-- To read help outside of Alaterm, download the repository ZIP. -->
+<!-- Unzip it, then view the html in any browser. -->
+<!-- helpversion=5 -->
+
+<title>Fonts and Font Editors</title>
+
+</head>
+<body id="h">
+<div id="master">
+
+<p class="index">&lt;&lt; <a href="index.html">INDEX</a></p>
+
+
+<h3 id="h3">6. Fonts and font editors</h3>
+
+<p class="menu">6.1. <a href="#h6.1">Installing Arch fonts, using pacman</a></p>
+<p class="menu">6.2. <a href="#h6.2">Manually installing fonts</a></p>
+<p class="menu">6.3. <a href="#h6.3">Installing fonts for TeXLive</a></p>
+<p class="menu">6.4. <a href="#h6.4">Creating and editing fonts</a></p>
+
+<p class="break">Basic Alaterm does not install hundreds of fonts.
+A handful of fonts are installed with the essential programs, and
+<b>Roboto</b> fonts are installed for use in these help pages.</p>
+
+<p>Although Android comes with fonts in its
+<code>/system/fonts</code> directory,
+Alaterm does not automatically load those fonts.
+The <code>/system</code> directory is actually a mounted
+partition, not part of Alaterm's own system.</p>
+
+<p class="top">^<a href="#h">TOP</a>^</p>
+
+
+<h4 id="h6.1">6.1. Installing Arch fonts, using pacman</h4>
+
+<p class="start">To search for font packages in Alaterm:</p>
+
+<p class="code"><code>pacman -Ss font</code></p>
+
+<p class="noindent">That will return the names of packages that have
+<i>font</i> in the name or description.
+Some of them are font-handling software (rather than fonts),
+and some are specialized or bitmap fonts.</p>
+
+<p>For ordinary purposes in word processing,
+you want <b>TrueType</b> or <b>Open Type</b> fonts.
+Often (not always) the package name begins with <b>ttf-</b> or <b>otf-</b>.
+</p>
+
+<p class="top">^<a href="#h">TOP</a>^</p>
+
+
+<h4 id="h6.2">6.2. Manually installing fonts from anywhere</h4>
+
+<p class="break">You can install TrueType or Open Type fonts manually.</p>
+
+    <p class="li">Often, font families are downloaded as
+a single zip file. Unzip to get the contents.</p>
+
+    <p class="li">For your own convenience, place each font family
+in a single folder. You may use sub-folders for variations.
+No spaces in folder names.</p>
+    <p class="li2">How you organize them does not matter,
+as long as you do not duplicate names used by the system font installer.</p>
+
+    <p class="li">Put the folder into /usr/share/fonts.</p>
+
+    <p class="li">Update the font database:</p>
+<p class="code"><code>fc-cache</code></p>
+
+    <p class="li">Check that they are now available:</p>
+<p class="code"><code>fc-list</code></p>
+
+<p class="top">^<a href="#h">TOP</a>^</p>
+
+
+<h4 id="h6.3">6.3. Installing fonts for TeXLive</h4>
+
+<p class="noindent">If you are using Lua(La)TeX or XeTeX in TeXLive,
+see <a href="texlive.html">here</a> for more info about fonts.</p>
+
+<p class="top">^<a href="#h">TOP</a>^</p>
+
+
+<h4 id="h6.4">6.4. Creating and editing fonts</h4>
+
+<p class="break">If you edit any of the pacman-installed fonts,
+or any of the fonts insstalled into TeXLive, then you should give
+your edited fonts new font names, and new file names.
+If you fail to do that, then your edited fonts may be
+over-written whenever those fonts are updated.</p>
+
+<p class="li"><a href="https://fontforge.org/">FontForge</a>
+is very powerful.</p>
+<p class="code"><code>pacman -S fontforge</code></p>
+
+<p class="li"><a href="https://birdfont.org/">Birdfont</a>
+also includes color-svg features.</p>
+<p class="code"><code>pacman -S birdfont</code></p>
+
+<p class="top">^<a href="#h">TOP</a>^</p>
+
+</div><!-- end master -->
+</body>
+</html>
+

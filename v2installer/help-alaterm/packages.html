@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="help-alaterm.css">
+
+<!-- Within Alaterm, use NetSurf browser. -->
+<!-- To read help outside of Alaterm, download the repository ZIP. -->
+<!-- Unzip it, then view the html in any browser. -->
+<!-- helpversion=5 -->
+
+<title>Adding, Removing, and Updating Software Packages</title>
+
+</head>
+<body id="h">
+<div id="master">
+
+<p class="index">&lt;&lt; <a href="index.html">INDEX</a></p>
+
+
+<h3 id="h3">3. Adding, Removing, and Updating Software Packages</h3>
+
+<p class="menu">3.1. <a href="#h3.1">Updating Alaterm itself<a></p>
+<p class="menu">3.2. <a href="#h3.2">Arch software: Using pacman</a></p>
+
+<p class="top">^<a href="#h">TOP</a>^</p>
+
+
+<h4 id="h3.1">3.1. Updating Alaterm itself</h4>
+
+<p class="break">When the Alaterm installer finishes, it is done.
+You can discard the files from the Alaterm repository at GitHub.</p>
+
+<p>If there is an update to Alaterm, it will only involve some
+change to one or more configuration files. It will not re-install.
+Launch Alaterm, then type:</p>
+<p class="code"><code>echo $scriptVersion</code></p>
+
+<p>The Alaterm repository will have a folder named <code>update</code>.
+Compare your script version to the LATEST version.
+There will be two LATEST versions. One pertains to version 1.x,
+and its number will be 0-199. The other pertains to version 2.x,
+and its number will be 200-299. If your scriptVersion is less than
+the LATEST, then <code>bash update.bash</code> applies the update.
+Note that version 1.x cannot be updated to version 2.x.
+They are different.</p>
+
+<p class="top">^<a href="#h">TOP</a>^</p>
+
+
+<h4 id="h3.2">3.2. Using pacman for Arch software</h4>
+
+<p class="break">Programs, such as GIMP or LibreOffice, come from
+the Arch Linux ARM project. This is a subset of Arch Linux.
+Within that subset, some programs will work in your system,
+but others will not.</p>
+
+<p>Use <code>pacman</code> (not to be confused with the game)
+to install, remove, and update programs. This must be done
+from the Terminal. There is no GUI Menu choice.</p>
+
+<p>Some popular commands, case-sensitive:</p>
+<p class="code"><code>pacman -Syu</code> # updates all installed.</p>
+<p class="code"><code>pacman -S <i>program</i></code> # installs <i>program</i></p>
+<p class="code"><code>pacman -R <i>program</i></code> # removes <i>progam</i></p>
+
+<p class="break">For more information,
+<a href="https://wiki.archlinux.org/index.php/Pacman/Rosetta">look here</a>.</p>
+
+<p>Arch Linux does not have separate "dev" packages.
+When a program is installed, dev headers are also installed.</p>
+
+<p>Removing a program does not remove any dependencies
+installed at the same time. For your convenience, command <code>autoremove</code>
+will clean up unnecessary packages.</p>
+
+
+<p class="top">^<a href="#h">TOP</a>^</p>
+
+</div><!-- end master -->
+</body>
+</html>
+

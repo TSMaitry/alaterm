@@ -1,0 +1,12 @@
+# Alaterm:file=$alatermTop/etc/pacman.d/hooks/dbus-programs.hook
+[Trigger]
+Type = File
+Operation = Install
+Operation = Upgrade
+Operation = Remove
+Target = *
+
+[Action]
+Description = Fixing dbus-programs launchers...
+When = PostTransaction
+Exec = /usr/local/scripts/dbus-programs

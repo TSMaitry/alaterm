@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Alaterm:file=$alatermTop/home/.config/openbox/lxde-rc.xml -->
+<openbox_config xmlns="http://openbox.org/3.4/rc">
+
+<!-- User-specific modifications go here. -->
+<!-- Default settings are in /etc/xdg/openbox/rc.xml -->
+
+<desktops>
+  <number>1</number>
+  <firstdesk>1</firstdesk>
+  <popupTime>0</popupTime>
+</desktops>
+
+</openbox_config>

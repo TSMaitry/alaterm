@@ -1,0 +1,7 @@
+<!DOCTYPE Menu PUBLIC '-//freedesktop//DTD Menu 1.0//EN'
+'http://www.freedesktop.org/standards/menu-spec/menu-1.0.dtd'>
+<!-- Alaterm:file=$alatermTop/home/.config/menus/lxde-applications.menu -->
+<Menu>
+<Name>Applications</Name>
+<MergeFile type='parent'>/etc/xgd/menus/lxde-applications.menu</MergeFile>
+</Menu>

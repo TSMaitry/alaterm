@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="help-alaterm.css">
+
+<!-- Within Alaterm, use NetSurf browser. -->
+<!-- To read help outside of Alaterm, download the repository ZIP. -->
+<!-- Unzip it, then view the html in any browser. -->
+<!-- helpversion=5 -->
+
+<title>Images</title>
+
+</head>
+<body id="h">
+<div id="master">
+
+<p class="index">&lt;&lt; <a href="index.html">INDEX</a></p>
+
+
+<h3 id="h3">4. Images</h3>
+
+<p class="menu">4.1. <a href="#h4.1">Viewing images</a></p>
+<p class="menu">4.2. <a href="#h4.2">Creating and editing images</a></p>
+<p class="menu">4.3. <a href="#h4.3">HEIC/HEIF, h265</a></p>
+
+<p class="top">^<a href="#h">TOP</a>^</p>
+
+
+<h4 id="h4.1">4.1. Viewing images</h4>
+
+<p class="break">The GPicView program is pre-installed.
+You can invoke it from the Menu as "Graphics/Image Viewer"
+or use the file manager to right-click on the icon of an image file.</p>
+
+<p>GPicView is fast, but does not edit images beyond horizontal/vertical
+rotation.</p>
+
+<p class="top">^<a href="#h">TOP</a>^</p>
+
+
+<h4 id="h4.2">4.2. Image editors</h4>
+
+<p class="break">Image editors can consume a lot of resources.
+Whenever you create or edit a large image, close unneccessary Android apps,
+and only work on one image at a time.
+If the editor allows layers, keep the number of layers small.</p>
+
+<p>If the file is on removable media (detachable SD card, USB pendrive),
+first copy the file to your device internal storage, and edit it there.
+If you attempt to manipulate a file directly on removable media,
+the application may crash. This has to do with Android file security.</p>
+
+<p class="li"><a href="https://www.gimp.org/">GIMP</a>
+is up-to-date, with full capabilities. Others will envy you.</p>
+<p class="code"><code>pacman -S gimp</code></p>
+
+<p class="li"><a href="https://mypaint.org/">MyPaint</a>
+does many things, and is simpler than GIMP.</p>
+<p class="code"><code>pacman -S mypaint</code></p>
+
+<p class="li"><a href="https://inkscape.org/">Inkscape</a>
+is a powerful svg vector drawing program.</p>
+<p class="code"><code>pacman -S inkscape</code></p>
+
+<p class="li"><a href="https://imagemagick.org/">ImageMagick</a>
+and <a href="https://graphicsmagick.org/">GraphicsMagick</a>
+are command-line image editors that can perform a great variety of tasks.
+They are widely used when image handling must be automated by script.</p>
+<p class="li2">Since they are command-line programs without GUI,
+be sure to look at their documentation for the command syntax,
+or use Internet search for various how-to tricks.</p>
+<p class="code"><code>pacman -S imagemagick</code></p>
+<p class="code"><code>pacman -S graphicsmagick</code></p>
+
+<p class="li"><a href="https://hugin.sourceforge.net">
+Hugin</a> is a panorama photo stitcher.
+However, photo stitching is inherently demanding of memory, CPU,
+and read-write temporary file access.
+You may find that Hugin is too much for your device.</p>
+<p class="li2">Also, the stitched result may require specific software
+to view it properly. Not everyone has a suitable app installed.</p>
+<p class="code"><code>pacman -S hugin</code></p>
+
+<p class="top">^<a href="#h">TOP</a>^</p>
+
+
+<h4 id="h4.3">4.3. HEIC/HEIF, h265</h4>
+
+<p class="break">Many modern handheld devices save screenshots
+and photos in <b>heic/heif</b>
+format, also known as <b>h265</b>. This is especially true for Apple phones.
+At the time I write this, the native Alaterm software for handling
+heif/heic is rejected by Android security policies.
+This is not a fundamental problem. Perhaps it will be fixed in the future,
+if the Arch Linux ARM project does it.
+In the meantime, you have choices:</p>
+
+<p class="li">a) If you absolutely must open or save heic/heif still images
+within Alaterm, you can compile the fixed version of the necessary software,
+<b>libde265</b>. The compiler suite takes up about 250MB space,
+and compilation takes about 25 minutes.
+For your convenience, Alaterm includes a script that does it all:<br/>
+<code>compile-libde265</code></p>
+
+<p class="li">b) If you have Android 9 or later (not sure about 8),
+then there are numerous Android apps capable of opening heic/heif
+and exporting or saving to another
+format such as jpeg. Some of them will also convert jpeg to heic/heif.</p>
+
+<p class="li">c) There are online image converter services.
+Upload the heic/heif, then download the image converted to jpeg or whatever.
+Also works in reverse.</p>
+
+
+<p class="top">^<a href="#h">TOP</a>^</p>
+
+</div><!-- end master -->
+</body>
+</html>
+

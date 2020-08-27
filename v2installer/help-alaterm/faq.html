@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="help-alaterm.css">
+
+<!-- Within Alaterm, use NetSurf browser. -->
+<!-- To read help outside of Alaterm, download the repository ZIP. -->
+<!-- Unzip it, then view the html in any browser. -->
+<!-- helpversion=5 -->
+
+<title>FAQs for Alaterm</title>
+
+</head>
+<body id="h">
+<div id="master">
+
+<p class="index">&lt;&lt; <a href="index.html">INDEX</a></p>
+
+
+<h3>9. FAQs for Alaterm</h3>
+
+<p>&nbsp;</p>
+
+
+<h5>Can I read these help files without using Alaterm?</h5>
+
+<p>Yes. Download the Alaterm ZIP file, and unzip it using Android methods.
+Then you can read the pages in your Android web browser app.
+Or, if you already installed Alaterm, launch it. Then copy the help files
+out to the Android Download folder:</p>
+<p class="code"><code>h=/usr/local/help-alaterm</code></p>
+<p class="code"><code>cp -r $h $termuxHome/storage/downloads</code></p>
+<p>Caution: If you unzip the files using Android, do not use them for
+installing Alaterm. Get a fresh ZIP file and unzip it using Termux.</p>
+
+
+<h5>My device is a phone. Will Alaterm be useful?</h5>
+
+<p>Alaterm works on many phones, but does not interact with phone functions.
+It treats any device as a WiFi tablet, whether or not it is a phone.
+Alaterm might be visually congested, if your screen is small.</p>
+
+
+<h5>Can the installer be modified for a Linux distro, other than Arch?</h5>
+
+<p>No. The scripts are very specific to Arch Linux ARM.
+Changing a few lines will not enable you to install a different distro.</p>
+
+
+<h5>Why Arch Linux ARM, instead of (say) Ubuntu?</h5>
+
+<p>Most Linux distros do not have a version compiled for ARM processors.
+Among those that do, only Arch Linux ARM is kept very up-to-date,
+with a good selection of office and graphics programs.</p>
+
+<p>Also, distributions such as Ubuntu and Linux Mint contain
+many multimedia programs that will not work in Alaterm,
+due to Android limitations.</p>
+
+
+<h5>Can Alaterm do pentests?</h5>
+
+<p>No. Alaterm is for those who need a GUI, for office and graphics programs.
+You can still use the command line for many other things,
+but the support structure for pentesting is not configured.
+Also, it may not be possible to do pentests from a non-rooted device.</p>
+
+
+<h5>Why is NetSurf the only web browser in Alaterm?</h5>
+
+<p>Arch Linux ARM provides several browsers, including Firefox,
+but they do not work in Alaterm. Even if the software installs and launches,
+it may be unable to connect to the Internet. Nothing can be done about it.
+However, NetSurf knows how to connect to the Internet within Alaterm.
+You can always use Android's multitasking feature to open a native
+browser app, while Alaterm continues in the background.</p>
+
+
+<h5>Can Alaterm run Windows programs using WINE?</h5>
+
+<p>No. But WINE is available as a free Google Play Store app. Works great.
+Unfortunately, very few Windows programs are compiled for ARM architecture.
+Most of them are text editors, such as Notepad++.
+Forget about running ordinary Windows programs using WINE.</p>
+
+
+<h5>Why does Alaterm not have audio-visual programs?</h5>
+
+<p>Android retains control of your device sound card at all times. Normally,
+programs in Alaterm cannot find or access the sound card. So, no sound.</p>
+
+<p>It is possible to hack the audio, but only for some programs.
+Hacking is not supported.</p>
+
+<p>Video programs (without sound, unless specially configured) will work
+in Alaterm. But they will play much slower, and drop frames, compared
+to simply using a native Anroid video app.</p>
+
+<p>Programs requiring connected hardware, such as a MIDI Sequencer,
+are out of the question. If Android cannot mount the hardware,
+then Alaterm cannot mount it either. And if you can mount it,
+Android has a native app designed for the purpose of using it.</p>
+
+<p>The good news: You can do many file manipulations, such as editing
+MP3 tags, in Alaterm. You can often change file formats, and do
+a variety of tasks via command-line programs such as <b>ffmpeg</b>.</p>
+
+
+<h5>Are programs, such as GIMP, the same ones used for desktop computers?</h5>
+
+<p>Yes. And, they are very up-to-date.
+But your device has limited CPU and memory, which will limit performance.
+Some program features may be unavailable,
+even though they are shown in the program menus.</p>
+
+
+<h5>Does Alaterm work with touchscreen, mouse and keyboard, or all?</h5>
+
+<p>All of them.
+Bluetooth mouse and keyboard are recommended,
+because the programs are designed for desktop computers.
+Cable-connected accessories can be used, if Android accepts the connections.
+It is possible to draw and edit in GIMP by touchscreen alone,
+and possible to use LibrOffice with an on-screen touch keyboard,
+but those are very challenging tasks.</p>
+
+
+<h5>Can Alaterm access data on an external USB hard drive?</h5>
+
+<p>Probably not, unless you can do it in ordinary Android apps.
+Device access is always controlled by Android.
+If you cannot do it in Android, and Termux, then you cannot do it in Alaterm.
+But you can access Bluetooth devices, and USB pendrive.</p>
+
+
+<h5>Can I boot directly into Alaterm?</h5>
+
+<p>No. Alaterm does not install to a bootable partition.
+It is a software sub-system of Termux app.</p>
+
+
+<h5>Can I print from Alaterm?</h5>
+
+<p>Untested. Probably not.
+But you can export your images and documents as file formats (png, pdf, etc.)
+and place files in an Android Shared location, where other apps can see them.
+Then you may be able to print to a Bluetooth printer, or via Internet.
+You can copy the files to a USB pendrive, then print from a computer.</p>
+
+
+<h5>Can Alaterm open files such as PDF, MS Word?</h5>
+
+<p>PDF is easy. The program is named <b>Document Viewer</b> (Evince).</p>
+
+<p>For something such as MS Word, install <b>LibreOffice</b>.
+It can also export most (not all) MS Word formats.
+But if LibreOffice is too large for your device,
+remember that a variety of Android apps can handle MS Word or
+LibreOffice files. Have a look at the <b>Collabora</b> app.</p>
+
+
+<h5>Help! Android file manager cannot find files saved to Alaterm home.</h5>
+
+<p>This is normal behavior.
+Android security forbids its file manager to look into "private" directories.
+Your Alaterm home folder is private. So is Termux home.
+But you can move a file out of the private area,
+to where the Android file manager can see it.
+In the LXDE file manager, use the shortcut to <b>Android Shared</b>.</p>
+
+<p>You can also do it via command line. For example:</p>
+<p class="code"><code>cp doc.pdf
+$termuxHome/storage/downloads</code></p>
+<p>That will copy the file to the Download folder in Android.</p>
+
+
+<h5>Can Alaterm access removable media, such as USB pendrive?</h5>
+
+<p>Yes, but only if Android can access the media.
+Within Alaterm, use the LXDE file manager shortcut to Removable Media.
+The media directory name will be obscure.
+So, you will have to hunt around until you find the correct location.</p>
+
+
+<h5>In Alaterm, where is the Termux home directory?</h5>
+
+<p>It is a shortcut in the LXDE file manager.
+Or command line: <code>cd $termuxHome</code></p>
+
+
+<h5>In Termux (without launching Alaterm), where is Alaterm home?</h5>
+
+<p>It is <code>/data/data/com.termux/alaterm/home</code></p>
+
+
+<h5>Once Alaterm is installed, can I discard the "status" file?</h5>
+
+<p>No! Never! The <code>status</code> file records essential information.</p>
+
+
+<h5>How often is Alaterm updated?</h5>
+
+<p>Alaterm is merely an installer script.
+It is occasionally updated for bugs or features.
+Installed programs are frequently updated by the Arch Linux ARM project.</p>
+
+
+<h5>If I uninstall Termux, what happens?</h5>
+
+<p>You simultaneously uninstall Alaterm.
+Re-installing Termux does not revive Alaterm.</p>
+
+
+<h5>Is there a way to re-install Termux, without losing Alaterm?</h5>
+
+<p>Yes! But you do not actually re-install Termux.
+Instead, you restore it to "factory" state.
+Here is how to do it:</p>
+
+<p><b>Do not</b> uninstall the Termux app.
+Without launching Alaterm, type this into Termux: <code>rm -rf $PREFIX</code>
+Then exit Termux.</p>
+
+<p>At its next launch, Termux will restore itself, without touching Alaterm.
+You will need to add the <code>proot</code> program to the restored Termux.
+If you forget to do that, any attempt to launch Alaterm will remind you.</p>
+
+<p>The restored Termux no longer contains the Alaterm launch command.
+You can restore it. Termux commands:</p>
+<p><code>a=/data/data/com.termux/alaterm</code></p>
+<p><code>s=/usr/local/scripts</code></p>
+<p><code>cp $a/$s/alaterm $PREFIX/bin/</code></p>
+
+
+<h5>Can I clean out my Termux home directory, without losing Alaterm?</h5>
+
+<p>Yes! The default installation of Alaterm is not within Termux home.</p>
+
+
+<h5>Can I run two different installations of Alaterm in a single Termux?</h5>
+
+<p>Yes, but only if you manually edit file <code>globals.bash</code>
+to provide a different alatermTop and launchCommand.
+This is not recommended. No support is provided.
+In any case, only one installation may run at a given time.</p>
+
+
+<h5>Does Alaterm use Android power management, to save battery life?</h5>
+
+<p>Yes. This is automatic, since Android is always in control.
+If you know how, you can start and stop a wakelock, when full power is needed.
+Alaterm used a wakelock during its initial installation.</p>
+
+
+<h5>Is Alaterm a fork of the TermuxArch project?</h5>
+
+<p>No. Both of them rely on Arch Linux ARM software,
+but Alaterm and TermuxArch are very different.
+If you wish, you may install both of them, as they are independent.</p>
+
+
+<h5>Alaterm occupies a lot of space on my device.
+Is there a lighter alternative?</h5>
+
+<p>If you need to run heavy programs such as GIMP or LibreOffice,
+then you need a heavy installation such as Alaterm.
+But if you only need to run lightweight programs, such as Geany or mtPaint,
+then the lightweight <code>xfce4</code> Desktop might be your choice.
+See the Termux project page (X11 programs) for more information.
+Or, if you only need a command-line program
+such as <code>pdflatex</code> or <code>ffmpeg</code>,
+then you do not need any GUI. They can run directly in Termux.</p>
+
+
+<h5>If I root my device, does that make Alaterm better?</h5>
+
+<p>I do not know, and do not care. Do not even ask about rooting.</p>
+
+
+<p class="top">^<a href="#h">TOP</a>^</p>
+
+
+</div><!-- end master -->
+</body>
+</html>
+
