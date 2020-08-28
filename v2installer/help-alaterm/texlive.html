@@ -71,7 +71,7 @@ Choose one or the other.</p>
 <a href="https://www.tug.org/texlive/acquire-netinstall.html">TUG</a>.</p>
     <p class="li">c) Unpack it in Alaterm home, using Alaterm software. Do not unpack using Android tools.</p>
     <p class="li">d) Enter the directory containing <code>install-tl</code>. Then:</p>
-<p class="code"><code>perl install-tl</code></p>
+<p class="code"><code>sudo perl install-tl</code></p>
     <p class="li">e) The correct binaries may be labeled armhf-linux, armv6, or similar.
 If the label does not exactly match your ARM architecture, no problem.
 But certainly do not use i386, x86_64, or Mac.</p>
@@ -81,7 +81,7 @@ and packages. The default tries to install everything.</p>
 Unless you habitually work offline, you can save a lot of space by
 not installing the doc tree. Documentation for individual packages
 can be obtained by reinstalling them later, as needed:</p>
-<p class="code"><code>tlmgr install --reinstall --with-doc <i>texpackagename</i></code></p>
+<p class="code"><code>sudo tlmgr install --reinstall --with-doc <i>texpackagename</i></code></p>
     <p class="li">h) The default TEXMFHOME directory is visible in your home folder.
 If you are in the habit of cleaning out files there, then change it to
 a hidden directory such as <code>~/.texmf-home</code>.</p>
@@ -93,6 +93,9 @@ ignore PATH and only look in expected locations.</p>
 did this correctly, command <code>which latex</code> immediately after
 completing the installer, before re-launching Alaterm.
 If it does not find <code>latex</code>, re-install with the symlinks.</p>
+<p class="li">j) To avoid the need to remember <code>sudo</code> whenever
+you use <code>tlmgr</code>, you can add this line to
+~/.bashrc : <code>alias tlmgr='sudo tlmgr'</code>
 
 <p class="top">^<a href="#h">TOP</a>^</p>
 
