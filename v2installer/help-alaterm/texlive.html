@@ -63,32 +63,36 @@ No problem with TeXLive from TUG.</p>
 
 <h4 id="h7.2">7.2. Installing TeXLive from TUG online</h4>
 
-<p class="noindent">As an alternative to the pacman installation, you can install TeXLive
-via the downloaded online installer, directly from the TUG web site:</p>
-    <p class="li">a) Do not install both the native package, and the one from TUG.
+<p class="noindent">As an alternative to the pacman installation,
+you can install TeXLive via the downloaded online installer,
+directly from the TUG web site:</p>
+    <p class="li">a) Do not install both native package, and the one from TUG.
 Choose one or the other.</p>
     <p class="li">b) Get <code>install-tl-unx.tar.gz</code> from
 <a href="https://www.tug.org/texlive/acquire-netinstall.html">TUG</a>.</p>
-    <p class="li">c) Unpack it in Alaterm home, using Alaterm software. Do not unpack using Android tools.</p>
-    <p class="li">d) Enter the directory containing <code>install-tl</code>. Then:</p>
+    <p class="li">c) Unpack it in Alaterm home, using Alaterm software.
+Do not unpack using Android tools.</p>
+    <p class="li">d) Enter the directory containing <code>install-tl</code>.
+Then:</p>
 <p class="code"><code>sudo perl install-tl</code></p>
-    <p class="li">e) The correct binaries may be labeled armhf-linux, armv6, or similar.
-If the label does not exactly match your ARM architecture, no problem.
-But certainly do not use i386, x86_64, or Mac.</p>
-    <p class="li">f) Carefully choose only what you need, from among the schemes
-and packages. The default tries to install everything.</p>
+    <p class="li">e) The correct binaries may be labeled armhf-linux, armv6,
+or similar. If the label does not exactly match your ARM architecture,
+no problem. But certainly do not use i386, x86_64, or Mac.</p>
+    <p class="li">f) Carefully choose only what you need, from among the
+schemes and packages. The default tries to install everything.</p>
     <p class="li">g) You almost certainly do not need to install the src tree.
 Unless you habitually work offline, you can save a lot of space by
 not installing the doc tree. Documentation for individual packages
 can be obtained by reinstalling them later, as needed:</p>
-<p class="code"><code>sudo tlmgr install --reinstall --with-doc <i>texpackagename</i></code></p>
-    <p class="li">h) The default TEXMFHOME directory is visible in your home folder.
-If you are in the habit of cleaning out files there, then change it to
-a hidden directory such as <code>~/.texmf-home</code>.</p>
-    <p class="li">i) IMPORTANT: Choose "create symlinks in standard directories."
-That will be <code>/usr/local/bin</code> for the binaries, and similar
-for the others. This is superior to editing PATH, because some programs
-ignore PATH and only look in expected locations.</p>
+<p class="code"><code>sudo tlmgr install --reinstall --with-doc
+<i>texpackagename</i></code></p>
+    <p class="li">h) The default TEXMFHOME directory is visible in your home
+folder. If you are in the habit of cleaning out files there, then change it
+to a hidden directory such as <code>~/.texmf-home</code>.</p>
+    <p class="li">i) IMPORTANT: Choose "create symlinks in standard
+directories." That will be <code>/usr/local/bin</code> for the binaries,
+and similar for the others. This is superior to editing PATH, because some
+programs ignore PATH and only look in expected locations.</p>
 <p class="li2">To test whether you
 did this correctly, command <code>which latex</code> immediately after
 completing the installer, before re-launching Alaterm.
@@ -143,15 +147,16 @@ refresh its internal font database after installing any new fonts.
 This is a TeXLive procedure, not specific to Alaterm:</p>
 <p class="code"><code>luaotfload-tool --cache=erase</code></p>
 
-<p>In a few cases, a problem arises when an Alaterm system font is also distributed within TeX.
-Even though the font name (internal to the font file)
+<p>In a few cases, a problem arises when an Alaterm system font is also
+distributed within TeX. Even though the font name (internal to the font file)
 is identical, the filename may differ from the one stored in
 the TeXLive database. Then TeX is confused.
 You can fix this in one of two ways:</p>
 
-    <p class="li">The hard way: Re-name the Alaterm system files to whatever TeX expects.
-Often this involves case-sensitive. For example, a system file may be
-named <i>SomeFont-Italic.otf</i> but TeX expects <i>somefont-italic.otf</i>.
+    <p class="li">The hard way: Re-name the Alaterm system files to whatever
+TeX expects. Often this involves case-sensitive. For example, a system file
+may be named <i>SomeFont-Italic.otf</i> but TeX expects
+<i>somefont-italic.otf</i>.
 After re-naming the files, update the system and TeX font caches:</p>
 <p class="code"><code>fc-cache</code></p>
 <p class="code"><code>mktexlsr && updmap-sys</code></p>
