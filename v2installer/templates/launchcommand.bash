@@ -55,6 +55,7 @@ prsUser+=" -b /proc -b /system -b /dev -b /data "
 [ -d /sys ] && prsUser+=" -b /sys"
 [ -d /vendor ] && prsUser+=" -b /vendor"
 [ -d /odm ] && prsuser+=" -b /odm"
+[ -d /product ] && prsuser+=" -b /product"
 # Many parts of Android /proc ae inacessible and cannot be mounted in Alaterm.
 # Bind fake information instead, which fools many programs:
 if [ ! -r /proc/stat ] ; then
@@ -63,10 +64,7 @@ fi
 if [ ! -r /proc/version ] ;then
 	prsUser+=" -b $alatermTop/var/binds/dummyPV:/proc/version"
 fi
-# Sadly, Android /sdcard is not a removable SD card, it is internal storage.
-# If you have removable media, whether SD card or USB pendrive or whatever,
-# it will appear somewhere within /storage. Actual location is obscure.
-[ -d /sdcard ] && prsUser+=" -b /sdcard" # On-board.
+[ -d /sdcard ] && prsUser+=" -b /sdcard" # Built-in.
 [ -d /storage ] && prsUser+=" -b /storage" # Removable.
 prsUser+=" -b /proc/self/fd/0:/dev/stdin"
 prsUser+=" -b /proc/self/fd/1:/dev/stdout"

@@ -1,15 +1,24 @@
 #### Updates to Alaterm
 
-Launch Alaterm, then command: `echo $scriptRevision`
+Latest scriptRevision 1 is 64<br>
+Latest scriptRevision 2 is 204<br>
+Note that version 2 is not an update to version 1.
 
-Version 1 installations have scriptRevision less than 200.
-The latest update: 60.
-This is not recent. Version 1 is stable.
+Launch Alaterm. Command: `echo $scriptRevision` then compare to above.
+If an update exists, then:
 
-Version 2 installations have scriptRevision 200 or more.
-The lastest update: 200.
+1. Place the `update` folder in your Alaterm home directory,
 
-To update Alaterm, get a fresh ZIP download (or, git pull).
-Look in folder `v1update` or `v2update`.
+2. Enter the `update` folder. Command: `bash alaterm-update`
 
-If you do not see that folder, it means no update.
+The script will auto-detect whether your installation is version 1 or 2,
+and will apply updates (if any). This is a fast procedure, usually involving
+no more than small tweaks to existing configuration files, or new
+utility scripts.
+
+Remember: Alaterm does not provide programs.
+It is an installer for programs provided by Arch Linux ARM.
+To update installed Linux software: `pacman -Syu`
+
+
+

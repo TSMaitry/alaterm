@@ -24,7 +24,7 @@ export BROWSER=/usr/bin/netsurf # User may over-ride, but unlikely.
 export TMPDIR=/tmp # In Alaterm, not Android.
 export ANDROID_DATA=/data # Same in Android, Termux, and Alaterm.
 export ANDROID_ROOT=/system # Same in Android, Termux, and Alaterm.
-export EXTERNAL_STORAGE=/sdcard # Actually onboard storage, not removable.
+export EXTERNAL_STORAGE=/sdcard # Actually built-in storage, not removable.
 # Use Android native ps and top, if available, rather than Arch programs.
 # Do this at each login, in case Arch updates ps or top:
 if [ -f /usr/bin/ps ] && [ ! -L /usr/bin/ps ] ; then

@@ -18,8 +18,8 @@ check_directory() {
 	if [ "$?" -ne 0 ] ; then # Unlikely to fail.
 		echo -e "$PROBLEM Cannot create installation directory."
 		echo "Its parent directory is not writeable." ; exit 1
-	else # Do not leave empty directory if user decides not to install:
-		rm -d "$alatermTop" 2>/dev/null # Re-created with status file.
+	else # Do not leave empty directory if cannot be installed:
+		rm -d "$alatermTop" 2>/dev/null
 	fi
 } # End check_directory.
 
@@ -101,7 +101,8 @@ check_kernel() { # Must be major version 4 or more. Almost certainly true.
 
 } # End check_kernel.
 
-check_freeSpace() { # Improved in script version 1.2.6.
+check_freeSpace() { # Improved in script versions 1.2.6, 2.0.4.
+	cd "$alatermTop"
 	dataline="$(df -h . 2>/dev/null | grep /data$)"
 	dataline="$(echo $dataline | gawk 'FNR == 1 {print $4}')" 2>/dev/null
 	if [[ "$dataline" =~ G ]] ; then
@@ -113,7 +114,7 @@ check_freeSpace() { # Improved in script version 1.2.6.
 	if [ "$userSpace" -eq -1 ] ; then
 		echo -e "$WARNING Test was unable to calculate free space."
 		echo "Check free space manually, using Android file manager."
-		echo "Do not include removable media."
+		echo "Only include Internal Storage."
 		echo "After that check, what do you wish to do?"
 		echo "  p = Proceed. At least 3G internal free space."
 		echo "  x = Exit. Not enough space."
@@ -247,7 +248,7 @@ check_directory # Intended location OK?
 check_priorInstall # Anything already there?
 check_ABI # Your flavor of Android system. Not same as version number.
 check_kernel # Release must be at least 4. Probably is.
-check_freeSpace # On-board, not removable.
+check_freeSpace # Internal Storage only.
 caution_rooters # Alaterm is primarily for non-rooted devices.
 ignore_proxy # If proxy server in Termux, not copied into Alaterm.
 update_termuxPackages

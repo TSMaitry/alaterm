@@ -76,7 +76,7 @@ setup_compiler() {
 }
 get_sourcecode() {
 	echo -e "\e[1;92mDownloading source code for libmpeg2...\e[0m"
-	mkdir ~/.source && cd ~/.source
+	mkdir -p ~/.source && cd ~/.source
 	git clone https://github.com/cisco-open-source/libmpeg2.git
 	if [ "$?" -ne 0 ] ; then
 		echo -e "$PROBLEM Download failed during git clone libmpeg2."

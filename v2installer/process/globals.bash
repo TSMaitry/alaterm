@@ -25,11 +25,10 @@ export termuxTop="$HOME/../../" # Highest writeable directory in Termux.
 cd "$termuxTop" && termuxTop=`pwd` # Expands to /data/data/com.termux.
 declare termuxPrefix="$PREFIX" # Equivalent of /usr, within Termux.
 declare termuxHome="$HOME" # Where Termux is, at start.
-#
 # Alaterm is installed where it does not mingle with Termux /usr or /home.
-declare alatermTop="$termuxTop/alaterm" # This is / in Alaterm.
+# Standard location is $termuxTop/alaterm, on-board device, within Termux app.
+declare alatermTop="$termuxTop/alaterm" # Highest rwx directory in Termux.
 declare launchCommand="alaterm" # As used by Termux.
-#
 # ABI is Android-speak for its operating system. Not same as version number.
 # As of mid-2020 these two are known, plus Chromebook version of armeabi-v7a:
 declare abi32="armeabi-v7a" # 32-bit. May or may not be Chromebook.
@@ -227,4 +226,23 @@ install_template() { # Takes 1 or 2 arguments: filename in /templates, chmod.
 	sleep .05
 } # End install_template.
 
+# Developer-only routine for testing templates, without real installation:
+if [[ "$here" =~ TAexp-min ]] ; then # Specially-named folder.
+	alatermTop="$alatermTop-dev"
+	launchCommand="$launchCommand-dev"
+	mkdir -p "$alatermTop"
+	cd "$here/templates"
+	templates="$(ls)"
+	echo "Reading templates..."
+	for template in $templates ; do # No quotes.
+		if [[ "$template" =~ bash$ ]] ; then
+			install_template "$template" 755
+		else
+			install_template "$template"
+		fi
+	done
+	cp "$alatermTop/usr/local/scripts/$launchCommand" "$PREFIX/bin/"
+	echo "Developer exit."
+	exit 0
+fi
 ##

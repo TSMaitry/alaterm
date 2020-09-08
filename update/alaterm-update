@@ -1,0 +1,129 @@
+#!/bin/bash
+# This script updates installed Alaterm.
+# Applies to version 1.x or 2.x, auto-detected.
+# Usage:
+# Place this update folder in your Alaterm home directory.
+# Launch Alaterm.
+# Enter this folder, then command:  bash alaterm-update
+
+let v1latest=64
+let v2latest=204
+
+if [[ "$PWD" =~ TAexp-min ]] ; then # Developer only: not within Alaterm.
+	export alatermTop="$PREFIX/../../alaterm-dev"
+	export launchCommand="alaterm-dev"
+	export zzzz="$alatermTop"
+	export termuxPrefix="$PREFIX"
+	export termuxHome="$HOME"
+	export userLocale="te_ST"
+	let scriptRevision=200
+	[ -r "$zzzz/status" ] && source "$zzzz/status"
+elif  [ -r "/status" ] ; then # Anyone else must be within Alaterm
+	chmod 755 "$alatermTop"
+	chmod 644 "/status"
+	source /status
+else
+	echo "PROBLEM. Did not find readable /status file."
+	echo "This script must be launched from within Alaterm."
+	echo "Its update folder must be in Alaterm home."
+	exit 1
+fi
+
+if [ "$scriptRevision" = "" ] || [ "$scriptRevision" -lt 40 ] ; then
+	echo "Your Alaterm installation is too old for updates."
+	echo "Nothing done."
+	exit 1
+fi
+
+if [ "$scriptRevision" -lt "$v1latest" ] ; then
+	let whichv=1
+elif [ "$scriptRevision" -lt "$v2latest" ] ; then
+	let whichv=2
+else
+	echo "Your installation is up-to-date."
+	echo "Its scriptRevision is $scriptRevision"
+	echo "Nothing done."
+	exit 0
+fi
+
+
+## Updates applicable to versions 1 and 2:
+## ---------------------------------------------------------------------------
+
+# Fix missing -p here:
+thisfile="$zzzz/usr/local/scripts/compile-libmpeg2"
+sed -i 's!mkdir ~/\.source!mkdir -p ~/\.source!' "$thisfile"
+
+
+## Updates only applicable to version 1:
+## ---------------------------------------------------------------------------
+
+if [ "$whichv" -eq 1 ] ; then
+##
+thisfile="$termuxPrefix/bin/$launchCommand"
+stor="[ -d /storage ] && prsUser+=\"-b /storage \""
+odm="[ -d /odm ] && prsuser+=\" -b /odm\""
+prd="[ -d /product ] && prsuser+=\" -b /product\""
+grep "$odm" "$thisfile" >/dev/null 2>&1
+if [ "$?" -ne 0 ] ; then
+	sed -i "s!$stor!$stor\n$odm\n$prod!" "$thisfile"
+	cp "$thisfile" "$zzzz/usr/local/scripts/"
+	rm -f "$zzzz/launchCommand"
+fi
+
+# Method for fixing dbus-launch changed:
+dir="$zzzz/etc/pacman.d/hooks"
+mv "$dir/fixdbuslaunch.hook" "$dir/dbus-programs.hook" 2>/dev/null
+dir="$zzzz/usr/local/scripts"
+rm -f "$dir/fixdbuslaunch"
+if [ ! -f "$zzzz/usr/local/scripts/dbus-programs" ] ; then
+	cat <<- 'EOC' > "$zzzz/usr/local/scripts/dbus-programs"
+	#!/bin/bash
+	progdbus="org.gnome.gedit org.gnome.font-viewer gimp"
+	progdbus+=" lxappearance kid3-qt ciano inkscape hugin"
+	usa="/usr/share/applications"
+	edrs="Exec=dbus-run-session " # Note space.
+	hlsa="/home/.local/share/applications"
+	mkdir -p "$hlsa" && cd "$hlsa"
+	for p in "$progdbus" ; do
+		if [ -f "$usa/$p.desktop" ] ; then
+			cp "$usa/$p.desktop" "."
+			sed -i 's!Exec=!$edrs!' "$p.desktop"
+		else
+			rm -f "$p.desktop"
+		fi
+	done
+	EOC
+	chmod 755 "$zzzz/usr/local/scripts/dbus-programs"
+fi
+#
+echo "let scriptRevision=$v1latest" >> "$zzzz/status"
+fi # End whichv -eq 1
+##
+
+
+## Updates only applicable to version 2:
+## ---------------------------------------------------------------------------
+
+if [ "$whichv" -eq 2 ] ; then
+##
+thisfile="$termuxPrefix/bin/$launchCommand"
+odm="[ -d /odm ] && prsuser+=\" -b /odm\""
+prd="[ -d /product ] && prsuser+=\" -b /product\""
+grep "$prd" "$thisfile" >/dev/null 2>&1
+if [ "$?" -ne 0 ] ; then
+	sed -i "s!$odm!$odm\n$prod!" "$thisfile"
+	cp "$thisfile" "$zzzz/usr/local/scripts/"
+	rm -f "$zzzz/launchCommand"
+fi
+#
+echo "let scriptRevision=$v2latest" >> "$zzzz/status"
+fi # End whichv -eq 2
+##
+
+
+##
+sleep 1 # So that it looks like something happened.
+echo "Update complete."
+exit 0
+##

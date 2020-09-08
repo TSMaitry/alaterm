@@ -21,7 +21,7 @@ Should also work with a variety of devices that run 32-bit or 64-bit Android,
 but there is little benefit for small-screen devices.
 Here are some screenshots:
 
-![screenshot of LXDE desktop with expanded menu](lxde-alaterm.png)
+![screenshot of LXDE desktop](lxde-alaterm.png)
 
 ![screenshot of GIMP](gimp-alaterm.png)
 
@@ -55,11 +55,10 @@ direct interface to the Android structure.
 Besides, your device is built for multi-media using native Android apps.
 Adding any kind of Linux capability brings no advantage.
 
+
 ### INSTALLATION (Android only, ARM processor only):
 
-Look at the file INSTALL.md at this site. Simple. No-Brainer.
-
-![Installation is a no-brainer.](no-brainer-install.png)
+Look at the file INSTALL.md at this site.
 
 If installation fails for you, and you have a GitHub account,
 be sure to raise an issue.
