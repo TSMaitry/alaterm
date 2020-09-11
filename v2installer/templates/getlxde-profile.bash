@@ -35,7 +35,7 @@ getThese="nano wget python python-xdg ghostscript ttf-roboto"
 getThese+=" tigervnc lxde evince poppler-data poppler-glib freeglut man"
 getThese+=" xterm gpicview netsurf leafpad geany geany-plugins ghex libraw"
 getThese+=" gnome-calculator gnome-font-viewer libwmf openexr openjpeg2"
-getThese+=" thunar thunar-media-tags-plugin"
+getThese+=" thunar thunar-media-tags-plugin xorg-xinit"
 pacman -Ss -q trash-cli >/dev/null # In case this package is unavailable.
 if [ "$?" -eq 0 ] ; then
 	getThese+=" trash-cli"
