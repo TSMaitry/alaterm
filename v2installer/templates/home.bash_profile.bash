@@ -64,27 +64,15 @@ rm -f ~/.X11authority && touch ~/.X11authority
 rm -f ~/.ICEauthority && touch ~/.ICEauthority
 # Ensure no left-over .vnc files:
 rm -f ~/.vnc/localhost*
-# Launch GUI:
-export DISPLAY=:1
 # Prevent non-working programs from showing in LXDE Menu:
 ban-menu-items 2>/dev/null # In /usr/local/scripts
 # Ensure that certain basic programs are always default for their mimetypes:
 edit-mimeinfo-cache 2>/dev/null # In /usr/local/scripts
-# Edit the vncserver welcome message. Re-do at each login, in case of update.
-# Also keep a copy of the pre-edited file, in case of error:
-bv="/bin/vncserver"
-[ ! -f "$bv.bak" ] && cp "$bv" "$bv.bak"
-newhost="New \$host:\$displayNumber"
-newhost+=" at 127.0.0.1:590\$displayNumber.\\n"
-newhost+="View LXDE Desktop in VNC Viewer app. Password: password\\n"
-newhost+="To leave Alaterm and return to Termux: logout\\\n"
-sed -i "/.*warn.*desktop is.*/c\warn \"$newhost\";" "/bin/vncserver"
-sed -i '/.*warn.*applications specified in.*/c\warn "\\n";' "$bv"
-sed -i '/.*warn.*og file is.*/c\warn "\\n";' "$bv"
-sed -i 's/^warn "\\n";//g' "$bv"
 sleep .1
-printf "\e[92m" # Colorizes the messages from vncserver.
-vncserver
+# Launch GUI:
+export DISPLAY=:1
+printf "\e[92m" # Colorizes the messages from start-vnc.
+/usr/local/scripts/start-vnc
 printf "\e[0m" # End colorize.
 sleep .1
 #

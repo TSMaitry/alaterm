@@ -201,7 +201,7 @@ install_template() { # Takes 1 or 2 arguments: filename in /templates, chmod.
 	dir="$(echo $fs | sed 's![^/]*$!!')" # Path only.
 	mkdir -p "$dir" 2>/dev/null
 	if [ "$?" -ne 0 ] ; then
-		echo "$PROBLEM Cannot create directory:"
+		echo -e "$PROBLEM Cannot create directory:"
 		echo "  $dir"
 		echo "  required by install_template $1."
 		exit 1

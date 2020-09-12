@@ -53,6 +53,8 @@ cp "$alatermTop/usr/local/scripts/$launchCommand" "$PREFIX/bin/"
 install_template "fake-launch.bash" "755"
 # Let Termux know that Alaterm is installed:
 modify_termuxBashrc
+# Make backup copy of original status file:
+cp "$alatermTop/status" "$alatermTop/status.orig"
 
 # Extras:
 install_template "TeXworks.conf"

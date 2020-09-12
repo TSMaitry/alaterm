@@ -6,10 +6,13 @@
 # Launch Alaterm.
 # Enter this folder, then command:  bash alaterm-update
 
-let v1latest=64
-let v2latest=204
+let v1latest=68
+let v2latest=208
 
-if [[ "$PWD" =~ TAexp-min ]] ; then # Developer only: not within Alaterm.
+export uhere="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+cd "$uhere" # Update templates are relative to $uhere.
+
+if [ ! -r "/status" ] && [[ "$PWD" =~ TAexp-min ]] ; then # Developer only.
 	export alatermTop="$PREFIX/../../alaterm-dev"
 	export launchCommand="alaterm-dev"
 	export zzzz="$alatermTop"
@@ -18,7 +21,7 @@ if [[ "$PWD" =~ TAexp-min ]] ; then # Developer only: not within Alaterm.
 	export userLocale="te_ST"
 	let scriptRevision=200
 	[ -r "$zzzz/status" ] && source "$zzzz/status"
-elif  [ -r "/status" ] ; then # Anyone else must be within Alaterm
+elif  [ -r "/status" ] ; then # Anyone else must be within Alaterm.
 	chmod 755 "$alatermTop"
 	chmod 644 "/status"
 	source /status
@@ -47,12 +50,104 @@ else
 fi
 
 
+## Required functions:
+## ---------------------------------------------------------------------------
+# install_template creates an Alaterm file, from a file in templates folder.
+install_template() { # Takes 1 or 2 arguments: filename in /templates, chmod.
+	t="$uhere/templates/$1"
+	if [ ! -f "$t" ] ; then
+		echo -e "$PROBLEM cannot locate update file:"
+		echo "  templates/$1"
+		exit 1
+	fi
+	if [ "$#" -gt 2 ] ; then
+		echo -e "$PROBLEM More than 2 arguments for:"
+		echo "  install_template $1"
+		exit 1
+	fi
+	if [ "$#" = "2" ] ; then # Optional chmod.
+		ok="no"
+		[[ "$2" =~ ^[1-7][0-7][0-7]$ ]] && ok="yes" # 3 digits.
+		[[ "$2" =~ ^[0=7][1-7][0-7][0-7]$ ]] && ok="yes" # 4 digits.
+		if [ "$ok" != "yes" ] ; then
+			echo -e "$PROBLEM Bad chmod code $2 for:"
+			echo "  install_template $1."
+			exit 1
+		fi
+	fi
+	fs="" # Initialize.
+	fs="$(grep "laterm:file=" $t 2>/dev/null)" # Find the instruction.
+	# Extract destination filename from filestring:
+	fs="$(echo $fs | sed 's/.*laterm:file=//')"
+	fs="$(echo $fs | sed 's/ .*//')" # Destination ends at space.
+	if [ "$fs" = "" ] ; then
+		echo -e "$PROBLEM Cannot find instruction, Alaterm:file="
+		echo "  in templates/$1."
+		exit 1
+	fi
+	# Expand filestring variables, if present.
+	# These are paths containing / so alternative ! must be used in sed:
+	fs="$(echo $fs | sed "s!\$alatermTop!$alatermTop!")"
+	fs="$(echo $fs | sed "s!\$PREFIX!$PREFIX!")"
+	fs="$(echo $fs | sed "s!\$HOME!$HOME!")"
+	fs="$(echo $fs | sed "s!\$launchCommand!$launchCommand!")"
+	# If necessary, create the directory path:
+	dir="$(echo $fs | sed 's![^/]*$!!')" # Path only.
+	mkdir -p "$dir" 2>/dev/null
+	if [ "$?" -ne 0 ] ; then
+		echo -e "$PROBLEM Cannot create directory:"
+		echo "  $dir"
+		echo "  required by install_template $1."
+		exit 1
+	fi
+	sleep .05
+	cp "$t" "$fs"
+	sleep .05
+	sed -i '/laterm:file=/d' "$fs" # Remove instruction line.
+	# After removing instruction, most templates are installed verbatim.
+	# Use PARSE for variables that must be expanded there.
+	sed -i "s!PARSE\$launchCommand!$launchCommand!" "$fs"
+	sed -i "s!PARSE\$alatermTop!$alatermTop!" "$fs"
+	sed -i "s!PARSE\$userLocale!$userLocale!" "$fs"
+	sed -i "s!PARSE\$PREFIX!$PREFIX!" "$fs" # Termux.
+	sed -i "s!PARSE\$HOME!$HOME!" "$fs" # Termux.
+	# chmod if specified:
+	if [ "$#" = "2" ] ; then
+		chmod "$2" "$fs"
+	else
+		chmod 644 "$fs"
+	fi
+	sleep .05
+} # End install_template.
+
+
 ## Updates applicable to versions 1 and 2:
 ## ---------------------------------------------------------------------------
+
+# Make backup copy of original status file:
+if [ -f "$zzzz/status" ] && [ ! -f "$zzzz/status.orig" ] ; then
+	cp "$zzzz/status" "$zzzz/status.orig"
+fi
 
 # Fix missing -p here:
 thisfile="$zzzz/usr/local/scripts/compile-libmpeg2"
 sed -i 's!mkdir ~/\.source!mkdir -p ~/\.source!' "$thisfile"
+
+# If user downloaded the help files with this, reinstall them:
+if [ -d ../v2installer/help-alaterm ] ; then
+	mkdir -p "$zzzz/usr/local/help-alaterm"
+	cp ../v2installer/help-alaterm/* "$zzzz/usr/local/help-alaterm/"
+fi
+
+# Original detected command directory. Should detect if in active Alaterm:
+thisfile="$zzzz/usr/local/scripts/$launchCommand"
+sed -i 's/grep files/grep \/data\/data/' "$thisfile"
+cp "$thisfile" "$PREFIX/bin/"
+
+# Un-fix a bad update to vncserver:
+install_template "start-vnc.bash" "755"
+bp="$zzzz/home/.bash_profile"
+sed -i 's/^vncserver/\/usr\/local\/scripts\/start-vnc/' "$bp"
 
 
 ## Updates only applicable to version 1:
@@ -98,7 +193,7 @@ if [ ! -f "$zzzz/usr/local/scripts/dbus-programs" ] ; then
 fi
 #
 echo "let scriptRevision=$v1latest" >> "$zzzz/status"
-fi # End whichv -eq 1
+fi # End whichv -eq 1.
 ##
 
 
@@ -118,7 +213,7 @@ if [ "$?" -ne 0 ] ; then
 fi
 #
 echo "let scriptRevision=$v2latest" >> "$zzzz/status"
-fi # End whichv -eq 2
+fi # End whichv -eq 2.
 ##
 
 

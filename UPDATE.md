@@ -1,13 +1,15 @@
 #### Updates to Alaterm
 
-Latest scriptRevision 1 is 64<br>
-Latest scriptRevision 2 is 204<br>
+Latest scriptRevision 1 is 68<br>
+Latest scriptRevision 2 is 208<br>
 Note that version 2 is not an update to version 1.
 
 Launch Alaterm. Command: `echo $scriptRevision` then compare to above.
 If an update exists, then:
 
-1. Place the `update` folder in your Alaterm home directory,
+1. Download and unzip a fresh copy of the Alaterm repository,
+into your Alaterm home directory. IMPORTANT: Updates must be run
+from within launched Alaterm.
 
 2. Enter the `update` folder. Command: `bash alaterm-update`
 

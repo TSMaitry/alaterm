@@ -1,6 +1,6 @@
 ## How to INSTALL Alaterm
 
-![Installation is a no-brainer.](no-brainer.png)
+<img src="no-brainer.png" align="center" title="Installation is no-brainer."/>
 
 See file **DEVICES.md** for requirements.
 

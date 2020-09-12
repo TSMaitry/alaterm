@@ -16,7 +16,6 @@ install_template "home.vnc-config.conf"
 install_template "home.vnc-xstartup.bash" "755"
 # Instructions for downloading and installing the LXDE Desktop are in here:
 install_template "getlxde-profile.bash" # As /etc/profile.
-touch "$alatermTop/home/.Xauthority" # Need this file, even if empty.
 # Create temporary user launch command:
 install_template "getlxde-launch.bash" "755"
 # Now do it:
@@ -31,6 +30,7 @@ else
 fi
 rm -f "$alatermTop/getlxde-launch.bash"
 # Install a variety of files:
+install_template "start-vnc.bash" "755"
 [ -f "$alatermTop/usr/bin/trash-put" ] && install_template "readme-trash.md"
 install_template "profile.bash" # The real one.
 install_template "root.bash_profile.bash"
