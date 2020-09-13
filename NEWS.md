@@ -4,14 +4,12 @@ On September 10, 2020, an update to Arch Linux ARM tigervnc software
 caused a bug in Alaterm. New installations would fail.
 Existing installations, previously working, would fail.
 
-This is fixed in Alaterm version 2.0.8, scriptRevision 208.
+NATURE OF PROBLEM: Some programmer fixed what wasn't broken.
 
-Existing installations must run the Alaterm update. It is quick.
+NATURE OF SOLUTION: Alaterm developer whacked it with a sledge hammer.
 
-NATURE OF PROBLEM: Someone fixed what wasn't broken.
+The solution is likely to be permanent.
+Your friendly Alaterm developer does not know much about programming,
+but he is very good with a sledge hammer.
 
-NATURE OF FIX: Whacked it with a sledge hammer.
-
-The fix is likely to be permanent. Your friendly Alaterm developer does not
-know much about programming, but he is very good with a sledge hammer.
-
+If necessary, it will be re-whacked. Wielding a sledge hammer is fun.

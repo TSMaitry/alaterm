@@ -30,7 +30,7 @@ else
 fi
 rm -f "$alatermTop/getlxde-launch.bash"
 # Install a variety of files:
-install_template "start-vnc.bash" "755"
+install_template "start-vnc.pl" "755"
 [ -f "$alatermTop/usr/bin/trash-put" ] && install_template "readme-trash.md"
 install_template "profile.bash" # The real one.
 install_template "root.bash_profile.bash"

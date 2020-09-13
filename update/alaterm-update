@@ -6,8 +6,8 @@
 # Launch Alaterm.
 # Enter this folder, then command:  bash alaterm-update
 
-let v1latest=68
-let v2latest=208
+let v1latest=70
+let v2latest=210
 
 export uhere="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 cd "$uhere" # Update templates are relative to $uhere.
@@ -145,7 +145,8 @@ sed -i 's/grep files/grep \/data\/data/' "$thisfile"
 cp "$thisfile" "$PREFIX/bin/"
 
 # Un-fix a bad update to vncserver:
-install_template "start-vnc.bash" "755"
+rm -f "/usr/local/scripts/start-vnc" # Was incorrectly listed as bash.
+install_template "start-vnc.pl" "755" # Perl.
 bp="$zzzz/home/.bash_profile"
 sed -i 's/^vncserver/\/usr\/local\/scripts\/start-vnc/' "$bp"
 

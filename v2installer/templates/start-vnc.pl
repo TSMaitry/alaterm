@@ -5,17 +5,6 @@
 # Based on older version of /usr/bin/vncserver.
 # See above file for Copyright, License, and credits.
 
-# Socket is a core perl routine:
-eval 'use Socket';
-$AF_INET = &AF_INET;
-$SOCK_STREAM = &SOCK_STREAM;
-# Test whether socket works at 5901:
-socket(S, $AF_INET, $SOCK_STREAM, 0) || die "vnc: socket failed: $!\n";
-eval 'setsockopt(S, &SOL_SOCKET, &SO_REUSEADDR, pack("l", 1))';
-if (!bind(S, pack('S n x12', $AF_INET, 5901))) {
-    close(S);
-}
-close(S);
 # Set some default options:
 my %default_opts;
 $default_opts{auth} = "/home/.Xauthority";

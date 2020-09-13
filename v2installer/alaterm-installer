@@ -2,8 +2,8 @@
 # Alaterm: Arch Linux ARM in Termux.
 # Copyright and MIT License at bottom of this file.
 declare repository=https://github.com/cargocultprog/alaterm
-declare versionID=2.0.6 # Updated September 9, 2020.
-let thisRevision=206 # 206 in version 2.0.6.
+declare versionID=2.0.10 # Updated September 13, 2020.
+let thisRevision=210 # 210 in version 2.0.10.
 ##
 
 ## DEVICE REQUIREMENTS:
