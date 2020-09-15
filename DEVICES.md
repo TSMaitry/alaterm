@@ -1,6 +1,6 @@
 ## Alaterm device requirements
 
-1. Android 8 or later. Tested with Android 9. Reported OK on Android 10.
+1. Android 8 or later. Tested with Android 9 and Android 10.
 
 2. ARM CPU 32- or 64-bit. For most tablets and phones, some Chromebooks.
 

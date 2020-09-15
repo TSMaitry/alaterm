@@ -1,7 +1,7 @@
 #### Updates to Alaterm
 
-Latest scriptRevision 1 is 68<br>
-Latest scriptRevision 2 is 208<br>
+Latest scriptRevision 1 is 70<br>
+Latest scriptRevision 2 is 210<br>
 Note that version 2 is not an update to version 1.
 
 Launch Alaterm. Command: `echo $scriptRevision` then compare to above.
